@@ -1,0 +1,82 @@
+
+mat-toolbar {
+    background-color: #2596BE; 
+    color: white; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .toolbar-title {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    font-size: 24px; /* Ajusta el tamaño según sea necesario */
+  }
+  
+  .example-icon {
+    color: white;
+    flex: 0;
+  }
+
+  .menu {
+    font-size: x-large !important;
+    color: white;
+    flex: 0;
+  }
+
+  .tama{
+   font-size: 30px ;
+  }
+
+  .custom-card {
+    background-color: #006691;
+    color: white; /* Cambiar el color del texto para mejor contraste */
+    box-shadow: none; /* Quitar la sombra */
+    display: flex; /* Usar flexbox para el layout */
+    align-items: flex-start; /* Alinear los elementos verticalmente al inicio */
+    padding: 20px; /* Agregar padding para mejor apariencia */
+  }
+  
+  .circle {
+    width: 80px; /* Ajusta el tamaño según sea necesario */
+    height: 80px; /* Ajusta el tamaño según sea necesario */
+    background-color: #fff; /* Color del círculo */
+    border-radius: 50%; /* Hace que el div sea un círculo */
+    display: flex;
+    align-items: center; /* Alinear el contenido del círculo al centro verticalmente */
+    justify-content: center; /* Alinear el contenido del círculo al centro horizontalmente */
+    margin-right: 20px; /* Espacio entre el círculo y el contenido */
+    flex-shrink: 0; /* Evitar que el círculo se encoja */
+  }
+  
+  .card-content {
+    display: flex;
+    flex-direction: column; /* Asegurar que el contenido del card esté en columna */
+    justify-content: flex-start; /* Alinear el contenido verticalmente al inicio */
+    align-items: flex-start; /* Alinear el contenido horizontalmente al inicio */
+    height: 100%; /* Asegurar que el contenido del card ocupe toda la altura */
+  }
+
+.mat-card-title,
+.mat-card-subtitle {
+  margin: 0; /* Eliminar el margen predeterminado */
+}
+  
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  .registrar{
+    font-style: 'Alegreya Sans', sans-serif;
+  font-size: 45px;
+   padding: 10px 24px;
+    border-radius: 5px;
+  height: 100px; 
+    width: 1000px;
+  }
+
+ 

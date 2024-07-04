@@ -1,0 +1,61 @@
+
+mat-toolbar {
+    background-color: #2596BE; 
+    color: white; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .toolbar-title {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    font-size: 24px; /* Ajusta el tamaño según sea necesario */
+  }
+  
+  .example-icon {
+    color: white;
+    flex: 0;
+  }
+
+  .menu {
+    font-size: x-large !important;
+    color: white;
+    flex: 0;
+  }
+
+  .tama{
+   font-size: 30px ;
+  }
+
+  .custom-card {
+    background-color: #006691;
+    color: white; /* Cambiar el color del texto para mejor contraste */
+    box-shadow: none; /* Quitar la sombra */
+    display: flex; /* Usar flexbox para el layout */
+    align-items: flex-start; /* Alinear los elementos verticalmente al inicio */
+    padding: 20px; /* Agregar padding para mejor apariencia */
+  }
+  
+  .inputs{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
+
+  .custom {
+    width: 700px; /* Ajusta el ancho según sea necesario */
+  }
+
+.example-button-row button,
+.example-button-row a {
+  margin-right: 35px;
+  margin-left: 35px;
+  padding: 25px 100px;
+}
+
+.example-disabled {
+  display: inline-block;
+}
+
