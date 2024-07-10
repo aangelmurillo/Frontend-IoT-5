@@ -53,123 +53,29 @@
   <br>
 
   <div class="example-button-row" style="text-align: center;">
-    <button mat-flat-button 
-    style="background-color: #85CAFF; 
-    color: white; 
-    font-weight: bold; 
-    font-family: 'Alegreya Sans', sans-serif;
-     font-size: 30px;">
-      <div
-      class="tama1">
-         <i 
-         class="fas fa-user"></i>
+    <button mat-flat-button *ngFor="let user of users.slice(0, 4); let i = index"
+      [style.background-color]="getButtonColor(i)"
+      style="color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;">
+      <div class="tama1">
+        <i class="fas fa-user"></i>
       </div>   
       <br>
-    
-    </button>
-    <button mat-flat-button 
-    style="background-color:
-     #40CFFF; color: 
-     white; font-weight:
-      bold; font-family: 'Alegreya Sans', sans-serif;
-     font-size: 30px;">
-      <div
-      class="tama1">
-         <i 
-         class="fas fa-user"></i>
-      </div>   
-      <br>
-      Aceptar
-    </button>
-    <button mat-flat-button 
-    style="background-color:
-     #2499C7; color: 
-     white; font-weight:
-      bold; font-family: 'Alegreya Sans', sans-serif;
-     font-size: 30px;">
-     <div
-     class="tama1">
-        <i 
-        class="fas fa-user"></i>
-     </div>   
-     <br>
-      Aceptar
-    </button>
-    <button mat-flat-button 
-    style="background-color:
-     #85CAFF; color: 
-     white; font-weight:
-      bold; font-family: 'Alegreya Sans', sans-serif;
-     font-size: 30px;">
-      <div
-      class="tama1">
-         <i 
-         class="fas fa-user"></i>
-      </div>   
-      <br>
-      Aceptar
+      {{ user.person.name }}
     </button>
   </div>
-
+  
   <br>
   <br>
-
+  
   <div class="example-button-row" style="text-align: center;">
-    <button mat-flat-button 
-    style="background-color: #85CAFF; 
-    color: white; 
-    font-weight: bold; 
-    font-family: 'Alegreya Sans', sans-serif;
-     font-size: 30px;">
-      <div
-      class="tama1">
-         <i 
-         class="fas fa-user"></i>
+    <button mat-flat-button *ngFor="let user of users.slice(4, 8); let i = index"
+      [style.background-color]="getButtonColor(i + 4)"
+      style="color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;">
+      <div class="tama1">
+        <i class="fas fa-user"></i>
       </div>   
       <br>
-      Cancelar
-    </button>
-    <button mat-flat-button 
-    style="background-color:
-     #40CFFF; color: 
-     white; font-weight:
-      bold; font-family: 'Alegreya Sans', sans-serif;
-     font-size: 30px;">
-      <div
-      class="tama1">
-         <i 
-         class="fas fa-user"></i>
-      </div>   
-      <br>
-      Aceptar
-    </button>
-    <button mat-flat-button 
-    style="background-color:
-     #2499C7; color: 
-     white; font-weight:
-      bold; font-family: 'Alegreya Sans', sans-serif;
-     font-size: 30px;">
-     <div
-     class="tama1">
-        <i 
-        class="fas fa-user"></i>
-     </div>   
-     <br>
-      Aceptar
-    </button>
-    <button mat-flat-button 
-    style="background-color:
-     #85CAFF; color: 
-     white; font-weight:
-      bold; font-family: 'Alegreya Sans', sans-serif;
-     font-size: 30px;">
-      <div
-      class="tama1">
-         <i 
-         class="fas fa-user"></i>
-      </div>   
-      <br>
-      Aceptar
+      {{ user.person.name }}
     </button>
   </div>
 

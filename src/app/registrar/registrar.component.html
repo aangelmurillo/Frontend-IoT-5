@@ -1,123 +1,114 @@
-
 <mat-toolbar>
+  <div>
+    <button mat-icon-button class="menu" aria-label="Example icon-button with menu icon">
+      <mat-icon class="menu">menu</mat-icon>
+    </button>
+  </div>
+  
+  <div>
+    <span style="font-size: 38px;">iHelmet</span>
+    <span class="toolbar-title"></span>  
+  </div>
 
-    <div>
-        <button mat-icon-button class="menu" aria-label="Example icon-button with menu icon">
-          <mat-icon class="menu">menu</mat-icon>
-        </button>
-      </div>
-      
-    <div>
-        <span style="font-size: 38px;">iHelmet</span>
-        <span 
-        class="toolbar-title"></span>  
-    </div>
-
-    <div>
-        <button 
-        mat-icon-button class="example-icon"
-        aria-label="Example icon-button with user icon">
-         <div
-         class="tama">
-            <i 
-            class="fas fa-user"></i>
-         </div>        
-          
-        </button>
-      </div>
-    
-  </mat-toolbar>
+  <div>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with user icon">
+      <div class="tama">
+        <i class="fas fa-user"></i>
+      </div>        
+    </button>
+  </div>
+</mat-toolbar>
 
 <br>
 
 <div>
-    <mat-card class="custom-card">
-      <div class="circle">
-        <!-- Contenido del círculo, si es necesario -->
-      </div>
-      <div class="card-content">
-      </div>
-    </mat-card>   
-  </div>
+  <mat-card class="custom-card">
+    <div class="circle">
+      <!-- Contenido del círculo, si es necesario -->
+    </div>
+    <div class="card-content">
+    </div>
+  </mat-card>   
+</div>
 
-  <br>
+<br>
 
-  <div style="text-align: center; font-family: 'Alegreya Sans', sans-serif;">
-    <h1 style="font-size: 30px; font-weight: bold;">
-      Registrar Empleado:
-    </h1>
+<div style="text-align: center; font-family: 'Alegreya Sans', sans-serif;">
+  <h1 style="font-size: 30px; font-weight: bold;">
+    Registrar Empleado:
+  </h1>
+</div>
+
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Nombre(s):</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
   </div>
 
   <div class="inputs">
     <mat-form-field class="custom">
-        <mat-label
-        style="font-size:22px ;">Nombre(s):</mat-label>
-        <input matInput>
-      </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-        <mat-label
-        style="font-size:22px ;">Apellido:</mat-label>
-        <input matInput>
-      </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-        <mat-label
-        style="font-size:22px ;">Email:</mat-label>
-        <input matInput>
-      </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-        <mat-label
-        style="font-size:22px ;">Numero de casco:</mat-label>
-        <input matInput>
-      </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-        <mat-label
-        style="font-size:22px ;">Apellido:</mat-label>
-        <input matInput>
-      </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-        <mat-label
-        style="font-size:22px ;">NSS:</mat-label>
-        <input matInput>
-      </mat-form-field>
+      <mat-label style="font-size:22px;">Apellido Paterno:</mat-label>
+      <input matInput formControlName="lastname">
+    </mat-form-field>
   </div>
   
-  
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Apellido Materno:</mat-label>
+      <input matInput formControlName="lastname">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Email:</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Fecha de nacimiento:</mat-label>
+      <input matInput formControlName="birthday">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">CURP:</mat-label>
+      <input matInput formControlName="curp">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Género:</mat-label>
+      <input matInput formControlName="gender">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Número telefónico:</mat-label>
+      <input matInput formControlName="telefono">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Número en caso de emergencia:</mat-label>
+      <input matInput formControlName="emergencyNumber">
+    </mat-form-field>
+  </div>
+
   <div class="example-button-row" style="text-align: center;">
-    <button mat-flat-button 
-    style="background-color: #2499C7; 
-    color: white; 
-    font-weight: bold; 
-    font-family: 'Alegreya Sans', sans-serif;
-     font-size: 30px;">
+    <button mat-flat-button style="background-color: #2499C7; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;" (click)="onBackToHome()">
       Cancelar
     </button>
-    <button mat-flat-button 
-    style="background-color:
-     #40CFFF; color: 
-     white; font-weight:
-      bold; font-family: 'Alegreya Sans', sans-serif;
-     font-size: 30px;">
+    <button mat-flat-button style="background-color: #40CFFF; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;" type="submit">
       Aceptar
     </button>
   </div>
-  
-  
-  
-
-
-
+</form>
