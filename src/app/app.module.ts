@@ -15,7 +15,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { ReactiveFormsModule } from '@angular/forms'; 
+import { ReactiveFormsModule } from '@angular/forms';
+import { SensoresComponent } from './sensores/sensores.component'; 
 
 
 
@@ -25,7 +26,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     InicioComponent,
     RegistrarComponent,
     Editar1Component,
-    CrudInicioComponent
+    CrudInicioComponent,
+    SensoresComponent
   ],
   imports: [
     BrowserModule,

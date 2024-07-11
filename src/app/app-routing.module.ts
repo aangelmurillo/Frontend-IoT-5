@@ -6,6 +6,7 @@ import { AuthGuard } from './auth.guard';
 import { RegistrarComponent } from './registrar/registrar.component';
 import { Editar1Component } from './editar1/editar1.component';
 import { CrudInicioComponent } from './crud-inicio/crud-inicio.component';
+import { SensoresComponent } from './sensores/sensores.component';
 
 const routes: Routes = [
 
@@ -22,7 +23,10 @@ const routes: Routes = [
   },
   {
     path: 'crud', component: CrudInicioComponent, canActivate: []
-  }
+  },
+  {
+    path: 'sensores', component: SensoresComponent, canActivate:[]
+  },
 
 ];
 

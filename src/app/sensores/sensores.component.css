@@ -1,0 +1,66 @@
+mat-toolbar {
+    background-color: #2596BE;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .toolbar-title {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+  }
+  
+  .user-info {
+    background-color: #006691;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .user-info mat-icon {
+    font-size: 48px;
+    margin-right: 10px;
+  }
+  
+  .info p {
+    margin: 0;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  .button-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .custom-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #87CEEB;
+    border: none;
+    padding: 20px;
+    height: 200px;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .button-icon {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 10px;
+  }
+  
+  .custom-button span {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+  }
