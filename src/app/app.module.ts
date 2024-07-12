@@ -16,7 +16,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SensoresComponent } from './sensores/sensores.component'; 
+import { SensoresComponent } from './sensores/sensores.component';
+import { TemperaturaComponent } from './temperatura/temperatura.component';
+import { GasTierraComponent } from './gas-tierra/gas-tierra.component'; 
 
 
 
@@ -27,7 +29,9 @@ import { SensoresComponent } from './sensores/sensores.component';
     RegistrarComponent,
     Editar1Component,
     CrudInicioComponent,
-    SensoresComponent
+    SensoresComponent,
+    TemperaturaComponent,
+    GasTierraComponent
   ],
   imports: [
     BrowserModule,

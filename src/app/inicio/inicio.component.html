@@ -5,11 +5,8 @@
   </div>
   <form class="login-form" [formGroup]="panelForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
-      <mat-label>Correo</mat-label>
-      <input matInput formControlName="email" type="email" />
-      <mat-error *ngIf="panelForm.get('email')?.invalid && panelForm.get('email')?.touched">
-        Por favor, ingrese un correo válido.
-      </mat-error>
+      <mat-label>Usuario</mat-label>
+      <input matInput formControlName="user" type="user" />
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Contraseña</mat-label>

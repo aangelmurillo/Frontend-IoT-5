@@ -32,6 +32,12 @@ mat-toolbar {
   .container {
     padding: 20px;
   }
+
+  h2{
+    text-align: center;
+    font-size: 40px;
+
+  }
   
   .button-container {
     display: grid;
@@ -45,7 +51,43 @@ mat-toolbar {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #87CEEB;
+    background-color: #85CAFF;
+    border: none;
+    padding: 20px;
+    height: 200px;
+    width: 100%;
+    cursor: pointer;
+  }
+  .custom-button1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #40CFFF;
+    border: none;
+    padding: 20px;
+    height: 200px;
+    width: 100%;
+    cursor: pointer;
+  }
+  .custom-button2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #2499C7;
+    border: none;
+    padding: 20px;
+    height: 200px;
+    width: 100%;
+    cursor: pointer;
+  }
+  .custom-button3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #85CAFF;
     border: none;
     padding: 20px;
     height: 200px;
@@ -61,6 +103,27 @@ mat-toolbar {
   
   .custom-button span {
     color: white;
-    font-size: 18px;
+    font-size: 30px;
     font-weight: bold;
+    font-family: 'Alegreya Sans', sans-serif;
   }
+  .custom-button2 span {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Alegreya Sans', sans-serif;
+  }
+  .custom-button1 span {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Alegreya Sans', sans-serif;
+  }
+  .custom-button3 span {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Alegreya Sans', sans-serif;
+
+  }
+  

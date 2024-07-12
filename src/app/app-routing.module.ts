@@ -7,6 +7,8 @@ import { RegistrarComponent } from './registrar/registrar.component';
 import { Editar1Component } from './editar1/editar1.component';
 import { CrudInicioComponent } from './crud-inicio/crud-inicio.component';
 import { SensoresComponent } from './sensores/sensores.component';
+import { TemperaturaComponent } from './temperatura/temperatura.component';
+import { GasTierraComponent } from './gas-tierra/gas-tierra.component';
 
 const routes: Routes = [
 
@@ -26,6 +28,12 @@ const routes: Routes = [
   },
   {
     path: 'sensores', component: SensoresComponent, canActivate:[]
+  },
+  {
+    path: 'temperatura', component: TemperaturaComponent, canActivate:[]
+  },
+  {
+    path: 'gas-tierra', component: GasTierraComponent, canActivate:[]
   },
 
 ];
