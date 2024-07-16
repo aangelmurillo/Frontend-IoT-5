@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiserviceService  } from '../apiservice.service'; // Asegúrate de importar el servicio correcto aquí
+import { ApiserviceService } from '../apiservice.service';
 
 @Component({
   selector: 'app-registrar',
@@ -9,45 +9,127 @@ import { ApiserviceService  } from '../apiservice.service'; // Asegúrate de imp
   styleUrls: ['./registrar.component.css']
 })
 export class RegistrarComponent {
-
   registerForm: FormGroup;
+  availableHelmets: any[] = [];
+
+  ngOnInit() {
+    this.loadAvailableHelmets();
+  }
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private registrarseService: ApiserviceService  // Asegúrate de importar el servicio correcto aquí
+    private apiService: ApiserviceService
   ) {
     this.registerForm = this.fb.group({
-      name: ['', Validators.required],
-      lastname: ['', Validators.required],
-      age: ['', [Validators.required, Validators.min(0)]],
-      birthday: ['', Validators.required],
-      telefono: ['', Validators.required],
-      nickname: ['', Validators.required],
+      person_name: ['', Validators.required],
+      person_last_name: ['', Validators.required],
+      person_second_last_name: ['', Validators.required],
+      person_curp: ['', [Validators.required, Validators.minLength(18), Validators.maxLength(18)]],
+      person_date_of_birth: ['', Validators.required],
+      person_phone_number: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      person_emergency_phone_number: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      person_gender: ['', Validators.required],
+      
+      address_street: ['', Validators.required],
+      address_exterior_number: ['', Validators.required],
+      address_interior_number: [''],
+      address_neighborhood: ['', Validators.required],
+      address_zip_code: ['', Validators.required],
+      address_city: ['', Validators.required],
+      address_state: ['', Validators.required],
+      address_country: ['', Validators.required],
+      
+      user_name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      rol_id: ['', Validators.required],
+      helmet_id: ['', Validators.required],
     });
-  }    
+  }
 
   onSubmit() {
-    if (this.registerForm.valid) {
-      console.log('Estado del formulario:', this.registerForm.status);
-      console.log('Controles del formulario:', this.registerForm.controls);
+    try {
+      if (this.registerForm.valid) {
+        const personData = {
+          person_name: this.registerForm.get('person_name')?.value,
+          person_last_name: this.registerForm.get('person_last_name')?.value,
+          person_second_last_name: this.registerForm.get('person_second_last_name')?.value,
+          person_curp: this.registerForm.get('person_curp')?.value,
+          person_date_of_birth: this.registerForm.get('person_date_of_birth')?.value,
+          person_phone_number: this.registerForm.get('person_phone_number')?.value,
+          person_emergency_phone_number: this.registerForm.get('person_emergency_phone_number')?.value,
+          person_gender: this.registerForm.get('person_gender')?.value,
+        };
 
-      this.registrarseService.register(this.registerForm.value)
-        .subscribe(response => {
-          console.log('Usuario registrado', response);
-          this.router.navigate(['/']);
-        }, error => {
-          console.error('Error al registrar usuario', error);
-        });
-    } else {
-      console.error('Formulario inválido');
+        this.apiService.register(personData).subscribe(
+          personResponse => {
+            console.log('Person registered successfully', personResponse);
+            
+            const addressData = {
+              address_street: this.registerForm.get('address_street')?.value,
+              address_exterior_number: this.registerForm.get('address_exterior_number')?.value,
+              address_interior_number: this.registerForm.get('address_interior_number')?.value,
+              address_neighborhood: this.registerForm.get('address_neighborhood')?.value,
+              address_zip_code: this.registerForm.get('address_zip_code')?.value,
+              address_city: this.registerForm.get('address_city')?.value,
+              address_state: this.registerForm.get('address_state')?.value,
+              address_country: this.registerForm.get('address_country')?.value,
+              person_id: personResponse.id, // Assuming the API returns the created person's ID
+            };
+
+            this.apiService.register_address(addressData).subscribe(
+              addressResponse => {
+                console.log('Address registered successfully', addressResponse);
+                
+                const userData = {
+                  person_id: personResponse.id,
+                  user_name: this.registerForm.get('user_name')?.value,
+                  email: this.registerForm.get('email')?.value,
+                  password: this.registerForm.get('password')?.value,
+                  rol_id: this.registerForm.get('rol_id')?.value,
+                  helmet_id: this.registerForm.get('helmet_id')?.value,
+                };
+
+                this.apiService.register_user(userData).subscribe(
+                  userResponse => {
+                    console.log('User registered successfully', userResponse);
+                    this.router.navigate(['/crud']);
+                  },
+                  error => {
+                    console.error('Error registering user', error);
+                  }
+                );
+              },
+              error => {
+                console.error('Error registering address', error);
+              }
+            );
+          },
+          error => {
+            console.error('Error registering person', error);
+          }
+        );
+      } else {
+        console.error('Form is invalid');
+      }
+    } catch (error) {
+      console.error('An unexpected error occurred', error);
     }
   }
-  
+
   onBackToHome() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/crud']);
   }
 
+  loadAvailableHelmets() {
+    this.apiService.casco().subscribe(
+      (helmets) => {
+        this.availableHelmets = helmets;
+      },
+      (error) => {
+        console.error('Error al cargar los cascos', error);
+      }
+    );
+  }
 }

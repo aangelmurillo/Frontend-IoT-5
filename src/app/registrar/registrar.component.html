@@ -43,63 +43,158 @@
   <div class="inputs">
     <mat-form-field class="custom">
       <mat-label style="font-size:22px;">Nombre(s):</mat-label>
-      <input matInput formControlName="name">
+      <input matInput formControlName="person_name">
     </mat-form-field>
   </div>
 
   <div class="inputs">
     <mat-form-field class="custom">
       <mat-label style="font-size:22px;">Apellido Paterno:</mat-label>
-      <input matInput formControlName="lastname">
+      <input matInput formControlName="person_last_name">
     </mat-form-field>
   </div>
   
   <div class="inputs">
     <mat-form-field class="custom">
       <mat-label style="font-size:22px;">Apellido Materno:</mat-label>
-      <input matInput formControlName="lastname">
+      <input matInput formControlName="person_second_last_name">
     </mat-form-field>
   </div>
 
   <div class="inputs">
     <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Email:</mat-label>
+      <mat-label style="font-size:22px;">Nombre de Usuario:</mat-label>
+      <input matInput formControlName="user_name">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Correo Electronico:</mat-label>
       <input matInput formControlName="email">
     </mat-form-field>
   </div>
 
   <div class="inputs">
     <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Contraseña:</mat-label>
+      <input matInput type="password" formControlName="password">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Calle:</mat-label>
+      <input matInput formControlName="address_street">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Num.Exterior:</mat-label>
+      <input matInput formControlName="address_exterior_number">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Num.Interior:</mat-label>
+      <input matInput formControlName="address_interior_number">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Colonia:</mat-label>
+      <input matInput formControlName="address_neighborhood">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Codigo_Postal:</mat-label>
+      <input matInput formControlName="address_zip_code">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Ciudad:</mat-label>
+      <input matInput formControlName="address_city">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Estado:</mat-label>
+      <input matInput formControlName="address_state">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Pais:</mat-label>
+      <input matInput formControlName="address_country">
+    </mat-form-field>
+  </div>
+  
+
+  <div class="inputs">
+    <mat-form-field class="custom">
       <mat-label style="font-size:22px;">Fecha de nacimiento:</mat-label>
-      <input matInput formControlName="birthday">
+      <input matInput formControlName="person_date_of_birth" type="date">
     </mat-form-field>
   </div>
 
   <div class="inputs">
     <mat-form-field class="custom">
       <mat-label style="font-size:22px;">CURP:</mat-label>
-      <input matInput formControlName="curp">
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Género:</mat-label>
-      <input matInput formControlName="gender">
+      <input matInput formControlName="person_curp">
     </mat-form-field>
   </div>
 
   <div class="inputs">
     <mat-form-field class="custom">
       <mat-label style="font-size:22px;">Número telefónico:</mat-label>
-      <input matInput formControlName="telefono">
+      <input matInput formControlName="person_phone_number">
     </mat-form-field>
   </div>
 
   <div class="inputs">
     <mat-form-field class="custom">
       <mat-label style="font-size:22px;">Número en caso de emergencia:</mat-label>
-      <input matInput formControlName="emergencyNumber">
+      <input matInput formControlName="person_emergency_phone_number">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Sexo:</mat-label>
+      <mat-select formControlName="person_gender">
+        <mat-option value="M">Masculino</mat-option>
+        <mat-option value="F">Femenino</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Rol:</mat-label>
+      <mat-select formControlName="rol_id">
+        <mat-option value="1">Administrador</mat-option>
+        <mat-option value="2">Empleado</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Casco:</mat-label>
+      <mat-select formControlName="helmet_id">
+        <mat-option *ngFor="let helmet of availableHelmets" [value]="helmet.id">
+          {{ helmet.helmet_serial_number }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
 

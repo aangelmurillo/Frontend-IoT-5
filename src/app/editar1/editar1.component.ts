@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiserviceService } from '../apiservice.service';
 
 @Component({
@@ -6,11 +7,13 @@ import { ApiserviceService } from '../apiservice.service';
   templateUrl: './editar1.component.html',
   styleUrls: ['./editar1.component.css']
 })
-export class Editar1Component {
-
+export class Editar1Component implements OnInit {
   users: any[] = [];
 
-  constructor(private userService: ApiserviceService) {}
+  constructor(
+    private userService: ApiserviceService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadUsers();
@@ -19,6 +22,7 @@ export class Editar1Component {
   loadUsers() {
     this.userService.getUsers().subscribe(
       (data) => {
+        console.log("Datos del we ", data)
         this.users = data;
       },
       (error) => {
@@ -32,4 +36,7 @@ export class Editar1Component {
     return colors[index % colors.length];
   }
 
+  onUserSelect(userId: number) {
+    this.router.navigate(['/editar-empleado', userId]);
+  }
 }

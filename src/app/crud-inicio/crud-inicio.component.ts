@@ -15,4 +15,8 @@ export class CrudInicioComponent {
     this.router.navigate(['/registrar']);
   }
 
+  editar() {
+    this.router.navigate(['/editar']);
+  }
+
 }

@@ -56,11 +56,11 @@ export class InicioComponent {
   postLogin() {
     if (this.panelForm.valid) {
       this.loginService.login(this.panelForm.value).subscribe(
-        (response: any) => {
+        response => {
           if (response && response.token) {
             this.cookieService.set('token', response.token, { path: '/' });
-            console.log('Token guardado:', this.cookieService.get('token'));
-            this.router.navigate(['/home']);
+            console.log('Token guardado:', this.cookieService.get('auth_token'));
+            this.router.navigate(['/editar']);
           } else {
             console.error('No se recibió un token válido');
             this.errorMessage = 'Error al iniciar sesión. Token inválido.';

@@ -10,7 +10,10 @@ import { InicioComponent } from './inicio/inicio.component';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatSelectModule } from '@angular/material/select';
+
 import { MatCardModule } from '@angular/material/card';
+import { MatOptionModule } from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -18,7 +21,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SensoresComponent } from './sensores/sensores.component';
 import { TemperaturaComponent } from './temperatura/temperatura.component';
-import { GasTierraComponent } from './gas-tierra/gas-tierra.component'; 
+import { GasTierraComponent } from './gas-tierra/gas-tierra.component';
+import { InfoEmpleadoComponent } from './info-empleado/info-empleado.component'; 
+
 
 
 
@@ -31,7 +36,8 @@ import { GasTierraComponent } from './gas-tierra/gas-tierra.component';
     CrudInicioComponent,
     SensoresComponent,
     TemperaturaComponent,
-    GasTierraComponent
+    GasTierraComponent,
+    InfoEmpleadoComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +50,8 @@ import { GasTierraComponent } from './gas-tierra/gas-tierra.component';
     MatIconModule,
     ReactiveFormsModule,
     HttpClientModule,
-
+    MatOptionModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

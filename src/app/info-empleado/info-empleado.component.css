@@ -1,0 +1,75 @@
+mat-toolbar {
+    background-color: #2596BE; 
+    color: white; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .toolbar-title {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    font-size: 24px;
+  }
+  
+  .example-icon {
+    color: white;
+    flex: 0;
+  }
+  
+  .menu {
+    font-size: x-large !important;
+    color: white;
+    flex: 0;
+  }
+  
+  .tama {
+    font-size: 30px;
+  }
+  
+  .custom-card {
+    background-color: #006691;
+    color: white;
+    box-shadow: none;
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .inputs {
+    width: 48%;
+    margin-bottom: 15px;
+  }
+  
+  .custom {
+    width: 100%;
+  }
+  
+  .example-button-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .example-button-row button {
+    margin: 0 15px;
+    padding: 15px 50px;
+  }
+  
+  @media (max-width: 768px) {
+    .inputs {
+        width: 100%;
+    }
+  }
