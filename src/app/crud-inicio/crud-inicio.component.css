@@ -79,4 +79,41 @@ mat-toolbar {
     width: 1000px;
   }
 
+  .user-info {
+    background-color: #006691;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 18px;
+  }
+  
+  .user-info mat-icon {
+    font-size: 60px;
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+  }
+  
+  .info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .info p {
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  .info p:first-child {
+    font-weight: bold;
+  }
+  
+
  

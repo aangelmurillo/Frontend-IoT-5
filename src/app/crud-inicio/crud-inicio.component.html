@@ -1,47 +1,24 @@
-
 <mat-toolbar>
-
-    <div>
-        <button mat-icon-button class="menu" aria-label="Example icon-button with menu icon">
-          <mat-icon class="menu">menu</mat-icon>
-        </button>
-      </div>
-      
-    <div>
-        <span style="font-size: 38px;">iHelmet</span>
-        <span 
-        class="toolbar-title"></span>  
-    </div>
-
-    <div>
-        <button 
-        mat-icon-button class="example-icon"
-        aria-label="Example icon-button with user icon">
-         <div
-         class="tama">
-            <i 
-            class="fas fa-user"></i>
-         </div>        
-          
-        </button>
-      </div>
-    
-  </mat-toolbar>
+  <button mat-icon-button>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="toolbar-title">iHelmet</span>
+  <button mat-icon-button>
+    <mat-icon>person</mat-icon>
+  </button>
+</mat-toolbar>
 
 
 <br>
 <br>
 
-<div>
-    <mat-card class="custom-card">
-      <div class="circle">
-        <!-- Contenido del círculo, si es necesario -->
-      </div>
-      <div class="card-content">
-        
-      </div>
-    </mat-card>   
+<div class="user-info">
+  <mat-icon>account_circle</mat-icon>
+  <div class="info">
+    <p>Ing. Adrian Gottfried</p>
+    <p>adriangottfried.69@gmail.com</p>
   </div>
+</div>
 
   <br>
 
@@ -58,8 +35,9 @@
   <button
   style="background-color: #85CAFF; color: white;"
     class="registrar"
-   mat-flat-button>Registrar empleado</button>
+   mat-flat-button (click)="estadisticas()">Registrar empleado</button>
  </div> 
+
   <br>
   <br>
 

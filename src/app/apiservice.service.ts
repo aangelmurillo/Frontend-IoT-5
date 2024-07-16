@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class ApiserviceService {
 
-  private apiUrl = 'https://e1e3-187-190-56-49.ngrok-free.app'; 
+  private apiUrl = 'http://3.138.244.45/'; 
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 
