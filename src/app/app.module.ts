@@ -22,7 +22,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SensoresComponent } from './sensores/sensores.component';
 import { TemperaturaComponent } from './temperatura/temperatura.component';
 import { GasTierraComponent } from './gas-tierra/gas-tierra.component';
-import { InfoEmpleadoComponent } from './info-empleado/info-empleado.component'; 
+import { InfoEmpleadoComponent } from './info-empleado/info-empleado.component';
+import { EliminarEmpleadoComponent } from './eliminar-empleado/eliminar-empleado.component';
+import { EmpleadosComponent } from './empleados/empleados.component'; 
 
 
 
@@ -37,7 +39,9 @@ import { InfoEmpleadoComponent } from './info-empleado/info-empleado.component';
     SensoresComponent,
     TemperaturaComponent,
     GasTierraComponent,
-    InfoEmpleadoComponent
+    InfoEmpleadoComponent,
+    EliminarEmpleadoComponent,
+    EmpleadosComponent
   ],
   imports: [
     BrowserModule,

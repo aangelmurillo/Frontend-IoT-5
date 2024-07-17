@@ -11,6 +11,8 @@ import { TemperaturaComponent } from './temperatura/temperatura.component';
 import { GasTierraComponent } from './gas-tierra/gas-tierra.component';
 import { AuthProtectedGuard } from './auth-protected.guard';
 import { InfoEmpleadoComponent } from './info-empleado/info-empleado.component';
+import { EliminarEmpleadoComponent } from './eliminar-empleado/eliminar-empleado.component';
+import { EmpleadosComponent } from './empleados/empleados.component';
 
 const routes: Routes = [
 
@@ -40,6 +42,14 @@ const routes: Routes = [
   {
     path:'editar-empleado/:id', component: InfoEmpleadoComponent, canActivate: [AuthProtectedGuard]
   },
+
+  {
+    path: 'eliminar', component: EliminarEmpleadoComponent, canActivate: [AuthProtectedGuard]
+  },
+  {
+    path: 'empleados', component: EmpleadosComponent, canActivate: [AuthProtectedGuard]
+  },
+
 
 ];
 

@@ -78,13 +78,6 @@
   
     <div class="inputs">
       <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Contraseña:</mat-label>
-        <input matInput type="password" formControlName="password">
-      </mat-form-field>
-    </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
         <mat-label style="font-size:22px;">Calle:</mat-label>
         <input matInput formControlName="address_street">
       </mat-form-field>
@@ -191,13 +184,19 @@
       <mat-form-field class="custom">
         <mat-label style="font-size:22px;">Casco:</mat-label>
         <mat-select formControlName="helmet_id">
-          <mat-option *ngFor="let helmet of availableHelmets" [value]="helmet.id">
-            {{ helmet.name || 'Casco ' + helmet.id }}
+          <mat-option *ngIf="assignedHelmet" [value]="assignedHelmet.id">
+            {{ assignedHelmet.helmet_serial_number }} (Asignado)
           </mat-option>
+          <mat-option *ngIf="assignedHelmet" [value]="null">-- Quitar casco asignado --</mat-option>
+          <mat-option *ngIf="!assignedHelmet" [value]="null">Sin casco asignado</mat-option>
+          <mat-optgroup label="Cascos disponibles">
+            <mat-option *ngFor="let helmet of availableHelmets" [value]="helmet.id">
+              {{ helmet.helmet_serial_number }}
+            </mat-option>
+          </mat-optgroup>
         </mat-select>
       </mat-form-field>
     </div>
-  
     <div class="example-button-row" style="text-align: center;">
       <button mat-flat-button style="background-color: #2499C7; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;" (click)="onBackToHome()">
         Cancelar

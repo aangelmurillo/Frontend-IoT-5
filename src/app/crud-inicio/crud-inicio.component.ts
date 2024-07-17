@@ -19,4 +19,7 @@ export class CrudInicioComponent {
     this.router.navigate(['/editar']);
   }
 
+  eliminar() {
+    this.router.navigate(['/eliminar']);
+  }
 }

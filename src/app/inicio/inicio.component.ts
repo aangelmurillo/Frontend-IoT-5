@@ -39,7 +39,7 @@ export class InicioComponent {
           if (response.token) {
             this.cookieService.set('auth_token', response.token.token, {expires: 1, path: '/'});
             console.log('Token guardado en cookie');
-            this.router.navigate(['/editar']);
+            this.router.navigate(['/empleados']);
           }
         },
         error => {
@@ -60,7 +60,7 @@ export class InicioComponent {
           if (response && response.token) {
             this.cookieService.set('token', response.token, { path: '/' });
             console.log('Token guardado:', this.cookieService.get('auth_token'));
-            this.router.navigate(['/editar']);
+            this.router.navigate(['/empleados']);
           } else {
             console.error('No se recibió un token válido');
             this.errorMessage = 'Error al iniciar sesión. Token inválido.';

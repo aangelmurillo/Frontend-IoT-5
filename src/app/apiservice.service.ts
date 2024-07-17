@@ -29,7 +29,7 @@ export class ApiserviceService {
   
     return headers;
   }
-
+//registro
   register(userData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/people`, userData); 
   }
@@ -40,6 +40,24 @@ export class ApiserviceService {
   register_user(userData: any):Observable<any> {
     return this.http.post(`${this.apiUrl}/users`, userData);
   }
+//UPDATE
+  update(userData: any, userId: number): Observable<any> {
+    const token = this.cookieService.get('auth_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<any>(`${this.apiUrl}/people/${userId}`, userData,{ headers}); 
+  }
+  update_address(userData: any, userId: number): Observable<any> {
+    const token = this.cookieService.get('auth_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<any>(`${this.apiUrl}/addresses/${userId}`, userData,{ headers}); 
+  }
+  update_user(userData: any, userId: number): Observable<any> {
+    const token = this.cookieService.get('auth_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<any>(`${this.apiUrl}/user/${userId}`, userData,{ headers}); 
+  }
+  
+  
 
   casco():Observable<any> {
     const token = this.cookieService.get('auth_token');
@@ -47,13 +65,7 @@ export class ApiserviceService {
     return this.http.get(`${this.apiUrl}/helmets`, { headers});
   }
 
-  address(addressData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/adress`, addressData, { headers: this.getHeaders(true)});
-  }
 
-  getAddresses(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/adresses`, {headers: this.getHeaders(true) });
-  }
 
   getUsers(): Observable<any> {
     const token = this.cookieService.get('auth_token');
