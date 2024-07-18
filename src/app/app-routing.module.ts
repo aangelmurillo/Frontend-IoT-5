@@ -31,7 +31,7 @@ const routes: Routes = [
     path: 'crud', component: CrudInicioComponent, canActivate: [AuthProtectedGuard]
   },
   {
-    path: 'sensores', component: SensoresComponent, canActivate:[AuthProtectedGuard]
+    path: 'sensores/:id', component: SensoresComponent, canActivate:[AuthProtectedGuard]
   },
   {
     path: 'temperatura', component: TemperaturaComponent, canActivate:[AuthProtectedGuard]

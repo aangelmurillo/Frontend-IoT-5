@@ -99,4 +99,10 @@ export class ApiserviceService {
     return this.http.get(`${this.apiUrl}/users/${id}`,{headers});
   }
 
+  userinfo(): Observable<any> {
+    const token = this.cookieService.get('auth_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get(`${this.apiUrl}/users/info`,{headers});
+  }
+
 }

@@ -8,18 +8,21 @@
     </button>
   </mat-toolbar>
   
-  <div class="user-info">
+  <br>
+
+  <div class="user-info" *ngIf="user">
     <mat-icon>account_circle</mat-icon>
     <div class="info">
-      <p>Ing. Adrian Gottfried</p>
-      <p>adriangottfried.69@gmail.com</p>
+      <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+      <p>{{ user.email }}</p>
     </div>
   </div>
-  
-  <div class="container">
-    <h2>Empleado: Adrian CA230</h2>
-    <div class="button-container">
+  <br>
 
+<div class="container">
+  <h2>Empleado: {{ employeeName }} - Casco: {{ helmetSerialNumber }}</h2>
+  <div class="button-container">
+    
       <button class="custom-button" (click)="estadisticas()">
         <img src="../../assets/gps1.png" (click)="estadisticas()" alt="GPS" class="button-icon">
         <span>GPS</span>

@@ -97,10 +97,6 @@ export class InfoEmpleadoComponent implements OnInit {
         email: userData.email,
         rol_id: userData.rol_id.toString(),
         helmet_id: userData.helmet_id,
-
-        
-        
-
         // Person data
         person_name: person.person_name,
         person_last_name: person.person_last_name,
@@ -110,20 +106,7 @@ export class InfoEmpleadoComponent implements OnInit {
         person_phone_number: person.person_phone_number,
         person_emergency_phone_number: person.person_emergency_phone_number,
         person_gender: person.person_gender,
-        
-        // Address data
-        address_street: address.address_street,
-        address_exterior_number: address.address_exterior_number,
-        address_interior_number: address.address_interior_number,
-        address_neighborhood: address.address_neighborhood,
-        address_zip_code: address.address_zip_code,
-        address_city: address.address_city,
-        address_state: address.address_state,
-        address_country: address.address_country,
       });
-  
-      // Load available helmets (if needed)
-      // this.loadAvailableHelmets();
     } catch (error) {
       console.error('Error loading user data', error);
     }

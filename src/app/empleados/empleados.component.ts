@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ApiserviceService } from '../apiservice.service';
 import { Router } from '@angular/router';
+import { AuthserviceService } from '../authservice.service';
+
 
 @Component({
   selector: 'app-empleados',
@@ -10,16 +12,22 @@ import { Router } from '@angular/router';
 export class EmpleadosComponent {
 
   users: any[] = [];
+  user: any;
+
 
   constructor(
     private userService: ApiserviceService,
-    private router: Router
+    private router: Router,
+    private authService: AuthserviceService
   ) {}
 
   ngOnInit() {
     this.loadUsers();
+    this.authService.getCurrentUser().subscribe(user => {
+      this.user = user;
+      console.log('User: ', user);
+    });
   }
-
   loadUsers() {
     this.userService.getUsers().subscribe(
       (data) => {
@@ -38,7 +46,7 @@ export class EmpleadosComponent {
   }
 
   onUserSelect(userId: number) {
-    this.router.navigate(['/editar-empleado', userId]);
+    this.router.navigate(['/sensores', userId]);
   }
 
 }

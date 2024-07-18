@@ -1,23 +1,18 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
+import { AuthserviceService } from './authservice.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private cookieService: CookieService, private router: Router) {}
+  constructor(private authService: AuthserviceService, private router: Router) {}
   
   canActivate(): boolean {
-    const token = this.cookieService.get('auth_token');
-
-    if (token) {
-      // Si hay un token, permite el acceso a la ruta
+    if (this.authService.isAuthenticated()) {
       return true;
     }
-
-    // Si no hay token, redirige al usuario a la página de inicio de sesión
-  this.router.navigate(['/']); // Asume que '/inicio' es tu ruta de login
+    this.router.navigate(['/']);
     return false;
   }
 }
