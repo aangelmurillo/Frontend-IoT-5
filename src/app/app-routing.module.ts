@@ -42,12 +42,11 @@ const routes: Routes = [
   {
     path:'editar-empleado/:id', component: InfoEmpleadoComponent, canActivate: [AuthProtectedGuard]
   },
-
   {
     path: 'eliminar', component: EliminarEmpleadoComponent, canActivate: [AuthProtectedGuard]
   },
   {
-    path: 'empleados', component: EmpleadosComponent, canActivate: [AuthProtectedGuard]
+    path: 'home', component: EmpleadosComponent, canActivate: [AuthProtectedGuard]
   },
 
 
