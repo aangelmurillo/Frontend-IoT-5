@@ -13,7 +13,8 @@ export class AuthGuard implements CanActivate {
     const token = this.cookieService.get('auth_token')
 
     if (token) {
-      this.router.navigate(['/empleados'])
+      //se corrigio la redireccion a home, antes estaba en /empleado
+      this.router.navigate(['/home']) 
       return false;
     }
 
