@@ -13,6 +13,7 @@ import { AuthProtectedGuard } from './auth-protected.guard';
 import { InfoEmpleadoComponent } from './info-empleado/info-empleado.component';
 import { EliminarEmpleadoComponent } from './eliminar-empleado/eliminar-empleado.component';
 import { EmpleadosComponent } from './empleados/empleados.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
 
@@ -48,6 +49,9 @@ const routes: Routes = [
   {
     path: 'home', component: EmpleadosComponent, canActivate: [AuthProtectedGuard]
   },
+  {
+    path: '**', component: NotFoundComponent, canActivate: []
+  }
 
 
 ];

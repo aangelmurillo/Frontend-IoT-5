@@ -24,7 +24,8 @@ import { TemperaturaComponent } from './temperatura/temperatura.component';
 import { GasTierraComponent } from './gas-tierra/gas-tierra.component';
 import { InfoEmpleadoComponent } from './info-empleado/info-empleado.component';
 import { EliminarEmpleadoComponent } from './eliminar-empleado/eliminar-empleado.component';
-import { EmpleadosComponent } from './empleados/empleados.component'; 
+import { EmpleadosComponent } from './empleados/empleados.component';
+import { NotFoundComponent } from './not-found/not-found.component'; 
 
 
 
@@ -41,7 +42,8 @@ import { EmpleadosComponent } from './empleados/empleados.component';
     GasTierraComponent,
     InfoEmpleadoComponent,
     EliminarEmpleadoComponent,
-    EmpleadosComponent
+    EmpleadosComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
