@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiserviceService } from '../apiservice.service';
+import { MatSidenav } from '@angular/material/sidenav';
+import { AuthserviceService } from '../authservice.service';
 
 @Component({
   selector: 'app-registrar',
@@ -9,17 +11,28 @@ import { ApiserviceService } from '../apiservice.service';
   styleUrls: ['./registrar.component.css']
 })
 export class RegistrarComponent {
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+
   registerForm: FormGroup;
   availableHelmets: any[] = [];
+  user: any;
+
 
   ngOnInit() {
     this.loadAvailableHelmets();
+    this.authService.getCurrentUser().subscribe(user => {
+      
+      this.user = user;
+      console.log('User: ', user);
+    });
   }
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private apiService: ApiserviceService
+    private apiService: ApiserviceService,
+    private authService: AuthserviceService,
+
   ) {
     this.registerForm = this.fb.group({
       person_name: ['', Validators.required],
@@ -131,5 +144,10 @@ export class RegistrarComponent {
         console.error('Error al cargar los cascos', error);
       }
     );
+  }
+
+  
+  toggleMenu() {
+    this.sidenav.toggle();
   }
 }

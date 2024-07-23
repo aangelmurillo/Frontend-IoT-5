@@ -1,35 +1,37 @@
 <mat-toolbar>
-  <div>
-    <button mat-icon-button class="menu" aria-label="Example icon-button with menu icon">
-      <mat-icon class="menu">menu</mat-icon>
-    </button>
+  <div class="menu-icon" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
   </div>
   
-  <div>
-    <span style="font-size: 38px;">iHelmet</span>
-    <span class="toolbar-title"></span>  
-  </div>
+  <span class="toolbar-title" routerLink="/empleados">
+    <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
+    iHelmet
+  </span>
 
-  <div>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with user icon">
-      <div class="tama">
-        <i class="fas fa-user"></i>
-      </div>        
-    </button>
-  </div>
+  <button mat-icon-button>
+    <mat-icon>account_circle</mat-icon>
+  </button>
 </mat-toolbar>
 
-<br>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/empleados">Empleados</a>
+      <a mat-list-item routerLink="/empleados">Registro Empleado</a>
 
-<div>
-  <mat-card class="custom-card">
-    <div class="circle">
-      <!-- Contenido del círculo, si es necesario -->
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Contenido Principal -->
+  <mat-sidenav-content>
+    <br>
+    <div class="user-info" *ngIf="user">
+      <mat-icon>account_circle</mat-icon>
+      <div class="info">
+        <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+        <p>{{ user.email }}</p>
+      </div>
     </div>
-    <div class="card-content">
-    </div>
-  </mat-card>   
-</div>
 
 <br>
 

@@ -1,0 +1,76 @@
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { SocketService } from '../socket.service';
+import { GoogleMap, MapMarker } from '@angular/google-maps';
+import { MatSidenav } from '@angular/material/sidenav';
+import { ActivatedRoute } from '@angular/router';
+import { AuthserviceService } from '../authservice.service';
+
+@Component({
+  selector: 'app-gps',
+  templateUrl: './gps.component.html',
+  styleUrls: ['./gps.component.css']
+})
+export class GpsComponent implements OnInit, OnDestroy {
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+  @ViewChild('map') map!: GoogleMap;
+
+  user: any;
+
+  latitude: number | null = null;
+  longitude: number | null = null;
+  lastUpdated: Date | null = null;
+
+  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+  zoom = 15;
+  markerPosition: google.maps.LatLngLiteral | null = null;
+  markerOptions: google.maps.MarkerOptions = { draggable: false };
+
+  helmetSerialNumber: string | null = null;
+
+  constructor(private socketService: SocketService, private route: ActivatedRoute,
+    private authService: AuthserviceService,
+  ) {}
+
+  ngOnInit() {
+    this.socketService.connect();
+
+    this.helmetSerialNumber = this.route.snapshot.paramMap.get('helmetSerialNumber');
+
+    if (this.helmetSerialNumber) {
+      this.socketService.subscribe(this.helmetSerialNumber);
+    }
+
+    this.socketService.onSensorUpdate().subscribe((data: any) => {
+      if (data.nombre === 'gps') {
+        if (data.tipo === 'gps-latitud') {
+          this.latitude = data.info_sensor.valor;
+        } else if (data.tipo === 'gps-longitud') {
+          this.longitude = data.info_sensor.valor;
+        }
+        this.lastUpdated = new Date(data.info_sensor.fecha);
+
+        if (this.latitude !== null && this.longitude !== null) {
+          this.updateMapCenter(this.latitude, this.longitude);
+        }
+      }
+    });
+    this.authService.getCurrentUser().subscribe(user => {
+      this.user = user;
+      console.log('User: ', user);
+    });
+  }
+
+  ngOnDestroy() {
+    this.socketService.disconnect();
+  }
+
+  private updateMapCenter(lat: number, lng: number) {
+    this.center = { lat, lng };
+    this.markerPosition = { lat, lng };
+    this.map.panTo(this.center);
+  }
+
+  toggleMenu() {
+    this.sidenav.toggle();
+  }
+}

@@ -13,11 +13,18 @@ import { AuthProtectedGuard } from './auth-protected.guard';
 import { InfoEmpleadoComponent } from './info-empleado/info-empleado.component';
 import { EliminarEmpleadoComponent } from './eliminar-empleado/eliminar-empleado.component';
 import { EmpleadosComponent } from './empleados/empleados.component';
+import { CascoComponent } from './casco/casco.component';
+import { GpsComponent } from './gps/gps.component';
+import { CamaraComponent } from './camara/camara.component';
 
 const routes: Routes = [
 
   {
-    path: '', component: InicioComponent, canActivate: [AuthGuard]
+    path: 'camara/:cameraLink', component: CamaraComponent, canActivate: [AuthProtectedGuard]
+  },
+
+  {
+    path: '', component: InicioComponent, canActivate: []
   },
 
   {
@@ -50,6 +57,13 @@ const routes: Routes = [
     path: 'empleados', component: EmpleadosComponent, canActivate: [AuthProtectedGuard]
   },
 
+  {
+    path:'casco', component:CascoComponent, canActivate: [AuthProtectedGuard]
+  },
+
+  {
+    path: 'gps/:id', component:GpsComponent, canActivate: [AuthProtectedGuard]
+  },
 
 ];
 

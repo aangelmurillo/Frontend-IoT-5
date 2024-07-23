@@ -12,6 +12,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatSelectModule } from '@angular/material/select';
 
+import { MatSidenavModule } from '@angular/material/sidenav';
+
+import { MatListModule } from '@angular/material/list';
+
+
+
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -24,7 +30,14 @@ import { TemperaturaComponent } from './temperatura/temperatura.component';
 import { GasTierraComponent } from './gas-tierra/gas-tierra.component';
 import { InfoEmpleadoComponent } from './info-empleado/info-empleado.component';
 import { EliminarEmpleadoComponent } from './eliminar-empleado/eliminar-empleado.component';
-import { EmpleadosComponent } from './empleados/empleados.component'; 
+import { EmpleadosComponent } from './empleados/empleados.component';
+import { CamaraComponent } from './camara/camara.component';
+import { MenuComponent } from './menu/menu.component';
+import { CascoComponent } from './casco/casco.component';
+import { GpsComponent } from './gps/gps.component'; 
+
+import { GoogleMapsModule } from '@angular/google-maps';
+import { SocketService } from './socket.service';
 
 
 
@@ -41,7 +54,11 @@ import { EmpleadosComponent } from './empleados/empleados.component';
     GasTierraComponent,
     InfoEmpleadoComponent,
     EliminarEmpleadoComponent,
-    EmpleadosComponent
+    EmpleadosComponent,
+    CamaraComponent,
+    MenuComponent,
+    CascoComponent,
+    GpsComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,8 +73,12 @@ import { EmpleadosComponent } from './empleados/empleados.component';
     HttpClientModule,
     MatOptionModule,
     MatSelectModule,
+    MatSidenavModule,
+    MatListModule,
+    GoogleMapsModule
+
   ],
-  providers: [],
+  providers: [SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

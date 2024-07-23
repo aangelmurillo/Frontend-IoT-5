@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ApiserviceService } from '../apiservice.service';
 import { Router } from '@angular/router';
 import { AuthserviceService } from '../authservice.service';
+import { MatSidenav } from '@angular/material/sidenav';
 
 
 @Component({
@@ -10,6 +11,7 @@ import { AuthserviceService } from '../authservice.service';
   styleUrls: ['./empleados.component.css']
 })
 export class EmpleadosComponent {
+  @ViewChild('sidenav') sidenav!: MatSidenav;
 
   users: any[] = [];
   user: any;
@@ -18,7 +20,7 @@ export class EmpleadosComponent {
   constructor(
     private userService: ApiserviceService,
     private router: Router,
-    private authService: AuthserviceService
+    private authService: AuthserviceService,
   ) {}
 
   ngOnInit() {
@@ -47,6 +49,11 @@ export class EmpleadosComponent {
 
   onUserSelect(userId: number) {
     this.router.navigate(['/sensores', userId]);
+
+  }
+
+  toggleMenu() {
+    this.sidenav.toggle();
   }
 
 }

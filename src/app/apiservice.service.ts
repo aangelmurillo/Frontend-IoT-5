@@ -105,4 +105,8 @@ export class ApiserviceService {
     return this.http.get(`${this.apiUrl}/users/info`,{headers});
   }
 
+
+  helmets(helmetData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/helmets`, helmetData); 
+  }
 }

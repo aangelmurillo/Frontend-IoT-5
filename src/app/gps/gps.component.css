@@ -150,3 +150,64 @@ mat-toolbar {
   .info p:first-child {
     font-weight: bold;
   }
+
+ /* Estilos generales */
+.helmet-location-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  /* Estilos para el mapa */
+  .map-container {
+    height: 400px;
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos para la información */
+  .info-container {
+    background-color: #006691;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .info-container h2 {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .info-container p {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+  
+  /* Estilos para el marcador del mapa */
+  map-marker {
+    color: #2596BE;
+  }
+  
+  /* Responsive design */
+  @media (min-width: 768px) {
+    .helmet-location-container {
+      flex-direction: row;
+    }
+  
+    .map-container {
+      flex: 2;
+      margin-right: 20px;
+      margin-bottom: 0;
+    }
+  
+    .info-container {
+      flex: 1;
+    }
+  }

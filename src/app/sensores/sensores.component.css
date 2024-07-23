@@ -1,18 +1,90 @@
 mat-toolbar {
-    background-color: #2596BE;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .toolbar-title {
-    font-family: 'League Spartan', sans-serif;
-    font-weight: bold;
-    font-size: 24px;
-  }
-  
-  
+  background-color: #2596BE;
+  color: white;
+  height: 80px; /* Increase the height of the toolbar */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.menu-icon mat-icon, .user-icon mat-icon {
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+}
+
+mat-sidenav-container {
+  height: 100vh;
+}
+
+mat-sidenav {
+  width: 250px;
+}
+
+.toolbar-title {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: bold;
+  font-size: 38px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.helmet-icon {
+  height: 40px;
+  margin-right: 10px;
+}
+
+mat-icon {
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+}
+.menu {
+  font-size: x-large !important;
+  color: white;
+  flex: 0;
+}
+
+.tama{
+ font-size: 30px ;
+}
+
+.custom-card {
+  background-color: #006691;
+  color: white; /* Cambiar el color del texto para mejor contraste */
+  box-shadow: none; /* Quitar la sombra */
+  display: flex; /* Usar flexbox para el layout */
+  align-items: flex-start; /* Alinear los elementos verticalmente al inicio */
+  padding: 20px; /* Agregar padding para mejor apariencia */
+}
+
+.circle {
+  width: 80px; /* Ajusta el tamaño según sea necesario */
+  height: 80px; /* Ajusta el tamaño según sea necesario */
+  background-color: #fff; /* Color del círculo */
+  border-radius: 50%; /* Hace que el div sea un círculo */
+  display: flex;
+  align-items: center; /* Alinear el contenido del círculo al centro verticalmente */
+  justify-content: center; /* Alinear el contenido del círculo al centro horizontalmente */
+  margin-right: 20px; /* Espacio entre el círculo y el contenido */
+  flex-shrink: 0; /* Evitar que el círculo se encoja */
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column; /* Asegurar que el contenido del card esté en columna */
+  justify-content: flex-start; /* Alinear el contenido verticalmente al inicio */
+  align-items: flex-start; /* Alinear el contenido horizontalmente al inicio */
+  height: 100%; /* Asegurar que el contenido del card ocupe toda la altura */
+}
+
+.mat-card-title,
+.mat-card-subtitle {
+margin: 0; /* Eliminar el margen predeterminado */
+}
+
   .container {
     padding: 20px;
   }

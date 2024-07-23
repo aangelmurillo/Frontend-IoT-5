@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
-import { Router, ActivationEnd, ActivatedRoute } from '@angular/router';
+import { Component, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthserviceService } from '../authservice.service';
 import { ApiserviceService } from '../apiservice.service';
-
-
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-sensores',
@@ -11,22 +10,20 @@ import { ApiserviceService } from '../apiservice.service';
   styleUrls: ['./sensores.component.css']
 })
 export class SensoresComponent {
+  @ViewChild('sidenav') sidenav!: MatSidenav;
   userId!: number;
-  personId!: number; // Añade esta línea
+  personId!: number;
   user: any;
   availableHelmets: any[] = [];
   assignedHelmet: any = null;
   employeeName: string = '';
   helmetSerialNumber: any;
 
-
   constructor(private router: Router,
-    private authService: AuthserviceService,
-    private route: ActivatedRoute,
-    private apiService: ApiserviceService,
+              private authService: AuthserviceService,
+              private route: ActivatedRoute,
+              private apiService: ApiserviceService) { }
 
-  ) { 
-  }
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(user => {
       this.user = user;
@@ -39,7 +36,6 @@ export class SensoresComponent {
       }
     });
     
-   
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null) {
       this.userId = +id;
@@ -48,8 +44,18 @@ export class SensoresComponent {
       console.error('User ID is not provided in the URL');
     }
   }
+
   estadisticas() {
     this.router.navigate(['/temperatura']);
+  }
+
+  gps() {
+    this.router.navigate(['/gps', this.user.helmet.id]);
+  }
+
+  camara() {
+    const enlaceDePrueba = 'https://via.placeholder.com/640x480.png?text=Camera+Test';
+    this.router.navigate(['/camara', encodeURIComponent(enlaceDePrueba)]);  
   }
 
   async loadUserData() {
@@ -66,6 +72,7 @@ export class SensoresComponent {
       console.error('Error loading user data', error);
     }
   }
+
   async loadAvailableHelmets() {
     try {
       this.availableHelmets = await this.apiService.casco().toPromise();
@@ -75,5 +82,8 @@ export class SensoresComponent {
       console.error('Error loading available helmets', error);
     }
   }
-  
+
+  toggleMenu() {
+    this.sidenav.toggle();
+  }
 }

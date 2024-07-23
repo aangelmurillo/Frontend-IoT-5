@@ -1,0 +1,25 @@
+<mat-toolbar>
+    <div class="menu-icon" (click)="toggleMenu()">
+      <mat-icon>menu</mat-icon>
+    </div>
+    
+    <span class="toolbar-title" routerLink="/empleados">
+      <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
+      iHelmet
+    </span>
+  
+    <button mat-icon-button>
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </mat-toolbar>
+  
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav mode="over">
+      <mat-nav-list>
+        <a mat-list-item routerLink="/">Inicio</a>
+        <a mat-list-item routerLink="/empleados">Empleados</a>
+        <!-- Agrega más elementos de menú según sea necesario -->
+      </mat-nav-list>
+    </mat-sidenav>
+  </mat-sidenav-container>
+  
