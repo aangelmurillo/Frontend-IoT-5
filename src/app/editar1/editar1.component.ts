@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiserviceService } from '../apiservice.service';
+import { MatSidenav } from '@angular/material/sidenav';
+import { AuthserviceService } from '../authservice.service';
 
 @Component({
   selector: 'app-editar1',
@@ -8,15 +10,25 @@ import { ApiserviceService } from '../apiservice.service';
   styleUrls: ['./editar1.component.css']
 })
 export class Editar1Component implements OnInit {
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+
+  user: any;
+
   users: any[] = [];
 
   constructor(
     private userService: ApiserviceService,
-    private router: Router
+    private router: Router,
+    private authService: AuthserviceService,
+
   ) {}
 
   ngOnInit() {
     this.loadUsers();
+    this.authService.getCurrentUser().subscribe(user => {
+      this.user = user;
+      console.log('User: ', user);
+    });
   }
 
   loadUsers() {
@@ -38,5 +50,9 @@ export class Editar1Component implements OnInit {
 
   onUserSelect(userId: number) {
     this.router.navigate(['/editar-empleado', userId]);
+  }
+
+  toggleMenu() {
+    this.sidenav.toggle();
   }
 }

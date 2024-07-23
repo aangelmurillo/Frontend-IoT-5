@@ -1,4 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+// Component (TypeScript)
+
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiserviceService } from '../apiservice.service';
@@ -10,20 +12,27 @@ import { AuthserviceService } from '../authservice.service';
   templateUrl: './registrar.component.html',
   styleUrls: ['./registrar.component.css']
 })
-export class RegistrarComponent {
+export class RegistrarComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
   registerForm: FormGroup;
   availableHelmets: any[] = [];
   user: any;
 
-
   ngOnInit() {
     this.loadAvailableHelmets();
     this.authService.getCurrentUser().subscribe(user => {
-      
       this.user = user;
       console.log('User: ', user);
+    });
+
+    // Add listener for role changes
+    this.registerForm.get('rol_id')?.valueChanges.subscribe(value => {
+      if (value === '1') { // Assuming '1' is for Administrador
+        this.registerForm.get('helmet_id')?.disable();
+      } else {
+        this.registerForm.get('helmet_id')?.enable();
+      }
     });
   }
 
@@ -32,18 +41,13 @@ export class RegistrarComponent {
     private router: Router,
     private apiService: ApiserviceService,
     private authService: AuthserviceService,
-
   ) {
     this.registerForm = this.fb.group({
       person_name: ['', Validators.required],
       person_last_name: ['', Validators.required],
       person_second_last_name: ['', Validators.required],
       person_curp: ['', [Validators.required, Validators.minLength(18), Validators.maxLength(18)]],
-      person_date_of_birth: ['', Validators.required],
       person_phone_number: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-      person_emergency_phone_number: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-      person_gender: ['', Validators.required],
-      
       address_street: ['', Validators.required],
       address_exterior_number: ['', Validators.required],
       address_interior_number: [''],
@@ -52,7 +56,6 @@ export class RegistrarComponent {
       address_city: ['', Validators.required],
       address_state: ['', Validators.required],
       address_country: ['', Validators.required],
-      
       user_name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -69,10 +72,7 @@ export class RegistrarComponent {
           person_last_name: this.registerForm.get('person_last_name')?.value,
           person_second_last_name: this.registerForm.get('person_second_last_name')?.value,
           person_curp: this.registerForm.get('person_curp')?.value,
-          person_date_of_birth: this.registerForm.get('person_date_of_birth')?.value,
           person_phone_number: this.registerForm.get('person_phone_number')?.value,
-          person_emergency_phone_number: this.registerForm.get('person_emergency_phone_number')?.value,
-          person_gender: this.registerForm.get('person_gender')?.value,
         };
 
         this.apiService.register(personData).subscribe(
@@ -145,7 +145,6 @@ export class RegistrarComponent {
       }
     );
   }
-
   
   toggleMenu() {
     this.sidenav.toggle();

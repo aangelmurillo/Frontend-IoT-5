@@ -56,6 +56,12 @@ export class ApiserviceService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.put<any>(`${this.apiUrl}/user/${userId}`, userData,{ headers}); 
   }
+
+  delete_user(userId: number): Observable<any> {
+    const token = this.cookieService.get('auth_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete(`${this.apiUrl}/users/${userId}`, { headers});
+  }
   
   
 

@@ -38,6 +38,8 @@ import { GpsComponent } from './gps/gps.component';
 
 import { GoogleMapsModule } from '@angular/google-maps';
 import { SocketService } from './socket.service';
+import { RegisterAddressComponent } from './register-address/register-address.component';
+
 
 
 
@@ -59,6 +61,7 @@ import { SocketService } from './socket.service';
     MenuComponent,
     CascoComponent,
     GpsComponent,
+    RegisterAddressComponent,
   ],
   imports: [
     BrowserModule,

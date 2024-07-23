@@ -1,88 +1,80 @@
-
 <mat-toolbar>
+  <div class="menu-icon" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </div>
 
-    <div>
-        <button mat-icon-button class="menu" aria-label="Example icon-button with menu icon">
-          <mat-icon class="menu">menu</mat-icon>
-        </button>
-      </div>
-      
-    <div>
-        <span style="font-size: 38px;">iHelmet</span>
-        <span 
-        class="toolbar-title"></span>  
-    </div>
+  <span class="toolbar-title" routerLink="/empleados">
+    <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
+    iHelmet
+  </span>
 
-    <div>
-        <button 
-        mat-icon-button class="example-icon"
-        aria-label="Example icon-button with user icon">
-         <div
-         class="tama">
-            <i 
-            class="fas fa-user"></i>
-         </div>        
-          
-        </button>
-      </div>
-    
-  </mat-toolbar>
-
+  <div class="menu-icon">
+      <mat-icon>account_circle</mat-icon>
+  </div>
+</mat-toolbar>
 
 <br>
 
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/empleados">Inicio</a>
+      <a mat-list-item routerLink="/registrar">Registro Empleado</a>
+      <a mat-list-item routerLink="/editar">Editar Empleado</a>
+      <a mat-list-item routerLink="/eliminar">Eliminar Empleado</a>
+      <a mat-list-item routerLink="/casco">Registrar Casco</a>
+      <a mat-list-item routerLink="/reportes">Historial de Sensores</a>
+    </mat-nav-list>
+  </mat-sidenav>
 
-<div>
-    <mat-card class="custom-card">
-      <div class="">
-        <!-- Contenido del círculo, si es necesario -->
+  <!-- Contenido Principal -->
+  <mat-sidenav-content>
+
+    <div class="user-info" *ngIf="user">
+      <mat-icon>account_circle</mat-icon>
+      <div class="info">
+        <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+        <p>{{ user.email }}</p>
       </div>
-      <div class="card-content">
-        
-      </div>
-    </mat-card>   
-  </div>
+    </div>
+    <br>
 
-  <br>
+    <div style="text-align: center; font-family: 'Alegreya Sans', sans-serif;">
+      <h1 style="font-size: 35px; font-weight: bold;">
+        Editar Empleado:
+      </h1>
+    </div>
+    <br>
 
-  <div style="text-align: center; font-family: 'Alegreya Sans', sans-serif;">
-    <h1 style="font-size: 35px; font-weight: bold;">
-      Editar Empleado:
-    </h1>
-  </div>
-  <br>
-
-  <div class="example-button-row" style="text-align: center;">
-    <button mat-flat-button *ngFor="let user of users.slice(0, 4); let i = index"
-      [style.background-color]="getButtonColor(i)"
-      style="color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;"
-      (click)="onUserSelect(user.id)">
-      <div class="tama1">
-        <i class="fas fa-user"></i>
-      </div>   
-      <br>
-      {{ user.email }}
-    </button>
-  </div>
-  
-  <!-- Repite lo mismo para el segundo grupo de usuarios -->
-  
-  <br>
-  <br>
-  
-  <div class="example-button-row" style="text-align: center;">
-    <button mat-flat-button *ngFor="let user of users.slice(4, 8); let i = index"
-      [style.background-color]="getButtonColor(i + 4)"
-      style="color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;"
-      (click)="onUserSelect(user.id)">
-      <div class="tama1">
-        <i class="fas fa-user"></i>
-      </div>   
-      <br>
-      {{ user.email  }}
-    </button>
-  </div>
-
-  
-
-
+    <div class="example-button-row" style="text-align: center;">
+      <button mat-flat-button *ngFor="let user of users.slice(0, 4); let i = index"
+        [style.background-color]="getButtonColor(i)"
+        style="color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;"
+        (click)="onUserSelect(user.id)">
+        <div class="tama1">
+          <i class="fas fa-user"></i>
+        </div>   
+        <br>
+        {{ user.user_name }}
+      </button>
+    </div>
+    
+    <!-- Repite lo mismo para el segundo grupo de usuarios -->
+    
+    <br>
+    <br>
+    
+    <div class="example-button-row" style="text-align: center;">
+      <button mat-flat-button *ngFor="let user of users.slice(4, 8); let i = index"
+        [style.background-color]="getButtonColor(i + 4)"
+        style="color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;"
+        (click)="onUserSelect(user.id)">
+        <div class="tama1">
+          <i class="fas fa-user"></i>
+        </div>   
+        <br>
+        {{ user.user_name  }}
+      </button>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

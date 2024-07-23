@@ -16,6 +16,7 @@ import { EmpleadosComponent } from './empleados/empleados.component';
 import { CascoComponent } from './casco/casco.component';
 import { GpsComponent } from './gps/gps.component';
 import { CamaraComponent } from './camara/camara.component';
+import { RegisterAddressComponent } from './register-address/register-address.component';
 
 const routes: Routes = [
 
@@ -63,6 +64,9 @@ const routes: Routes = [
 
   {
     path: 'gps/:id', component:GpsComponent, canActivate: [AuthProtectedGuard]
+  },
+  {
+    path: 'address', component:RegisterAddressComponent, canActivate:[AuthProtectedGuard]
   },
 
 ];
