@@ -7,9 +7,19 @@
       <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
       iHelmet
     </span>
-  
-    <div class="menu-icon">
-        <mat-icon>account_circle</mat-icon>
+
+    <div class="user-menu">
+      <button mat-icon-button class="example-icon" aria-label="User menu button" (click)="toggleUserMenu()">
+        <div class="menu-icon">
+          <mat-icon>account_circle</mat-icon>
+        </div>
+      </button>
+      <div class="user-dropdown" [class.show]="isUserMenuOpen">
+        <button mat-menu-item>
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </div>
     </div>
   </mat-toolbar>
   

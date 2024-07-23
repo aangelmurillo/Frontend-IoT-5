@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+
+.page-not-found-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: #ffffff;
+  position: relative;
+}
+
+.page-not-found-content {
+  text-align: center;
+  z-index: 10;
+  padding: 40px;
+  max-width: 600px;
+}
+
+.error-code {
+  font-size: 12rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.1);
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.3), 
+               4px 4px 0 rgba(255, 255, 255, 0.2),
+               6px 6px 0 rgba(255, 255, 255, 0.1);
+  letter-spacing: -5px;
+  margin-bottom: -30px;
+}
+
+h2 {
+  font-size: 2.5rem;
+  margin: 0 0 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.8;
+}
+
+a {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #ffffff;
+  color: #6a11cb;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+a:hover {
+  background-color: #2575fc;
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.background-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.circle, .square, .triangle {
+  position: absolute;
+  opacity: 0.1;
+}
+
+.circle {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  top: -100px;
+  right: -100px;
+  animation: float 8s ease-in-out infinite;
+}
+
+.square {
+  width: 200px;
+  height: 200px;
+  background-color: #ffffff;
+  bottom: -100px;
+  left: -100px;
+  transform: rotate(45deg);
+  animation: float 10s ease-in-out infinite;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-bottom: 250px solid #ffffff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: float 12s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -20px); }
+}

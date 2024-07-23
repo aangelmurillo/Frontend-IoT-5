@@ -15,6 +15,7 @@ export class EmpleadosComponent {
 
   users: any[] = [];
   user: any;
+  isUserMenuOpen = false;
 
 
   constructor(
@@ -55,5 +56,10 @@ export class EmpleadosComponent {
   toggleMenu() {
     this.sidenav.toggle();
   }
+
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
 
 }

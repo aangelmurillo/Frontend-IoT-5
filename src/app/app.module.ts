@@ -38,6 +38,7 @@ import { GpsComponent } from './gps/gps.component';
 
 import { GoogleMapsModule } from '@angular/google-maps';
 import { SocketService } from './socket.service';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 
@@ -59,6 +60,7 @@ import { SocketService } from './socket.service';
     MenuComponent,
     CascoComponent,
     GpsComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
