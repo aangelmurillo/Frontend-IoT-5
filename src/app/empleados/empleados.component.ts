@@ -3,7 +3,6 @@ import { ApiserviceService } from '../apiservice.service';
 import { Router } from '@angular/router';
 import { AuthserviceService } from '../authservice.service';
 
-
 @Component({
   selector: 'app-empleados',
   templateUrl: './empleados.component.html',
@@ -13,7 +12,7 @@ export class EmpleadosComponent {
 
   users: any[] = [];
   user: any;
-
+  isUserMenuOpen = false; // esto es para el menu desplegbale del usuario
 
   constructor(
     private userService: ApiserviceService,
@@ -28,6 +27,7 @@ export class EmpleadosComponent {
       console.log('User: ', user);
     });
   }
+
   loadUsers() {
     this.userService.getUsers().subscribe(
       (data) => {
@@ -49,4 +49,8 @@ export class EmpleadosComponent {
     this.router.navigate(['/sensores', userId]);
   }
 
+  // esto es para el menu desplegable del usuario
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
 }

@@ -2,7 +2,10 @@
     <button mat-icon-button>
       <mat-icon>menu</mat-icon>
     </button>
-    <span class="toolbar-title">iHelmet</span>
+    <div>
+      <a href="/home" class="custom-link"><span style="font-size: 38px;">iHelmet</span></a>
+      <span class="toolbar-title"></span>
+    </div>
     <button mat-icon-button>
       <mat-icon>person</mat-icon>
     </button>
@@ -23,20 +26,20 @@
   <h2>Empleado: {{ employeeName }} - Casco: {{ helmetSerialNumber }}</h2>
   <div class="button-container">
     
-      <button class="custom-button" (click)="estadisticas()">
-        <img src="../../assets/gps1.png" (click)="estadisticas()" alt="GPS" class="button-icon">
+      <button class="custom-button" (click)="gps()">
+        <img src="../../assets/gps1.png" (click)="gps()" alt="GPS" class="button-icon">
         <span>GPS</span>
       </button>
-      <button class="custom-button1" (click)="estadisticas()">
-        <img src="../../assets/carbon-monoxide.png" (click)="estadisticas()" alt="AMBIENTE" class="button-icon">
+      <button class="custom-button1" (click)="ambiente()">
+        <img src="../../assets/carbon-monoxide.png" (click)="ambiente()" alt="AMBIENTE" class="button-icon">
         <span>AMBIENTE</span>
       </button>
-      <button class="custom-button2" (click)="estadisticas()">
-        <img src="../../assets/thermometer.png" (click)="estadisticas()" alt="Temperatura" class="button-icon">
+      <button class="custom-button2" (click)="temperatura()">
+        <img src="../../assets/thermometer.png" (click)="temperatura()" alt="Temperatura" class="button-icon">
         <span>TEMPERATURA</span>
       </button>
-      <button class="custom-button3" (click)="estadisticas()">
-        <img src="../../assets/video-camera.png" (click)="estadisticas()" alt="Camara" class="button-icon">
+      <button class="custom-button3" (click)="camara()">
+        <img src="../../assets/video-camera.png" (click)="camara()" alt="Camara" class="button-icon">
         <span>CAMARA</span>
       </button>
     </div>

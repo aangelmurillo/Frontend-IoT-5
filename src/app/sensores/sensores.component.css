@@ -146,4 +146,11 @@ mat-toolbar {
   .info p:first-child {
     font-weight: bold;
   }
+
+  .custom-link {
+    text-decoration: none; /* Eliminar subrayado */
+    color: inherit; /* Heredar el color del elemento padre */
+    font-size: 38px; /* Tamaño de fuente especificado */
+    cursor: pointer; /* Cambiar el cursor a un puntero */
+  }
   

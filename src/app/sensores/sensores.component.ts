@@ -48,8 +48,17 @@ export class SensoresComponent {
       console.error('User ID is not provided in the URL');
     }
   }
-  estadisticas() {
+  gps() {
+    this.router.navigate(['/gps']);
+  }
+  ambiente() {
+    this.router.navigate(['/gas-tierra']);
+  }
+  temperatura() {
     this.router.navigate(['/temperatura']);
+  }
+  camara() {
+    this.router.navigate(['/camara']);
   }
 
   async loadUserData() {
