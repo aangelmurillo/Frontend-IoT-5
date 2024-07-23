@@ -1,16 +1,46 @@
 mat-toolbar {
-    background-color: #2596BE;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .toolbar-title {
-    font-family: 'League Spartan', sans-serif;
-    font-weight: bold;
-    font-size: 24px;
-  }
+  background-color: #2596BE;
+  color: white;
+  height: 80px; /* Increase the height of the toolbar */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.menu-icon mat-icon, .user-icon mat-icon {
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
+}
+
+mat-sidenav-container {
+  height: 100vh;
+}
+
+mat-sidenav {
+  width: 250px;
+}
+
+.toolbar-title {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: bold;
+  font-size: 38px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.helmet-icon {
+  height: 40px;
+  margin-right: 10px;
+}
+
+mat-icon {
+  font-size: 30px;
+  height: 30px;
+  width: 30px;
+}
   
   .user-info {
     background-color: #006691;
