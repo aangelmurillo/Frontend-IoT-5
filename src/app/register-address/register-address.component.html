@@ -9,10 +9,19 @@
       iHelmet
     </span>
   
-    <div class="menu-icon">
+
+    <div class="user-menu">
+      <div class="menu-icon" (click)="toggleUserMenu()">
         <mat-icon>account_circle</mat-icon>
+      </div>
+    <div class="user-dropdown" [class.show]="isUserMenuOpen">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
     </div>
-  </mat-toolbar>
+  </div>
+</mat-toolbar>
   
   <mat-sidenav-container>
     <mat-sidenav #sidenav mode="over">

@@ -1,4 +1,3 @@
-// socket.service.ts
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
@@ -28,7 +27,7 @@ export class SocketService {
 
   onSensorUpdate(): Observable<any> {
     return new Observable(observer => {
-      this.socket.on('sensor:update', (data) => {
+      this.socket.on('db:change', (data) => {
         observer.next(data);
       });
     });

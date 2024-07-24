@@ -40,6 +40,10 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { SocketService } from './socket.service';
 import { RegisterAddressComponent } from './register-address/register-address.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AmbienteComponent } from './ambiente/ambiente.component';
+
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 
 
@@ -64,6 +68,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     GpsComponent,
     RegisterAddressComponent,
     NotFoundComponent,
+    AmbienteComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,7 +85,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatSelectModule,
     MatSidenavModule,
     MatListModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    MatDialogModule
 
   ],
   providers: [SocketService],

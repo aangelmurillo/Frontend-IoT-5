@@ -1,5 +1,3 @@
-<!-- Template (HTML) -->
-
 <mat-toolbar>
   <div class="menu-icon" (click)="toggleMenu()">
     <mat-icon>menu</mat-icon>
@@ -10,9 +8,17 @@
     iHelmet
   </span>
 
-  <div class="menu-icon">
+  <div class="user-menu">
+    <div class="menu-icon" (click)="toggleUserMenu()">
       <mat-icon>account_circle</mat-icon>
+    </div>
+  <div class="user-dropdown" [class.show]="isUserMenuOpen">
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Logout</span>
+    </button>
   </div>
+</div>
 </mat-toolbar>
 
 <mat-sidenav-container>
@@ -39,21 +45,22 @@
       </div>
     </div>
 
-<br>
-
-<main class="main-content">
-  <h2>Empleado : Adrian CA230</h2>
-  <h3>Temperatura</h3>
-
-  <div class="temperature-display">
-    <p class="temperature">{{ temperature | number:'1.2-2' }} °C / {{ temperatureF | number:'1.2-2' }} °F</p>
     <br>
-    <p class="kelvin">{{ temperatureK | number:'1.2-2' }} °K</p>
-  </div>
-  <br>
-  <p class="status">Estado: <span [ngClass]="{'danger': status === 'Peligro', 'warning': status === 'Advertencia'}">{{ status }}</span></p>
 
-  <div class="warning-message" *ngIf="message">
-    <p class="message">{{ message }}</p>
-  </div>
-</main>
+    <main class="main-content">
+      <h3>Temperatura</h3>
+
+      <div class="temperature-display">
+        <p class="temperature">{{ temperature | number:'1.2-2' }} °C / {{ temperatureF | number:'1.2-2' }} °F</p>
+        <br>
+        <p class="kelvin">{{ temperatureK | number:'1.2-2' }} °K</p>
+      </div>
+      <br>
+      <p class="status">Estado: <span [ngClass]="{'danger': status === 'Peligro', 'warning': status === 'Advertencia'}">{{ status }}</span></p>
+
+      <div class="warning-message" *ngIf="message">
+        <p class="message">{{ message }}</p>
+      </div>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

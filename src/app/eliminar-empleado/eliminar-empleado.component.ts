@@ -12,6 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class EliminarEmpleadoComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
+  isUserMenuOpen = false;
+
 
   user: any;
   users: any[] = [];
@@ -77,5 +79,15 @@ onUserSelect(userId: number){
 
   toggleMenu() {
     this.sidenav.toggle();
+  }
+
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+    this.isUserMenuOpen = false;
   }
 }

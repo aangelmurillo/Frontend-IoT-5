@@ -44,7 +44,10 @@ export class SensoresComponent {
       console.error('User ID is not provided in the URL');
     }
   }
-
+ambiente()
+{
+  this.router.navigate(['/ambiente']);
+}
   estadisticas() {
     this.router.navigate(['/temperatura']);
   }

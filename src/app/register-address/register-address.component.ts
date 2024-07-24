@@ -16,6 +16,8 @@ export class RegisterAddressComponent implements OnInit {
   registerForm: FormGroup;
   availableHelmets: any[] = [];
   user: any;
+  isUserMenuOpen = false;
+
 
   ngOnInit() {
     this.loadAvailableHelmets();
@@ -96,5 +98,15 @@ export class RegisterAddressComponent implements OnInit {
   
   toggleMenu() {
     this.sidenav.toggle();
+  }
+
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+    this.isUserMenuOpen = false;
   }
 }

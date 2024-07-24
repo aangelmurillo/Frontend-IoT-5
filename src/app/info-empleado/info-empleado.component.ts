@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiserviceService } from '../apiservice.service';
+import { MatSidenav } from '@angular/material/sidenav';
+import { AuthserviceService } from '../authservice.service';
+
 @Component({
   selector: 'app-info-empleado',
   templateUrl: './info-empleado.component.html',
@@ -10,19 +13,23 @@ import { ApiserviceService } from '../apiservice.service';
 export class InfoEmpleadoComponent implements OnInit {
 
   userId!: number;
-  personId!: number; // Añade esta línea
-  addressId!: number; // Añade esta línea
+  personId!: number;
+  addressId!: number;
   editForm: FormGroup;
   availableHelmets: any[] = [];
   assignedHelmet: any = null;
+  user: any;
+  addresses: any[] = [];
 
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+  isUserMenuOpen = false;
 
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private apiService: ApiserviceService,
-    private router: Router
-
+    private router: Router,
+    private authService: AuthserviceService,
   ) {
     this.editForm = this.fb.group({
       person_name: [''],
@@ -30,6 +37,7 @@ export class InfoEmpleadoComponent implements OnInit {
       person_second_last_name: [''],
       user_name: [''],
       email: [''],
+      address_id: [''],
       address_street: [''],
       address_exterior_number: [''],
       address_interior_number: [''],
@@ -38,11 +46,8 @@ export class InfoEmpleadoComponent implements OnInit {
       address_city: [''],
       address_state: [''],
       address_country: [''],
-      person_date_of_birth: [''],
       person_curp: [''],
       person_phone_number: [''],
-      person_emergency_phone_number: [''],
-      person_gender: [''],
       rol_id: [''],
       helmet_id: ['']
     });
@@ -57,6 +62,11 @@ export class InfoEmpleadoComponent implements OnInit {
     } else {
       console.error('User ID is not provided in the URL');
     }
+
+    this.authService.getCurrentUser().subscribe(user => {
+      this.user = user;
+      console.log('User: ', user);
+    });
   }
 
   async loadUserData() {
@@ -74,48 +84,51 @@ export class InfoEmpleadoComponent implements OnInit {
         console.error('Unable to determine person ID from API response');
       }
 
-      
-      
-
       if (userData.helmet) {
         this.assignedHelmet = {
           id: userData.helmet.id,
           helmet_serial_number: userData.helmet.helmet_serial_number
         };
+        this.editForm.patchValue({
+          helmet_id: this.assignedHelmet.id
+        });
       }
 
-  
       const person = personData[0];
-      const address = person.addresses[0]; 
+      this.addresses = person.addresses;
 
-      this.addressId = address.id; // Asigna el addressId aquí
-
-  
       this.editForm.patchValue({
-        // User data
         user_name: userData.user_name,
         email: userData.email,
         rol_id: userData.rol_id.toString(),
-        helmet_id: userData.helmet_id,
-        // Person data
         person_name: person.person_name,
         person_last_name: person.person_last_name,
         person_second_last_name: person.person_second_last_name,
-        person_date_of_birth: this.formatDate(person.person_date_of_birth),
         person_curp: person.person_curp,
         person_phone_number: person.person_phone_number,
-        person_emergency_phone_number: person.person_emergency_phone_number,
-        person_gender: person.person_gender,
+        address_id: this.addresses[0].id
       });
+      this.onAddressChange(this.addresses[0].id);
     } catch (error) {
       console.error('Error loading user data', error);
     }
   }
-  
-  // Helper function to format date
-  formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    return date.toISOString().split('T')[0];
+
+  onAddressChange(addressId: number) {
+    const selectedAddress = this.addresses.find(addr => addr.id === addressId);
+    if (selectedAddress) {
+      this.editForm.patchValue({
+        address_street: selectedAddress.address_street,
+        address_exterior_number: selectedAddress.address_exterior_number,
+        address_interior_number: selectedAddress.address_interior_number,
+        address_neighborhood: selectedAddress.address_neighborhood,
+        address_zip_code: selectedAddress.address_zip_code,
+        address_city: selectedAddress.address_city,
+        address_state: selectedAddress.address_state,
+        address_country: selectedAddress.address_country,
+      });
+      this.addressId = addressId;
+    }
   }
 
   onSubmit() {
@@ -126,17 +139,13 @@ export class InfoEmpleadoComponent implements OnInit {
           person_last_name: this.editForm.get('person_last_name')?.value,
           person_second_last_name: this.editForm.get('person_second_last_name')?.value,
           person_curp: this.editForm.get('person_curp')?.value,
-          person_date_of_birth: this.editForm.get('person_date_of_birth')?.value,
           person_phone_number: this.editForm.get('person_phone_number')?.value,
-          person_emergency_phone_number: this.editForm.get('person_emergency_phone_number')?.value,
-          person_gender: this.editForm.get('person_gender')?.value,
         };
-        
-  
-        this.apiService.update(personData,this.personId).subscribe(
+
+        this.apiService.update(personData, this.personId).subscribe(
           personResponse => {
             console.log('Person updated successfully', personResponse);
-  
+
             const addressData = {
               address_street: this.editForm.get('address_street')?.value,
               address_exterior_number: this.editForm.get('address_exterior_number')?.value,
@@ -146,28 +155,30 @@ export class InfoEmpleadoComponent implements OnInit {
               address_city: this.editForm.get('address_city')?.value,
               address_state: this.editForm.get('address_state')?.value,
               address_country: this.editForm.get('address_country')?.value,
-              person_id: personResponse.id,
+              person_id: this.personId,
             };
-  
-  
+
+            console.log('Address ID:', this.addressId);
+            console.log('Address Data:', addressData);
+
             this.apiService.update_address(addressData, this.addressId).subscribe(
               addressResponse => {
                 console.log('Address updated successfully', addressResponse);
-  
+
                 const userData = {
-                  person_id: personResponse.id,
+                  person_id: this.personId,
                   user_name: this.editForm.get('user_name')?.value,
                   email: this.editForm.get('email')?.value,
                   rol_id: this.editForm.get('rol_id')?.value,
                   helmet_id: this.editForm.get('helmet_id')?.value,
                 };
-  
-                const userId = this.userId; 
-  
+
+                const userId = this.userId;
+
                 this.apiService.update_user(userData, userId).subscribe(
                   userResponse => {
                     console.log('User updated successfully', userResponse);
-                    this.router.navigate(['/crud']);
+                    this.router.navigate(['/empleados']);
                   },
                   error => {
                     console.error('Error updating user', error);
@@ -176,6 +187,11 @@ export class InfoEmpleadoComponent implements OnInit {
               },
               error => {
                 console.error('Error updating address', error);
+                if (error.status === 404) {
+                  alert('Dirección no encontrada');
+                } else {
+                  alert('Error al actualizar la dirección');
+                }
               }
             );
           },
@@ -190,8 +206,6 @@ export class InfoEmpleadoComponent implements OnInit {
       console.error('An unexpected error occurred', error);
     }
   }
-  
-  
 
   onBackToHome() {
     this.router.navigate(['/crud']);
@@ -209,7 +223,21 @@ export class InfoEmpleadoComponent implements OnInit {
 
   hidePassword: boolean = true;
 
-togglePasswordVisibility() {
-  this.hidePassword = !this.hidePassword;
-}
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
+  }
+
+  toggleMenu() {
+    this.sidenav.toggle();
+  }
+
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+    this.isUserMenuOpen = false;
+  }
 }

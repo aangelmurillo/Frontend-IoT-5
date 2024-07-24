@@ -54,7 +54,7 @@ export class ApiserviceService {
   update_user(userData: any, userId: number): Observable<any> {
     const token = this.cookieService.get('auth_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put<any>(`${this.apiUrl}/user/${userId}`, userData,{ headers}); 
+    return this.http.put<any>(`${this.apiUrl}/users/${userId}`, userData,{ headers}); 
   }
 
   delete_user(userId: number): Observable<any> {

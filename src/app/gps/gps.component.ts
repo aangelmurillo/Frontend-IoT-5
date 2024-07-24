@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SocketService } from '../socket.service';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthserviceService } from '../authservice.service';
 
 @Component({
@@ -13,6 +13,8 @@ import { AuthserviceService } from '../authservice.service';
 export class GpsComponent implements OnInit, OnDestroy {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   @ViewChild('map') map!: GoogleMap;
+  isUserMenuOpen = false;
+
 
   user: any;
 
@@ -20,7 +22,7 @@ export class GpsComponent implements OnInit, OnDestroy {
   longitude: number | null = null;
   lastUpdated: Date | null = null;
 
-  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+  center: google.maps.LatLngLiteral = { lat: 25.54389, lng: -103.41898 };
   zoom = 15;
   markerPosition: google.maps.LatLngLiteral | null = null;
   markerOptions: google.maps.MarkerOptions = { draggable: false };
@@ -29,6 +31,8 @@ export class GpsComponent implements OnInit, OnDestroy {
 
   constructor(private socketService: SocketService, private route: ActivatedRoute,
     private authService: AuthserviceService,
+    private router: Router,
+
   ) {}
 
   ngOnInit() {
@@ -72,5 +76,15 @@ export class GpsComponent implements OnInit, OnDestroy {
 
   toggleMenu() {
     this.sidenav.toggle();
+  }
+
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+    this.isUserMenuOpen = false;
   }
 }

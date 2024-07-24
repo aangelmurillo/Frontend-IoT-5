@@ -1,17 +1,26 @@
+
 <mat-toolbar>
-    <div class="menu-icon" (click)="toggleMenu()">
-      <mat-icon>menu</mat-icon>
-    </div>
-    
-    <span class="toolbar-title" routerLink="/empleados">
-      <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
-      iHelmet
-    </span>
+  <div class="menu-icon" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </div>
   
-    <button mat-icon-button>
+  <span class="toolbar-title" routerLink="/empleados">
+    <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
+    iHelmet
+  </span>
+
+  <div class="user-menu">
+    <div class="menu-icon" (click)="toggleUserMenu()">
       <mat-icon>account_circle</mat-icon>
+    </div>
+  <div class="user-dropdown" [class.show]="isUserMenuOpen">
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Logout</span>
     </button>
-  </mat-toolbar>
+  </div>
+</div>
+</mat-toolbar>
   
   <mat-sidenav-container>
     <mat-sidenav #sidenav mode="over">

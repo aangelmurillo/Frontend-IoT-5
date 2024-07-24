@@ -1,6 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SocketService } from '../socket.service';
 import { Subscription } from 'rxjs';
+import { MatSidenav } from '@angular/material/sidenav';
+import { AuthserviceService } from '../authservice.service';
+import { ActivatedRoute, Router } from '@angular/router'; // Importar ActivatedRoute
 
 interface SensorInfo {
   valor: number;
@@ -34,9 +37,19 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
   private subscription?: Subscription;
+  user: any;
+
+  employeeName: string = '';
+  helmetSerialNumber: any;
+
+  isUserMenuOpen = false;
 
 
-  constructor(private socketService: SocketService) {}
+  constructor(private socketService: SocketService,
+              private authService: AuthserviceService,
+              private route: ActivatedRoute,
+              private router: Router,
+            ) {} // Inyectar ActivatedRoute
 
   ngOnInit() {
     this.socketService.connect();
@@ -54,6 +67,26 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    // Obtener datos del empleado desde el servicio de autenticación
+    this.authService.getCurrentUser().subscribe(user => {
+      this.user = user;
+      console.log('User: ', user);
+      if (user) {
+        this.employeeName = `${user.person.person_name} ${user.person.person_last_name}`;
+        if (user.helmet) {
+          this.helmetSerialNumber = user.helmet.helmet_serial_number;
+        }
+      }
+    });
+
+    // Opción para obtener datos desde la URL si es necesario
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        // Lógica para cargar datos del usuario basado en el ID si es necesario
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -79,5 +112,14 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
   toggleMenu() {
     this.sidenav.toggle();
   }
-  
+
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+    this.isUserMenuOpen = false;
+  }
 }

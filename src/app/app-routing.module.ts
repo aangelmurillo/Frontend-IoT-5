@@ -17,6 +17,7 @@ import { CascoComponent } from './casco/casco.component';
 import { GpsComponent } from './gps/gps.component';
 import { CamaraComponent } from './camara/camara.component';
 import { RegisterAddressComponent } from './register-address/register-address.component';
+import { AmbienteComponent } from './ambiente/ambiente.component';
 
 const routes: Routes = [
 
@@ -67,6 +68,9 @@ const routes: Routes = [
   },
   {
     path: 'address', component:RegisterAddressComponent, canActivate:[AuthProtectedGuard]
+  },
+  {
+    path: 'ambiente', component:AmbienteComponent, canActivate:[AuthProtectedGuard]
   },
 
 ];

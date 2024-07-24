@@ -12,6 +12,8 @@ import { AuthserviceService } from '../authservice.service';
 })
 export class CascoComponent {
   @ViewChild('sidenav') sidenav!: MatSidenav;
+  isUserMenuOpen = false;
+
 
   registerForm: FormGroup;
   user: any;
@@ -59,6 +61,16 @@ export class CascoComponent {
 
   toggleMenu() {
     this.sidenav.toggle();
+  }
+
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+    this.isUserMenuOpen = false;
   }
 
   onBackToHome() {
