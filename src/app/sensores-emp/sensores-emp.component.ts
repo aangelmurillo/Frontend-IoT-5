@@ -5,11 +5,11 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { ApiserviceService } from '../apiservice.service';
 
 @Component({
-  selector: 'app-sensores',
-  templateUrl: './sensores.component.html',
-  styleUrls: ['./sensores.component.css']
+  selector: 'app-sensores-emp',
+  templateUrl: './sensores-emp.component.html',
+  styleUrls: ['./sensores-emp.component.css']
 })
-export class SensoresComponent {
+export class SensoresEmpComponent {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   userId!: number;
   personId!: number;

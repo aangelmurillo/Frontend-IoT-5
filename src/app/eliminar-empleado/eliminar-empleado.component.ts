@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiserviceService } from '../apiservice.service';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
-import { AuthserviceService } from '../authservice.service';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthserviceService } from '../authservice.service';
 
 @Component({
   selector: 'app-eliminar-empleado',

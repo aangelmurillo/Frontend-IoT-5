@@ -43,6 +43,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { AmbienteComponent } from './ambiente/ambiente.component';
 
 import { MatDialogModule } from '@angular/material/dialog';
+import { HomeEmpComponent } from './home-emp/home-emp.component';
+import { SensoresEmpComponent } from './sensores-emp/sensores-emp.component';
 
 
 
@@ -69,6 +71,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     RegisterAddressComponent,
     NotFoundComponent,
     AmbienteComponent,
+    HomeEmpComponent,
+    SensoresEmpComponent,
   ],
   imports: [
     BrowserModule,

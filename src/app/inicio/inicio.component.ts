@@ -1,27 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { ApiserviceService } from '../apiservice.service';
+import { AuthserviceService } from '../authservice.service';
 
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.css']
 })
-export class InicioComponent {
-  panelForm: FormGroup;  // Renombrado a 'panelForm'
+export class InicioComponent implements OnInit {
+  panelForm: FormGroup;
   errorMessage: string | null = null;
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private router: Router, 
-    private loginService: ApiserviceService, 
-    private cookieService: CookieService
-  ) { 
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthserviceService
+  ) {
     this.panelForm = this.formBuilder.group({
-      user: ['', [Validators.required]],  // Agregados validadores
+      user: ['', [Validators.required]],
       password: ['', Validators.required]
+    });
+  }
+
+  ngOnInit() {
+    this.authService.checkAuthStatus().then(() => {
+      this.redirectBasedOnRole();
+    }).catch(error => {
+      console.error('Error al verificar el estado de autenticación:', error);
     });
   }
 
@@ -33,14 +39,10 @@ export class InicioComponent {
     if (this.panelForm.valid) {
       const formData = this.panelForm.value;
 
-      this.loginService.login(formData).subscribe(
-        (response: any) => {
-          console.log('Usuario logueado', response);
-          if (response.token) {
-            this.cookieService.set('auth_token', response.token.token, {expires: 1, path: '/'});
-            console.log('Token guardado en cookie');
-            this.router.navigate(['/empleados']);
-          }
+      this.authService.login(formData).subscribe(
+        (user) => {
+          console.log('Usuario logueado y información cargada:', user);
+          this.redirectBasedOnRole();
         },
         error => {
           console.error('Error al loguear usuario', error);
@@ -53,25 +55,23 @@ export class InicioComponent {
     }
   }
 
-  postLogin() {
-    if (this.panelForm.valid) {
-      this.loginService.login(this.panelForm.value).subscribe(
-        response => {
-          if (response && response.token) {
-            this.cookieService.set('token', response.token, { path: '/' });
-            console.log('Token guardado:', this.cookieService.get('auth_token'));
-            this.router.navigate(['/empleados']);
-          } else {
-            console.error('No se recibió un token válido');
-            this.errorMessage = 'Error al iniciar sesión. Token inválido.';
-          }
-        },
-        error => {
-          console.error('Error de login:', error);
-          this.errorMessage = error.error.message || 'Error al iniciar sesión. Por favor, inténtelo de nuevo.';
+  private redirectBasedOnRole() {
+    this.authService.getUserRole().subscribe(
+      role => {
+        console.log('Rol recibido:', role);
+        if (role === 'admin') {
+          this.router.navigate(['/empleados']);
+        } else if (role === 'emplo') {
+          this.router.navigate(['/inicio']);
+        } else {
+          console.error('Rol de usuario desconocido:', role);
+          this.errorMessage = 'Error al determinar el rol del usuario.';
         }
-      );
-    }
+      },
+      error => {
+        console.error('Error al obtener el rol del usuario', error);
+        this.errorMessage = 'Error al determinar el rol del usuario.';
+      }
+    );
   }
-
 }

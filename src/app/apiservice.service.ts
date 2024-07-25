@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class ApiserviceService {
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 
-  private getHeaders(needsAuth: boolean=false): HttpHeaders {
+  private getHeaders(needsAuth: boolean = false): HttpHeaders {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -21,96 +21,87 @@ export class ApiserviceService {
       const token = this.cookieService.get('auth_token');
       console.log('Token in headers:', token);
       if (token) {
-        headers = headers.set('Authorization', 'Bearer ${token}');
+        headers = headers.set('Authorization', `Bearer ${token}`);
       } else {
         console.error('No token found in cookie');
       }
     }
   
-    return headers;
+    return headers;
   }
-//registro
+
+  // Registro
   register(userData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/people`, userData); 
   }
-  register_address(userData: any):Observable<any> {
+
+  register_address(userData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/addresses`, userData);
   }
 
-  register_user(userData: any):Observable<any> {
+  register_user(userData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/users`, userData);
   }
-//UPDATE
+
+  // Update
   update(userData: any, userId: number): Observable<any> {
-    const token = this.cookieService.get('auth_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put<any>(`${this.apiUrl}/people/${userId}`, userData,{ headers}); 
+    return this.http.put<any>(`${this.apiUrl}/people/${userId}`, userData, { headers: this.getHeaders(true) }); 
   }
+
   update_address(userData: any, userId: number): Observable<any> {
-    const token = this.cookieService.get('auth_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put<any>(`${this.apiUrl}/addresses/${userId}`, userData,{ headers}); 
+    return this.http.put<any>(`${this.apiUrl}/addresses/${userId}`, userData, { headers: this.getHeaders(true) }); 
   }
+
   update_user(userData: any, userId: number): Observable<any> {
-    const token = this.cookieService.get('auth_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put<any>(`${this.apiUrl}/users/${userId}`, userData,{ headers}); 
+    return this.http.put<any>(`${this.apiUrl}/users/${userId}`, userData, { headers: this.getHeaders(true) }); 
   }
 
   delete_user(userId: number): Observable<any> {
-    const token = this.cookieService.get('auth_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.delete(`${this.apiUrl}/users/${userId}`, { headers});
-  }
-  
-  
-
-  casco():Observable<any> {
-    const token = this.cookieService.get('auth_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(`${this.apiUrl}/helmets`, { headers});
+    return this.http.delete(`${this.apiUrl}/users/${userId}`, { headers: this.getHeaders(true) });
   }
 
-
+  casco(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/helmets`, { headers: this.getHeaders(true) });
+  }
 
   getUsers(): Observable<any> {
-    const token = this.cookieService.get('auth_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(`${this.apiUrl}/users`, { headers});
+    return this.http.get(`${this.apiUrl}/users`, { headers: this.getHeaders(true) });
   }
 
   getUserName(userId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/user/${userId}`);
   }
-  
+
   login(userData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, userData, {headers: this.getHeaders()}); 
+    return this.http.post<any>(`${this.apiUrl}/login`, userData, { headers: this.getHeaders() }); 
   }
 
   getPerson(id: number): Observable<any> {
-    const token = this.cookieService.get('auth_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(`${this.apiUrl}/people/${id}`,{headers});
+    return this.http.get(`${this.apiUrl}/people/${id}`, { headers: this.getHeaders(true) });
   }
 
   getAddress(id: number): Observable<any> {
-    const token = this.cookieService.get('auth_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(`${this.apiUrl}/addresses/${id}`,{headers});
+    return this.http.get(`${this.apiUrl}/addresses/${id}`, { headers: this.getHeaders(true) });
   }
 
   getUser(id: number): Observable<any> {
-    const token = this.cookieService.get('auth_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(`${this.apiUrl}/users/${id}`,{headers});
+    return this.http.get(`${this.apiUrl}/users/${id}`, { headers: this.getHeaders(true) });
   }
 
   userinfo(): Observable<any> {
     const token = this.cookieService.get('auth_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(`${this.apiUrl}/users/info`,{headers});
-  }
+    console.log('Token enviado en userinfo:', token);
 
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    return this.http.get(`${this.apiUrl}/users/info`, { headers }).pipe(
+      tap(response => console.log('Respuesta de userinfo:', response)),
+      catchError(error => {
+        console.error('Error en userinfo:', error);
+        return throwError(error);
+      })
+    );
+  }
 
   helmets(helmetData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/helmets`, helmetData); 

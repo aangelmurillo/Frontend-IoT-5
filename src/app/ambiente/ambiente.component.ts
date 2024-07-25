@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SocketService } from '../socket.service';
 import { Subscription } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
-import { AuthserviceService } from '../authservice.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthserviceService } from '../authservice.service';
 
 interface SensorInfo {
   valor: number;

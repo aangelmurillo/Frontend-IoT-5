@@ -3,13 +3,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthserviceService } from '../authservice.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ApiserviceService } from '../apiservice.service';
-
 @Component({
-  selector: 'app-sensores',
-  templateUrl: './sensores.component.html',
-  styleUrls: ['./sensores.component.css']
+  selector: 'app-home-emp',
+  templateUrl: './home-emp.component.html',
+  styleUrls: ['./home-emp.component.css']
 })
-export class SensoresComponent {
+export class HomeEmpComponent {
+
   @ViewChild('sidenav') sidenav!: MatSidenav;
   userId!: number;
   personId!: number;
@@ -89,4 +89,6 @@ ambiente()
   toggleMenu() {
     this.sidenav.toggle();
   }
+
 }
+
