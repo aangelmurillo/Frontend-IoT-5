@@ -19,6 +19,9 @@ import { AmbienteComponent } from './ambiente/ambiente.component';
 import { AuthProtectedGuard } from './auth-protected.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HomeEmpComponent } from './home-emp/home-emp.component';
+import { PasswordComponent } from './password/password.component';
+import { VerificationPasswordComponent } from './verification-password/verification-password.component';
+import { SensorHistoryComponent } from './sensor-history/sensor-history.component';
 
 const routes: Routes = [
   {
@@ -118,6 +121,18 @@ const routes: Routes = [
     component: HomeEmpComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['emplo','admin'] }
+  },
+  {
+    path:'password',
+    component: PasswordComponent
+  },
+  {
+    path:'verificacion',
+    component: VerificationPasswordComponent
+  },
+  {
+    path: 'historial',
+    component: SensorHistoryComponent
   }
 ];
 

@@ -45,6 +45,13 @@ import { AmbienteComponent } from './ambiente/ambiente.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HomeEmpComponent } from './home-emp/home-emp.component';
 import { SensoresEmpComponent } from './sensores-emp/sensores-emp.component';
+import { PasswordComponent } from './password/password.component';
+import { VerificationPasswordComponent } from './verification-password/verification-password.component';
+
+import { FormsModule } from '@angular/forms';
+import { SensorHistoryComponent } from './sensor-history/sensor-history.component';
+
+
 
 
 
@@ -73,6 +80,9 @@ import { SensoresEmpComponent } from './sensores-emp/sensores-emp.component';
     AmbienteComponent,
     HomeEmpComponent,
     SensoresEmpComponent,
+    PasswordComponent,
+    VerificationPasswordComponent,
+    SensorHistoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,7 +100,9 @@ import { SensoresEmpComponent } from './sensores-emp/sensores-emp.component';
     MatSidenavModule,
     MatListModule,
     GoogleMapsModule,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule
+
 
   ],
   providers: [SocketService],

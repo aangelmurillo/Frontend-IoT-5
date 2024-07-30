@@ -18,6 +18,8 @@ export class HomeEmpComponent {
   assignedHelmet: any = null;
   employeeName: string = '';
   helmetSerialNumber: any;
+  isUserMenuOpen = false;
+
 
   constructor(private router: Router,
               private authService: AuthserviceService,
@@ -88,6 +90,17 @@ ambiente()
 
   toggleMenu() {
     this.sidenav.toggle();
+  }
+
+
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  logout() {
+    this.authService.logout();
+        this.router.navigate(['/']);
+        this.isUserMenuOpen = false;
   }
 
 }

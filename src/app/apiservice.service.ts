@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { SensorHistoryResponse } from './sensor-history/sensor-history.component';
 
 @Injectable({
   providedIn: 'root'
@@ -106,4 +107,26 @@ export class ApiserviceService {
   helmets(helmetData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/helmets`, helmetData); 
   }
+
+
+  sendEmailCode(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/password-code`, { email }, { headers: this.getHeaders(), responseType: 'text' as 'json' });
+  }
+  
+  updatePassword(data: { email: string, 'new-password': string, 'verification-code': string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/password-update`, data, { headers: this.getHeaders(), responseType: 'text' as 'json' });
+  }
+  
+
+private emailSource = new BehaviorSubject<string>('');
+  currentEmail = this.emailSource.asObservable();
+
+  setEmail(email: string) {
+    this.emailSource.next(email);
+  }
+
+  getSensorHistory(date: string): Observable<SensorHistoryResponse> {
+    return this.http.post<SensorHistoryResponse>(`${this.apiUrl}/users/sensorHistory`, { date }, { headers: this.getHeaders(), responseType: 'text' as 'json'  });
+  }
+  
 }
