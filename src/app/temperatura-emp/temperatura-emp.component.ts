@@ -53,8 +53,7 @@ export class TemperaturaEmpComponent {
   ngOnInit() {
     this.socketService.connect();
     
-    // Aquí puedes obtener el helmetId dinámicamente si es necesario
-    const helmetId = '1'; // Cambia esto según sea necesario
+    const helmetId = '1'; 
     this.socketService.subscribe(helmetId);
 
     this.subscription = this.socketService.onSensorUpdate().subscribe(
