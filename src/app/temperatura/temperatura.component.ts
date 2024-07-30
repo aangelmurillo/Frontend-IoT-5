@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SocketService } from '../socket.service';
 import { Subscription } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ActivatedRoute, Router } from '@angular/router'; // Importar ActivatedRoute
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthserviceService } from '../authservice.service';
 
 interface SensorInfo {
@@ -38,49 +38,55 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
 
   private subscription?: Subscription;
   user: any;
-
   employeeName: string = '';
   helmetSerialNumber: any;
-
   isUserMenuOpen = false;
 
-
-  constructor(private socketService: SocketService,
-              private authService: AuthserviceService,
-              private route: ActivatedRoute,
-              private router: Router,
-            ) {} // Inyectar ActivatedRoute
+  constructor(
+    private socketService: SocketService,
+    private authService: AuthserviceService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.socketService.connect();
-    this.socketService.subscribe('1'); // Assuming helmet_id is '1'
+    
+    // Aquí puedes obtener el helmetId dinámicamente si es necesario
+    const helmetId = '1'; // Cambia esto según sea necesario
+    this.socketService.subscribe(helmetId);
 
     this.subscription = this.socketService.onSensorUpdate().subscribe(
       (data: SensorData) => {
-        const temperatureSensor = data.sensors.find(sensor => sensor.tipo === "temperatura");
+        const temperatureSensor = data.sensors.find(sensor => sensor.tipo === 'temperatura');
         if (temperatureSensor) {
           this.temperature = temperatureSensor.info_sensor.valor;
           this.temperatureF = (this.temperature * 9/5) + 32;
           this.temperatureK = this.temperature + 273.15;
-          
           this.updateStatus();
         }
+      },
+      (error) => {
+        console.error('Error en la actualización de sensores:', error);
+        this.message = 'Error al recibir datos de sensores';
       }
     );
 
-    // Obtener datos del empleado desde el servicio de autenticación
-    this.authService.getCurrentUser().subscribe(user => {
-      this.user = user;
-      console.log('User: ', user);
-      if (user) {
-        this.employeeName = `${user.person.person_name} ${user.person.person_last_name}`;
-        if (user.helmet) {
-          this.helmetSerialNumber = user.helmet.helmet_serial_number;
+    this.authService.getCurrentUser().subscribe(
+      user => {
+        this.user = user;
+        if (user) {
+          this.employeeName = `${user.person.person_name} ${user.person.person_last_name}`;
+          if (user.helmet) {
+            this.helmetSerialNumber = user.helmet.helmet_serial_number;
+          }
         }
+      },
+      (error) => {
+        console.error('Error obteniendo datos del usuario:', error);
       }
-    });
+    );
 
-    // Opción para obtener datos desde la URL si es necesario
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
