@@ -22,6 +22,10 @@ import { HomeEmpComponent } from './home-emp/home-emp.component';
 import { PasswordComponent } from './password/password.component';
 import { VerificationPasswordComponent } from './verification-password/verification-password.component';
 import { SensorHistoryComponent } from './sensor-history/sensor-history.component';
+import { GpsEmpComponent } from './gps-emp/gps-emp.component';
+import { AmbienteEmpComponent } from './ambiente-emp/ambiente-emp.component';
+import { TemperaturaEmpComponent } from './temperatura-emp/temperatura-emp.component';
+import { CamaraEmpComponent } from './camara-emp/camara-emp.component';
 
 const routes: Routes = [
   {
@@ -133,7 +137,32 @@ const routes: Routes = [
   {
     path: 'historial',
     component: SensorHistoryComponent
-  }
+  },
+  {
+    path: 'ambiente-emp',
+    component: AmbienteEmpComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
+  },
+  {
+    path: 'gps-emp/:id',
+    component: GpsEmpComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
+  },
+  {
+    path: 'temperatura-emp',
+    component: TemperaturaEmpComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
+  },
+
+  {
+    path: 'camara-emp/:cameraLink',
+    component: CamaraEmpComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
+  },
 ];
 
 @NgModule({

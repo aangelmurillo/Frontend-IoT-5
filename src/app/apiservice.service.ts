@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { SensorHistoryResponse } from './sensor-history/sensor-history.component';
@@ -126,7 +126,25 @@ private emailSource = new BehaviorSubject<string>('');
   }
 
   getSensorHistory(date: string): Observable<SensorHistoryResponse> {
-    return this.http.post<SensorHistoryResponse>(`${this.apiUrl}/users/sensorHistory`, { date }, { headers: this.getHeaders(), responseType: 'text' as 'json'  });
+    const token = this.cookieService.get('auth_token');
+    console.log('Token enviado en userinfo:', token);
+  
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const params = new HttpParams().set('date', date);
+  
+    return this.http.get<SensorHistoryResponse>(
+      `${this.apiUrl}/users/sensorHistory`, 
+      { 
+        headers: headers,
+        params: params
+      }
+    ).pipe(
+      catchError(this.handleError)
+    );
   }
   
+  private handleError(error: HttpErrorResponse) {
+    console.error('An error occurred:', error);
+    return throwError(() => new Error('Something bad happened; please try again later.'));
+  }
 }

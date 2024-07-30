@@ -50,6 +50,11 @@ import { VerificationPasswordComponent } from './verification-password/verificat
 
 import { FormsModule } from '@angular/forms';
 import { SensorHistoryComponent } from './sensor-history/sensor-history.component';
+import { GpsEmpComponent } from './gps-emp/gps-emp.component';
+import { AmbienteEmpComponent } from './ambiente-emp/ambiente-emp.component';
+import { TemperaturaEmpComponent } from './temperatura-emp/temperatura-emp.component';
+import { CamaraEmpComponent } from './camara-emp/camara-emp.component';
+
 
 
 
@@ -83,6 +88,11 @@ import { SensorHistoryComponent } from './sensor-history/sensor-history.componen
     PasswordComponent,
     VerificationPasswordComponent,
     SensorHistoryComponent,
+    GpsEmpComponent,
+    AmbienteEmpComponent,
+    TemperaturaEmpComponent,
+    CamaraEmpComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -101,7 +111,8 @@ import { SensorHistoryComponent } from './sensor-history/sensor-history.componen
     MatListModule,
     GoogleMapsModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    MatSidenavModule
 
 
   ],

@@ -2,13 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthserviceService } from '../authservice.service';
-
 @Component({
-  selector: 'app-camara',
-  templateUrl: './camara.component.html',
-  styleUrls: ['./camara.component.css']
+  selector: 'app-camara-emp',
+  templateUrl: './camara-emp.component.html',
+  styleUrls: ['./camara-emp.component.css']
 })
-export class CamaraComponent implements OnInit {
+export class CamaraEmpComponent {
   cameraLink: string | null = null;
   timestamp: number = 0;
   @ViewChild('sidenav') sidenav!: MatSidenav;
@@ -56,4 +55,5 @@ export class CamaraComponent implements OnInit {
   onBackToHome() {
     this.router.navigate(['/empleados']);
   }
+
 }

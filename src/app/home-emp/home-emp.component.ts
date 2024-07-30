@@ -37,30 +37,22 @@ export class HomeEmpComponent {
         }
       }
     });
-    
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id !== null) {
-      this.userId = +id;
-      this.loadUserData();
-    } else {
-      console.error('User ID is not provided in the URL');
-    }
   }
 ambiente()
 {
-  this.router.navigate(['/ambiente']);
+  this.router.navigate(['/ambiente-emp']);
 }
   estadisticas() {
-    this.router.navigate(['/temperatura']);
+    this.router.navigate(['/temperatura-emp']);
   }
 
   gps() {
-    this.router.navigate(['/gps', this.user.helmet.id]);
+    this.router.navigate(['/gps-emp', this.user.helmet.id]);
   }
 
   camara() {
     const enlaceDePrueba = 'https://via.placeholder.com/640x480.png?text=Camera+Test';
-    this.router.navigate(['/camara', encodeURIComponent(enlaceDePrueba)]);  
+    this.router.navigate(['/camara-emp', encodeURIComponent(enlaceDePrueba)]);  
   }
 
   async loadUserData() {

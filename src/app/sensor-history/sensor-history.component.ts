@@ -43,10 +43,10 @@ export interface SensorHistoryResponse {
 export class SensorHistoryComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   date: string = '';
-  sensorData: any = null;
   message: string = '';
   user: any;
   isUserMenuOpen = false;
+  sensorData: any[] = [];
 
 
 

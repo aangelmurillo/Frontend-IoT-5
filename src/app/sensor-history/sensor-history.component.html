@@ -33,64 +33,68 @@
         <a mat-list-item routerLink="/historial">Historial de Sensores</a>
       </mat-nav-list>
     </mat-sidenav>
-  
-    <!-- Contenido Principal -->
+
     <mat-sidenav-content>
-      <br>
-      <div class="user-info" *ngIf="user">
-        <mat-icon>account_circle</mat-icon>
-        <div class="info">
-          <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
-          <p>{{ user.email }}</p>
+        <br>
+        <div class="user-info" *ngIf="user">
+          <mat-icon>account_circle</mat-icon>
+          <div class="info">
+            <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+            <p>{{ user.email }}</p>
+          </div>
         </div>
-      </div>
-      <br>
-      <div class="sensor-history">
-    <h2>Historial de Sensores</h2>
+     
+        <div class="sensor-history">
+          <h2>Historial de Sensores</h2>
+    
+          <div *ngIf="message">{{ message }}</div>
+    
+          <div *ngIf="sensorData && sensorData.length > 0">
+            <div *ngFor="let helmet of sensorData">
+              <h3>Casco ID: {{ helmet.helmet_id }}</h3>
+              <div>
+                <h4>Temperatura</h4>
+                <p>Máx: {{ helmet.stats.temperatura.max }} °C</p>
+                <p>Mín: {{ helmet.stats.temperatura.min }} °C</p>
+              </div>
+              <div>
+                <h4>Presión</h4>
+                <p>Máx: {{ helmet.stats.presion.max }} hPa</p>
+                <p>Mín: {{ helmet.stats.presion.min }} hPa</p>
+              </div>
+              <div>
+                <h4>Altitud</h4>
+                <p>Máx: {{ helmet.stats.altitud.max }} m</p>
+                <p>Mín: {{ helmet.stats.altitud.min }} m</p>
+              </div>
+              <div>
+                <h4>Humedad</h4>
+                <p>Máx: {{ helmet.stats.humedad.max }} %</p>
+                <p>Mín: {{ helmet.stats.humedad.min }} %</p>
+              </div>
+              <div>
+                <h4>HSCR-04</h4>
+                <p>Máx: {{ helmet.stats.hscr_04.max }}</p>
+                <p>Mín: {{ helmet.stats.hscr_04.min }}</p>
+              </div>
+              <div>
+                <h4>MQ2</h4>
+                <p>Conteo: {{ helmet.stats.mq2.count }}</p>
+              </div>
+              <div>
+                <h4>MQ135</h4>
+                <p>Conteo: {{ helmet.stats.mq135.count }}</p>
+              </div>
+              <div>
+                <h4>FC28</h4>
+                <p>Conteo: {{ helmet.stats.fc28.count }}</p>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!sensorData || sensorData.length === 0">
+            No hay datos disponibles
+          </div>
+        </div>
+      </mat-sidenav-content>
   
-    <div *ngIf="message">{{ message }}</div>
-  
-    <div *ngIf="sensorData.length > 0">
-      <div *ngFor="let helmet of sensorData">
-        <h3>Casco ID: {{ helmet.helmet_id }}</h3>
-        <div>
-          <h4>Temperatura</h4>
-          <p>Máx: {{ helmet.stats.temperatura.max }} °C</p>
-          <p>Mín: {{ helmet.stats.temperatura.min }} °C</p>
-        </div>
-        <div>
-          <h4>Presión</h4>
-          <p>Máx: {{ helmet.stats.presion.max }} hPa</p>
-          <p>Mín: {{ helmet.stats.presion.min }} hPa</p>
-        </div>
-        <div>
-          <h4>Altitud</h4>
-          <p>Máx: {{ helmet.stats.altitud.max }} m</p>
-          <p>Mín: {{ helmet.stats.altitud.min }} m</p>
-        </div>
-        <div>
-          <h4>Humedad</h4>
-          <p>Máx: {{ helmet.stats.humedad.max }} %</p>
-          <p>Mín: {{ helmet.stats.humedad.min }} %</p>
-        </div>
-        <div>
-          <h4>HSCR-04</h4>
-          <p>Máx: {{ helmet.stats.hscr_04.max }}</p>
-          <p>Mín: {{ helmet.stats.hscr_04.min }}</p>
-        </div>
-        <div>
-          <h4>MQ2</h4>
-          <p>Conteo: {{ helmet.stats.mq2.count }}</p>
-        </div>
-        <div>
-          <h4>MQ135</h4>
-          <p>Conteo: {{ helmet.stats.mq135.count }}</p>
-        </div>
-        <div>
-          <h4>FC28</h4>
-          <p>Conteo: {{ helmet.stats.fc28.count }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+   
