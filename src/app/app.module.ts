@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
-import { CrudInicioComponent } from './crud-inicio/crud-inicio.component';
 import { Editar1Component } from './editar1/editar1.component';
 import { RegistrarComponent } from './registrar/registrar.component';
 import { InicioComponent } from './inicio/inicio.component';
@@ -54,6 +53,7 @@ import { GpsEmpComponent } from './gps-emp/gps-emp.component';
 import { AmbienteEmpComponent } from './ambiente-emp/ambiente-emp.component';
 import { TemperaturaEmpComponent } from './temperatura-emp/temperatura-emp.component';
 import { CamaraEmpComponent } from './camara-emp/camara-emp.component';
+import { PerfilEmpleadoComponent } from './perfil-empleado/perfil-empleado.component';
 
 
 
@@ -69,7 +69,6 @@ import { CamaraEmpComponent } from './camara-emp/camara-emp.component';
     InicioComponent,
     RegistrarComponent,
     Editar1Component,
-    CrudInicioComponent,
     SensoresComponent,
     TemperaturaComponent,
     GasTierraComponent,
@@ -92,6 +91,7 @@ import { CamaraEmpComponent } from './camara-emp/camara-emp.component';
     AmbienteEmpComponent,
     TemperaturaEmpComponent,
     CamaraEmpComponent,
+    PerfilEmpleadoComponent,
     
   ],
   imports: [

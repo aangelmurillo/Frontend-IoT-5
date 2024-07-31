@@ -4,7 +4,6 @@ import { AppComponent } from './app.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { RegistrarComponent } from './registrar/registrar.component';
 import { Editar1Component } from './editar1/editar1.component';
-import { CrudInicioComponent } from './crud-inicio/crud-inicio.component';
 import { SensoresComponent } from './sensores/sensores.component';
 import { TemperaturaComponent } from './temperatura/temperatura.component';
 import { GasTierraComponent } from './gas-tierra/gas-tierra.component';
@@ -26,10 +25,12 @@ import { GpsEmpComponent } from './gps-emp/gps-emp.component';
 import { AmbienteEmpComponent } from './ambiente-emp/ambiente-emp.component';
 import { TemperaturaEmpComponent } from './temperatura-emp/temperatura-emp.component';
 import { CamaraEmpComponent } from './camara-emp/camara-emp.component';
+import { PerfilEmpleadoComponent } from './perfil-empleado/perfil-empleado.component';
 
 const routes: Routes = [
   {
-    path: '', component: InicioComponent
+    path: '', 
+    component: InicioComponent
   },
   {
     path: 'camara/:cameraLink',
@@ -46,12 +47,6 @@ const routes: Routes = [
   {
     path: 'editar',
     component: Editar1Component,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin'] }
-  },
-  {
-    path: 'crud',
-    component: CrudInicioComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin'] }
   },
@@ -160,6 +155,12 @@ const routes: Routes = [
   {
     path: 'camara-emp/:cameraLink',
     component: CamaraEmpComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
+  },
+  {
+    path: 'perfil',
+    component: PerfilEmpleadoComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
   },
