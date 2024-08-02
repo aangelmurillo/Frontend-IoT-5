@@ -37,25 +37,22 @@ export class CascoComponent {
   }
 
   onSubmit() {
-    try {
-      if (this.registerForm.valid) {
-        const helmetData = {
-          helmet_serial_number: this.registerForm.get('helmet_serial_number')?.value,
-        };
-
-        this.apiService.register(helmetData).subscribe(
-          response => {
-            console.log('Casco registrado exitosamente', response);
-          },
-          error => {
-            console.error('Error registrando el casco', error);
-          }
-        );
-      } else {
-        console.error('Formulario inválido');
-      }
-    } catch (error) {
-      console.error('Ocurrió un error inesperado', error);
+    if (this.registerForm.valid) {
+      const helmetData = {
+        helmet_serial_number: this.registerForm.get('helmet_serial_number')?.value,
+      };
+  
+      this.apiService.helmets(helmetData).subscribe(
+        response => {
+          console.log('Casco registrado exitosamente', response);
+          alert('Registro de Helmet exitoso');
+        },
+        error => {
+          console.error('Error registrando el casco', error);
+        }
+      );
+    } else {
+      console.error('Formulario inválido');
     }
   }
 

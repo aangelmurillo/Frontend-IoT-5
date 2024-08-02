@@ -26,6 +26,7 @@ import { AmbienteEmpComponent } from './ambiente-emp/ambiente-emp.component';
 import { TemperaturaEmpComponent } from './temperatura-emp/temperatura-emp.component';
 import { CamaraEmpComponent } from './camara-emp/camara-emp.component';
 import { PerfilEmpleadoComponent } from './perfil-empleado/perfil-empleado.component';
+import { VerificacionComponent } from './verificacion/verificacion.component';
 
 const routes: Routes = [
   {
@@ -163,6 +164,12 @@ const routes: Routes = [
     component: PerfilEmpleadoComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
+  },
+  {
+    path: 'verificacion/:id/:email',
+    component: VerificacionComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin'] }
   },
 ];
 

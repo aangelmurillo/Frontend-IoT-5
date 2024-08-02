@@ -60,6 +60,8 @@
     <mat-form-field class="custom">
       <mat-label style="font-size:22px;">Nombre(s):</mat-label>
       <input matInput formControlName="person_name">
+      <mat-error *ngIf="registerForm.controls['person_name'].hasError('required')">Este campo es obligatorio</mat-error>
+      <mat-error *ngIf="registerForm.controls['person_name'].hasError('pattern')">Solo se permiten letras</mat-error>
     </mat-form-field>
   </div>
 
@@ -67,6 +69,8 @@
     <mat-form-field class="custom">
       <mat-label style="font-size:22px;">Apellido Paterno:</mat-label>
       <input matInput formControlName="person_last_name">
+      <mat-error *ngIf="registerForm.controls['person_last_name'].hasError('required')">Este campo es obligatorio</mat-error>
+      <mat-error *ngIf="registerForm.controls['person_last_name'].hasError('pattern')">Solo se permiten letras</mat-error>
     </mat-form-field>
   </div>
   
@@ -74,6 +78,26 @@
     <mat-form-field class="custom">
       <mat-label style="font-size:22px;">Apellido Materno:</mat-label>
       <input matInput formControlName="person_second_last_name">
+      <mat-error *ngIf="registerForm.controls['person_second_last_name'].hasError('required')">Este campo es obligatorio</mat-error>
+      <mat-error *ngIf="registerForm.controls['person_second_last_name'].hasError('pattern')">Solo se permiten letras</mat-error>
+    </mat-form-field>
+  </div>
+  
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">CURP:</mat-label>
+      <input matInput formControlName="person_curp">
+      <mat-error *ngIf="registerForm.controls['person_curp'].hasError('required')">Este campo es obligatorio</mat-error>
+      <mat-error *ngIf="registerForm.controls['person_curp'].hasError('pattern')">Debe tener 18 caracteres, solo letras y números</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Número telefónico:</mat-label>
+      <input matInput formControlName="person_phone_number">
+      <mat-error *ngIf="registerForm.controls['person_phone_number'].hasError('required')">Este campo es obligatorio</mat-error>
+      <mat-error *ngIf="registerForm.controls['person_phone_number'].hasError('pattern')">Debe tener 10 dígitos</mat-error>
     </mat-form-field>
   </div>
 
@@ -81,13 +105,18 @@
     <mat-form-field class="custom">
       <mat-label style="font-size:22px;">Nombre de Usuario:</mat-label>
       <input matInput formControlName="user_name">
+      <mat-error *ngIf="registerForm.controls['user_name'].hasError('required')">Este campo es obligatorio</mat-error>
+      <mat-error *ngIf="registerForm.controls['user_name'].hasError('minlength')">Debe tener al menos 4 caracteres</mat-error>
     </mat-form-field>
   </div>
 
+   
   <div class="inputs">
     <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Correo Electronico:</mat-label>
+      <mat-label style="font-size:22px;">Correo Electrónico:</mat-label>
       <input matInput formControlName="email">
+      <mat-error *ngIf="registerForm.controls['email'].hasError('required')">Este campo es obligatorio</mat-error>
+      <mat-error *ngIf="registerForm.controls['email'].hasError('email')">Debe ser un correo válido</mat-error>
     </mat-form-field>
   </div>
 
@@ -95,6 +124,13 @@
     <mat-form-field class="custom">
       <mat-label style="font-size:22px;">Contraseña:</mat-label>
       <input matInput type="password" formControlName="password">
+    </mat-form-field>
+  </div>
+
+  <div class="inputs">
+    <mat-form-field class="custom">
+      <mat-label style="font-size:22px;">Descripcion  :</mat-label>
+      <input matInput formControlName="address_references" placeholder="Ej: Casa,Departamento,Oficina">
     </mat-form-field>
   </div>
 
@@ -155,19 +191,6 @@
   </div>
   
 
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">CURP:</mat-label>
-      <input matInput formControlName="person_curp">
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Número telefónico:</mat-label>
-      <input matInput formControlName="person_phone_number">
-    </mat-form-field>
-  </div>
 
 
   <div class="inputs">
@@ -195,7 +218,8 @@
     <button mat-flat-button style="background-color: #2499C7; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;" (click)="onBackToHome()">
       Cancelar
     </button>
-    <button mat-flat-button style="background-color: #40CFFF; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;" type="submit">
+    <button mat-flat-button style="background-color: #40CFFF; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;"
+    type="submit" [disabled]="registerForm.invalid">
       Aceptar
     </button>
   </div>

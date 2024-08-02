@@ -111,10 +111,10 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
       this.message = 'La Temperatura está cerca del límite seguro';
     } else {
       this.status = 'Normal';
-      this.message = '';
+      this.message = 'La Temperatura está dentro del rango normal';
     }
   }
-
+  
   toggleMenu() {
     this.sidenav.toggle();
   }

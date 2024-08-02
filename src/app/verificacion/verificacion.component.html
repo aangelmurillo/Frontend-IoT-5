@@ -1,0 +1,52 @@
+<mat-toolbar>
+    <div class="menu-icon" (click)="toggleMenu()">
+      <mat-icon>menu</mat-icon>
+    </div>
+    
+    <span class="toolbar-title" routerLink="/empleados">
+      <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
+      iHelmet
+    </span>
+  
+    <div class="user-menu">
+      <div class="menu-icon" (click)="toggleUserMenu()">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <div class="user-dropdown" [class.show]="isUserMenuOpen">
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </mat-toolbar>
+  
+  <mat-sidenav-container>
+      <div class="user-info" *ngIf="user">
+        <mat-icon>account_circle</mat-icon>
+        <div class="info">
+          <p>Ing. {{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+          <p>{{ user.email }}</p>
+        </div>
+      </div>
+      <!-- Contenido del sidenav -->
+  
+    <mat-sidenav-content>
+      <div class="form-container">
+        <h2 class="form-title">Verificación de Cuenta</h2>
+        <form [formGroup]="verificationForm" (ngSubmit)="onSubmit()">
+          <div class="centered-input">
+            <mat-form-field class="custom">
+              <mat-label>Código de Verificación</mat-label>
+              <input matInput formControlName="code" placeholder="Ingrese el código de 6 dígitos">
+            </mat-form-field>
+          </div>
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="verificationForm.invalid" class="accept-button">Verificar</button>
+            <button mat-raised-button color="warn" type="button" (click)="onCancel()" class="cancel-button">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

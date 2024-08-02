@@ -105,7 +105,10 @@ export class ApiserviceService {
   }
 
   helmets(helmetData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/helmets`, helmetData); 
+    const token = this.cookieService.get('auth_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    return this.http.post(`${this.apiUrl}/helmets`, helmetData, { headers }); 
   }
 
 
@@ -146,5 +149,15 @@ private emailSource = new BehaviorSubject<string>('');
   private handleError(error: HttpErrorResponse) {
     console.error('An error occurred:', error);
     return throwError(() => new Error('Something bad happened; please try again later.'));
+  }
+
+  verifyUser(verificationData: { email: string, code: string }) {
+    return this.http.post(`${this.apiUrl}/verificate-account`, verificationData);
+  }
+
+  deleteUser(userId: number) {
+    const token = this.cookieService.get('auth_token');  
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete(`${this.apiUrl}/users/${userId}`,{headers},);
   }
 }

@@ -1,4 +1,3 @@
-
 <mat-toolbar>
   <div class="menu-icon" (click)="toggleMenu()">
     <mat-icon>menu</mat-icon>
@@ -13,67 +12,60 @@
     <div class="menu-icon" (click)="toggleUserMenu()">
       <mat-icon>account_circle</mat-icon>
     </div>
-  <div class="user-dropdown" [class.show]="isUserMenuOpen">
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon>
-      <span>Logout</span>
-    </button>
+    <div class="user-dropdown" [class.show]="isUserMenuOpen">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </div>
   </div>
-</div>
 </mat-toolbar>
   
-  <mat-sidenav-container>
-    <mat-sidenav #sidenav mode="over">
-      <mat-nav-list>
-        <a mat-list-item routerLink="/empleados">Inicio</a>
-        <a mat-list-item routerLink="/registrar">Registro Empleado</a>
-        <a mat-list-item routerLink="/address">Registrar Direccion</a>
-        <a mat-list-item routerLink="/editar">Editar Empleado</a>
-        <a mat-list-item routerLink="/eliminar">Eliminar Empleado</a>
-        <a mat-list-item routerLink="/casco">Registrar Casco</a>
-        <a mat-list-item routerLink="/reportes">Historial de Sensores</a>
-      </mat-nav-list>
-    </mat-sidenav>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/empleados">Inicio</a>
+      <a mat-list-item routerLink="/registrar">Registro Empleado</a>
+      <a mat-list-item routerLink="/address">Registrar Direccion</a>
+      <a mat-list-item routerLink="/editar">Editar Empleado</a>
+      <a mat-list-item routerLink="/eliminar">Eliminar Empleado</a>
+      <a mat-list-item routerLink="/casco">Registrar Casco</a>
+      <a mat-list-item routerLink="/reportes">Historial de Sensores</a>
+    </mat-nav-list>
+  </mat-sidenav>
   
-    <mat-sidenav-content>
-      <br>
-      <div class="user-info" *ngIf="user">
-        <mat-icon>account_circle</mat-icon>
-        <div class="info">
-          <p>Ing. {{ user.person.person_name }} {{ user.person.person_last_name }}</p>
-          <p>{{ user.email }}</p>
-        </div>
+  <mat-sidenav-content>
+    <br>
+    <div class="user-info" *ngIf="user">
+      <mat-icon>account_circle</mat-icon>
+      <div class="info">
+        <p>Ing. {{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+        <p>{{ user.email }}</p>
       </div>
-      <br>
+    </div>
+    <br>
   
-      <div style="text-align: center; font-family: 'Alegreya Sans', sans-serif;">
-        <h1 style="font-size: 30px; font-weight: bold;">
-          Registrar Casco:
-        </h1>
+    <div class="form-container">
+      <h1 class="form-title">Registrar Casco:</h1>
+    </div>
+  
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="inputs centered-input">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Numero serial:</mat-label>
+          <input matInput formControlName="helmet_serial_number" placeholder="Ej: ZX098">
+          <mat-error *ngIf="registerForm.controls['helmet_serial_number'].hasError('required')">
+            Este campo es obligatorio
+          </mat-error>
+          <mat-error *ngIf="registerForm.controls['helmet_serial_number'].hasError('pattern')">
+            Formato inválido, use el formato 'ZX098'
+          </mat-error>
+        </mat-form-field>
       </div>
-  
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="inputs">
-          <mat-form-field class="custom">
-            <mat-label style="font-size:22px;">Numero serial:</mat-label>
-            <input matInput formControlName="helmet_serial_number" placeholder="Ej: ZX098">
-            <mat-error *ngIf="registerForm.controls['helmet_serial_number'].hasError('required')">
-              Este campo es obligatorio
-            </mat-error>
-            <mat-error *ngIf="registerForm.controls['helmet_serial_number'].hasError('pattern')">
-              Formato inválido, use el formato 'ZX098'
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="example-button-row" style="text-align: center;">
-          <button mat-flat-button style="background-color: #2499C7; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;" (click)="onBackToHome()">
-            Cancelar
-          </button>
-          <button mat-flat-button style="background-color: #40CFFF; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;" type="submit">
-            Aceptar
-          </button>
-        </div>
-      </form>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-  
+      <div class="example-button-row">
+        <button mat-flat-button class="cancel-button" (click)="onBackToHome()">Cancelar</button>
+        <button mat-flat-button class="accept-button" type="submit">Aceptar</button>
+      </div>
+    </form>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -61,8 +61,9 @@
           <div class="tama1">
             <i class="fas fa-user"></i>
           </div>   
-          <br>
+          <div style="margin-bottom: 0px;">
           {{ user.person.person_name }}
+        </div>
         </button>
       </div>
       
@@ -83,6 +84,39 @@
           {{ user.person.person_name  }}
         </button>
       </div>
+
+      <br>
+      <br>
+      
+      <div class="example-button-row" style="text-align: center;">
+        <button mat-flat-button *ngFor="let user of users.slice(8, 12); let i = index"
+          [style.background-color]="getButtonColor(i + 4)"
+          style="color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;"
+          (click)="onUserSelect(user.id)">
+          <div class="tama1">
+            <i class="fas fa-user"></i>
+          </div>   
+          <br>
+          {{ user.person.person_name  }}
+        </button>
+      </div>
+
+      <br>
+      <br>
+      
+      <div class="example-button-row" style="text-align: center;">
+        <button mat-flat-button *ngFor="let user of users.slice(12, 16); let i = index"
+          [style.background-color]="getButtonColor(i + 4)"
+          style="color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;"
+          (click)="onUserSelect(user.id)">
+          <div class="tama1">
+            <i class="fas fa-user"></i>
+          </div>   
+          <br>
+          {{ user.person.person_name  }}
+        </button>
+      </div>
+
     </mat-sidenav-content>
   </mat-sidenav-container>
   

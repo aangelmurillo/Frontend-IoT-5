@@ -12,13 +12,13 @@
     <div class="menu-icon" (click)="toggleUserMenu()">
       <mat-icon>account_circle</mat-icon>
     </div>
-  <div class="user-dropdown" [class.show]="isUserMenuOpen">
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon>
-      <span>Logout</span>
-    </button>
+    <div class="user-dropdown" [class.show]="isUserMenuOpen">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </div>
   </div>
-</div>
 </mat-toolbar>
 
 <mat-sidenav-container>
@@ -56,9 +56,9 @@
         <p class="kelvin">{{ temperatureK | number:'1.2-2' }} °K</p>
       </div>
       <br>
-      <p class="status">Estado: <span [ngClass]="{'danger': status === 'Peligro', 'warning': status === 'Advertencia'}">{{ status }}</span></p>
+      <h2 class="status">Estado: <span [ngClass]="{'danger': status === 'Peligro', 'warning': status === 'Advertencia', 'normal': status === 'Normal'}">{{ status }}</span></h2>
 
-      <div class="warning-message" *ngIf="message">
+      <div class="message-display">
         <p class="message">{{ message }}</p>
       </div>
     </main>

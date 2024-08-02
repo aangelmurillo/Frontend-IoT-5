@@ -1,5 +1,3 @@
-// Component (TypeScript)
-
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -20,7 +18,6 @@ export class RegistrarComponent implements OnInit {
   user: any;
   isUserMenuOpen = false;
 
-
   ngOnInit() {
     this.loadAvailableHelmets();
     this.authService.getCurrentUser().subscribe(user => {
@@ -28,7 +25,6 @@ export class RegistrarComponent implements OnInit {
       console.log('User: ', user);
     });
 
-    // Add listener for role changes
     this.registerForm.get('rol_id')?.valueChanges.subscribe(value => {
       if (value === '1') { // Assuming '1' is for Administrador
         this.registerForm.get('helmet_id')?.disable();
@@ -45,22 +41,23 @@ export class RegistrarComponent implements OnInit {
     private authService: AuthserviceService,
   ) {
     this.registerForm = this.fb.group({
-      person_name: ['', Validators.required],
-      person_last_name: ['', Validators.required],
-      person_second_last_name: ['', Validators.required],
-      person_curp: ['', [Validators.required, Validators.minLength(18), Validators.maxLength(18)]],
-      person_phone_number: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      person_name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      person_last_name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      person_second_last_name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      person_curp: ['', [Validators.required, Validators.pattern(/^[A-Z0-9]{18}$/)]],
+      person_phone_number: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       address_street: ['', Validators.required],
       address_exterior_number: ['', Validators.required],
       address_interior_number: [''],
       address_neighborhood: ['', Validators.required],
-      address_zip_code: ['', Validators.required],
+      address_zip_code: ['', [Validators.required, Validators.pattern(/^[0-9]{5}$/)]],
       address_city: ['', Validators.required],
       address_state: ['', Validators.required],
       address_country: ['', Validators.required],
-      user_name: ['', Validators.required],
+      address_references: ['', Validators.required],
+      user_name: ['', [Validators.required, Validators.minLength(4)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       rol_id: ['', Validators.required],
       helmet_id: ['', Validators.required],
     });
@@ -76,12 +73,13 @@ export class RegistrarComponent implements OnInit {
           person_curp: this.registerForm.get('person_curp')?.value,
           person_phone_number: this.registerForm.get('person_phone_number')?.value,
         };
-
+  
         this.apiService.register(personData).subscribe(
           personResponse => {
             console.log('Person registered successfully', personResponse);
             
             const addressData = {
+              address_references: this.registerForm.get('address_references')?.value,
               address_street: this.registerForm.get('address_street')?.value,
               address_exterior_number: this.registerForm.get('address_exterior_number')?.value,
               address_interior_number: this.registerForm.get('address_interior_number')?.value,
@@ -90,9 +88,9 @@ export class RegistrarComponent implements OnInit {
               address_city: this.registerForm.get('address_city')?.value,
               address_state: this.registerForm.get('address_state')?.value,
               address_country: this.registerForm.get('address_country')?.value,
-              person_id: personResponse.id, // Assuming the API returns the created person's ID
+              person_id: personResponse.id,
             };
-
+  
             this.apiService.register_address(addressData).subscribe(
               addressResponse => {
                 console.log('Address registered successfully', addressResponse);
@@ -105,11 +103,12 @@ export class RegistrarComponent implements OnInit {
                   rol_id: this.registerForm.get('rol_id')?.value,
                   helmet_id: this.registerForm.get('helmet_id')?.value,
                 };
-
+  
                 this.apiService.register_user(userData).subscribe(
                   userResponse => {
                     console.log('User registered successfully', userResponse);
-                    this.router.navigate(['/crud']);
+                    alert('Registro exitoso. Por favor, verifica tu cuenta.');
+                  this.router.navigate(['/verificacion', userResponse.id, userResponse.email]);
                   },
                   error => {
                     console.error('Error registering user', error);
@@ -132,9 +131,10 @@ export class RegistrarComponent implements OnInit {
       console.error('An unexpected error occurred', error);
     }
   }
+  
 
   onBackToHome() {
-    this.router.navigate(['/crud']);
+    this.router.navigate(['/empleados']);
   }
 
   loadAvailableHelmets() {
@@ -147,8 +147,6 @@ export class RegistrarComponent implements OnInit {
       }
     );
   }
-  
-
 
   toggleMenu() {
     this.sidenav.toggle();
@@ -160,8 +158,7 @@ export class RegistrarComponent implements OnInit {
 
   logout() {
     this.authService.logout();
-        this.router.navigate(['/']);
-        this.isUserMenuOpen = false;
+    this.router.navigate(['/']);
+    this.isUserMenuOpen = false;
   }
-
 }

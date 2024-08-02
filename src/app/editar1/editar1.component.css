@@ -1,7 +1,7 @@
 mat-toolbar {
   background-color: #2596BE;
   color: white;
-  height: 80px;
+  height: 80px; /* Increase the height of the toolbar */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,55 +41,55 @@ mat-icon {
   height: 30px;
   width: 30px;
 }
-
 .menu {
   font-size: x-large !important;
   color: white;
   flex: 0;
 }
 
-.tama {
-  font-size: 30px;
+.tama{
+ font-size: 70px ;
 }
 
 .custom-card {
   background-color: #006691;
-  color: white;
-  box-shadow: none;
-  display: flex;
-  align-items: flex-start;
-  padding: 20px;
+  color: white; /* Cambiar el color del texto para mejor contraste */
+  box-shadow: none; /* Quitar la sombra */
+  display: flex; /* Usar flexbox para el layout */
+  align-items: flex-start; /* Alinear los elementos verticalmente al inicio */
+  padding: 20px; /* Agregar padding para mejor apariencia */
 }
 
 .circle {
-  width: 80px;
-  height: 80px;
-  background-color: #fff;
-  border-radius: 50%;
+  width: 80px; /* Ajusta el tamaño según sea necesario */
+  height: 80px; /* Ajusta el tamaño según sea necesario */
+  background-color: #fff; /* Color del círculo */
+  border-radius: 50%; /* Hace que el div sea un círculo */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 20px;
-  flex-shrink: 0;
+  align-items: center; /* Alinear el contenido del círculo al centro verticalmente */
+  justify-content: center; /* Alinear el contenido del círculo al centro horizontalmente */
+  margin-right: 20px; /* Espacio entre el círculo y el contenido */
+  flex-shrink: 0; /* Evitar que el círculo se encoja */
 }
 
 .card-content {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  height: 100%;
+  flex-direction: column; /* Asegurar que el contenido del card esté en columna */
+  justify-content: flex-start; /* Alinear el contenido verticalmente al inicio */
+  align-items: flex-start; /* Alinear el contenido horizontalmente al inicio */
+  height: 100%; /* Asegurar que el contenido del card ocupe toda la altura */
 }
 
 .mat-card-title,
 .mat-card-subtitle {
-  margin: 0;
+margin: 0; /* Eliminar el margen predeterminado */
 }
 
 .centered-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 
 .example-button-row {
@@ -111,16 +111,22 @@ mat-icon {
 }
 
 .tama1 {
-  font-size: 60px;
-  margin-bottom: 10px;
+  font-size: 90px;
+  margin-top: 20px;
 }
 
-.user-info {
+ .user-info {
   background-color: #006691;
   color: white;
   display: flex;
   align-items: center;
   padding: 10px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
   font-size: 18px;
 }
 
@@ -143,4 +149,49 @@ mat-icon {
 
 .info p:first-child {
   font-weight: bold;
+}
+
+.user-menu {
+  position: relative;
+}
+
+.user-menu button {
+  cursor: pointer;
+}
+
+.user-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  width: 200px;
+  margin-top: 5px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.user-dropdown.show {
+  display: block;
+}
+
+.user-dropdown button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  color: black;
+}
+
+.user-dropdown button:hover {
+  background-color: #f5f5f5;
+}
+
+.user-dropdown mat-icon {
+  margin-right: 8px;
 }

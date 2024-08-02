@@ -48,7 +48,7 @@ mat-toolbar {
   }
 
   .tama{
-   font-size: 30px ;
+   font-size: 70px ;
   }
 
   .custom-card {
@@ -111,8 +111,8 @@ mat-toolbar {
   }
   
   .tama1 {
-    font-size: 60px;
-    margin-bottom: 10px;
+    font-size: 90px;
+    margin-top: 20px;
   }
 
    .user-info {

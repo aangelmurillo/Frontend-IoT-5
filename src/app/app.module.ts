@@ -54,6 +54,7 @@ import { AmbienteEmpComponent } from './ambiente-emp/ambiente-emp.component';
 import { TemperaturaEmpComponent } from './temperatura-emp/temperatura-emp.component';
 import { CamaraEmpComponent } from './camara-emp/camara-emp.component';
 import { PerfilEmpleadoComponent } from './perfil-empleado/perfil-empleado.component';
+import { VerificacionComponent } from './verificacion/verificacion.component';
 
 
 
@@ -92,6 +93,7 @@ import { PerfilEmpleadoComponent } from './perfil-empleado/perfil-empleado.compo
     TemperaturaEmpComponent,
     CamaraEmpComponent,
     PerfilEmpleadoComponent,
+    VerificacionComponent,
     
   ],
   imports: [

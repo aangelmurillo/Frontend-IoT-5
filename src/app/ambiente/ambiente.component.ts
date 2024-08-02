@@ -42,6 +42,10 @@ export class AmbienteComponent implements OnInit, OnDestroy {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isUserMenuOpen = false;
 
+  humidity: number = 0;
+  humidityStatus: string = 'Normal';
+
+
   private subscription?: Subscription;
   user: any;
 
@@ -106,7 +110,14 @@ export class AmbienteComponent implements OnInit, OnDestroy {
           this.fc28Value = sensor.info_sensor.valor;
           this.updateSoilMoistureStatus();
           break;
+          case 'humedad':
+          if (sensor.nombre === 'bme-260') {
+            this.humidity = sensor.info_sensor.valor;
+            this.updateHumidityStatus();
+          }
+          break;
       }
+      
     });
   }
 
@@ -136,6 +147,20 @@ export class AmbienteComponent implements OnInit, OnDestroy {
       this.message += ' Se ha detectado humedad en el suelo.';
     }
   }
+
+  private updateHumidityStatus() {
+    if (this.humidity > 70) {
+      this.humidityStatus = 'Alta';
+      this.message += ' La humedad es alta.';
+    } else if (this.humidity < 30) {
+      this.humidityStatus = 'Baja';
+      this.message += ' La humedad es baja.';
+    } else {
+      this.humidityStatus = 'Normal';
+    }
+  }
+
+
 
   toggleMenu() {
     this.sidenav.toggle();
