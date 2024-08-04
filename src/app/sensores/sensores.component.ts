@@ -45,7 +45,7 @@ export class SensoresComponent {
     }
   }
   ambiente() {
-    this.router.navigate(['/ambiente']);
+    this.router.navigate(['/sensores', this.userId, 'ambiente']);
   }
   estadisticas() {
     this.router.navigate(['/sensores', this.userId, 'temperatura']);
