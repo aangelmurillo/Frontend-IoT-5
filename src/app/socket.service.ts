@@ -10,7 +10,7 @@ export class SocketService {
   private socket: Socket;
 
   constructor() {
-    this.socket = io(environment.wsUrl);
+    this.socket = io('http://3.138.244.45');
   }
 
   connect() {
@@ -27,7 +27,7 @@ export class SocketService {
 
   onSensorUpdate(): Observable<any> {
     return new Observable(observer => {
-      this.socket.on('db:change', (data) => {
+      this.socket.on('sensor:update', (data) => {
         observer.next(data);
       });
     });
