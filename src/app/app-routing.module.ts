@@ -94,7 +94,7 @@ const routes: Routes = [
     data: { roles: ['admin'] }
   },
   {
-    path: 'sensores/:id/gps/',
+    path: 'sensores/:id/gps',
     component: GpsComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }

@@ -52,11 +52,7 @@ export class SensoresComponent {
   }
 
   gps() {
-    if (this.user && this.user.helmet && this.user.helmet.id) {
-      this.router.navigate(['/gps', this.user.helmet.id]);
-    } else {
-      console.error('Los datos del usuario o del casco no están disponibles');
-    }
+    this.router.navigate(['/sensores', this.userId, 'gps']);
   }
 
   camara() {
