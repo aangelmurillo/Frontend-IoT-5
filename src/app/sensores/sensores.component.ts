@@ -53,11 +53,15 @@ ambiente()
   }
 
   gps() {
-    this.router.navigate(['/gps', this.user.helmet.id]);
+    if (this.user && this.user.helmet && this.user.helmet.id) {
+      this.router.navigate(['/gps', this.user.helmet.id]);
+    } else {
+      console.error('Los datos del usuario o del casco no están disponibles');
+    }
   }
 
   camara() {
-    const enlaceDePrueba = 'https://via.placeholder.com/640x480.png?text=Camera+Test';
+    const enlaceDePrueba = 'https://ihelmet-octavio.loca.lt/';
     this.router.navigate(['/camara', encodeURIComponent(enlaceDePrueba)]);  
   }
 

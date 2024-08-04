@@ -171,6 +171,10 @@ const routes: Routes = [
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin'] }
   },
+  {
+    path: '**', 
+    component: NotFoundComponent
+  }
 ];
 
 @NgModule({
