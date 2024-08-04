@@ -58,13 +58,13 @@ const routes: Routes = [
     data: { roles: ['admin'] }
   },
   {
-    path: 'temperatura',
+    path: 'sensores/:id/temperatura',
     component: TemperaturaComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
   },
   {
-    path: 'gas-tierra',
+    path: 'sensores/:id/gas-tierra',
     component: GasTierraComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
@@ -94,7 +94,7 @@ const routes: Routes = [
     data: { roles: ['admin'] }
   },
   {
-    path: 'gps/:id',
+    path: 'sensores/:id/gps/',
     component: GpsComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
@@ -106,7 +106,7 @@ const routes: Routes = [
     data: { roles: ['admin'] }
   },
   {
-    path: 'ambiente',
+    path: 'sensores/:id/ambiente',
     component: AmbienteComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }

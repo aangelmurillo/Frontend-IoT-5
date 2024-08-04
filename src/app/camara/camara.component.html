@@ -1,17 +1,17 @@
 <mat-toolbar>
-    <div class="menu-icon" (click)="toggleMenu()">
-      <mat-icon>menu</mat-icon>
+  <div class="menu-icon" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </div>
+
+  <span class="toolbar-title" routerLink="/empleados">
+    <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
+    iHelmet
+  </span>
+
+  <div class="user-menu">
+    <div class="menu-icon" (click)="toggleUserMenu()">
+      <mat-icon>account_circle</mat-icon>
     </div>
-    
-    <span class="toolbar-title" routerLink="/empleados">
-      <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
-      iHelmet
-    </span>
-  
-    <div class="user-menu">
-      <div class="menu-icon" (click)="toggleUserMenu()">
-        <mat-icon>account_circle</mat-icon>
-      </div>
     <div class="user-dropdown" [class.show]="isUserMenuOpen">
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
@@ -19,24 +19,24 @@
       </button>
     </div>
   </div>
-  </mat-toolbar>
+</mat-toolbar>
 
-  <br>
+<br>
 
 
 
-  <div class="user-info" *ngIf="user">
-    <mat-icon>account_circle</mat-icon>
-    <div class="info">
-      <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
-      <p>{{ user.email }}</p>
-    </div>
+<div class="user-info" *ngIf="user">
+  <mat-icon>account_circle</mat-icon>
+  <div class="info">
+    <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+    <p>{{ user.email }}</p>
   </div>
+</div>
 
-  <br>
-  <mat-sidenav-container>
-    <mat-sidenav #sidenav mode="over">
-      <mat-nav-list>
+<br>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over">
+    <mat-nav-list>
       <a mat-list-item routerLink="/empleados">Inicio</a>
       <a mat-list-item routerLink="/registrar">Registro Empleado</a>
       <a mat-list-item routerLink="/address">Registrar Direccion</a>
@@ -44,20 +44,15 @@
       <a mat-list-item routerLink="/eliminar">Eliminar Empleado</a>
       <a mat-list-item routerLink="/casco">Registrar Casco</a>
       <a mat-list-item routerLink="/reportes">Historial de Sensores</a>
-      </mat-nav-list>
-    </mat-sidenav>
+    </mat-nav-list>
+  </mat-sidenav>
 
-    <br>
+  <div class="center">
+    <h1>Video</h1>
+  </div>
 
-  
-    <mat-sidenav-content>
-      <div class="camera-container" *ngIf="cameraLink">
-        <img [src]="getImageUrl()" alt="Camera Image" class="camera-image">
-        <p>Camera Link: {{ cameraLink }}</p>
-      </div>
-      <div *ngIf="!cameraLink" class="no-camera-message">
-        <p>No camera link available. Please make sure you're passing a valid camera link in the URL.</p>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-  
+  <div class="video-container">
+    <iframe width="800" height="450" src="https://ihelmet-octavio.loca.lt/" frameborder="0" allowfullscreen></iframe>
+  </div>
+
+</mat-sidenav-container>

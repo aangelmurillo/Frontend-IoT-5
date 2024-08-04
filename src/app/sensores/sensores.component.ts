@@ -20,9 +20,9 @@ export class SensoresComponent {
   helmetSerialNumber: any;
 
   constructor(private router: Router,
-              private authService: AuthserviceService,
-              private route: ActivatedRoute,
-              private apiService: ApiserviceService) { }
+    private authService: AuthserviceService,
+    private route: ActivatedRoute,
+    private apiService: ApiserviceService) { }
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(user => {
@@ -35,7 +35,7 @@ export class SensoresComponent {
         }
       }
     });
-    
+
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null) {
       this.userId = +id;
@@ -44,12 +44,11 @@ export class SensoresComponent {
       console.error('User ID is not provided in the URL');
     }
   }
-ambiente()
-{
-  this.router.navigate(['/ambiente']);
-}
+  ambiente() {
+    this.router.navigate(['/ambiente']);
+  }
   estadisticas() {
-    this.router.navigate(['/temperatura']);
+    this.router.navigate(['/sensores', this.userId, 'temperatura']);
   }
 
   gps() {
@@ -62,7 +61,7 @@ ambiente()
 
   camara() {
     const enlaceDePrueba = 'https://ihelmet-octavio.loca.lt/';
-    this.router.navigate(['/camara', encodeURIComponent(enlaceDePrueba)]);  
+    this.router.navigate(['/camara', encodeURIComponent(enlaceDePrueba)]);
   }
 
   async loadUserData() {
