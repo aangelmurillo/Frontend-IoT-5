@@ -57,6 +57,7 @@ import { PerfilEmpleadoComponent } from './perfil-empleado/perfil-empleado.compo
 import { VerificacionComponent } from './verificacion/verificacion.component';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
+import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component';
 
 const config: SocketIoConfig = { url: environment.wsUrl, options: {
   transports: ['websocket']
@@ -92,6 +93,7 @@ const config: SocketIoConfig = { url: environment.wsUrl, options: {
     CamaraEmpComponent,
     PerfilEmpleadoComponent,
     VerificacionComponent,
+    PerfilAdminComponent,
     
   ],
   imports: [

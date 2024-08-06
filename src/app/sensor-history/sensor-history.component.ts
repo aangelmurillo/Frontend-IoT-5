@@ -4,36 +4,20 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { AuthserviceService } from '../authservice.service';
 import { Router } from '@angular/router';
 
-export interface SensorStats {
-  max: number;
-  min: number;
-}
-
-export interface SensorCount {
-  count: number;
-}
-
-export interface HelmetStats {
-  temperatura: SensorStats;
-  presion: SensorStats;
-  altitud: SensorStats;
-  humedad: SensorStats;
-  hscr_04: SensorStats;
-  mq2: SensorCount;
-  mq135: SensorCount;
-  fc28: SensorCount;
-}
-
-export interface HelmetData {
-  helmet_id: string;
-  stats: HelmetStats;
-}
-
 export interface SensorHistoryResponse {
-  status: string;
-  data: HelmetData[];
+  user_id: number;
+  helmet_id: string;
+  sensor_history: {
+    temperature: any[];
+    pressure: any[];
+    altitude: any[];
+    humidity: any[];
+    hscr_04: any[];
+    mq2: any[];
+    mq135: any[];
+    fc28: any[];
+  };
 }
-
 
 @Component({
   selector: 'app-sensor-history',
@@ -46,7 +30,7 @@ export class SensorHistoryComponent implements OnInit {
   message: string = '';
   user: any;
   isUserMenuOpen = false;
-  sensorData: any[] = [];
+  sensorData: SensorHistoryResponse | null = null;
 
 
 
@@ -68,20 +52,30 @@ export class SensorHistoryComponent implements OnInit {
 
   getSensorHistory() {
     this.apiService.getSensorHistory(this.date).subscribe(
-      (response: any) => {
-        if (response.status === 'success') {
-          this.sensorData = response.data;
+      (response: SensorHistoryResponse) => {
+        console.log('Respuesta completa:', response);
+        if (response && response.helmet_id) {
+          this.sensorData = response; 
+          console.log('Datos del sensor:', this.sensorData);
         } else {
-          this.message = 'No data available';
+          this.message = 'No hay datos disponibles';
+          console.log('No se encontraron datos');
         }
       },
       (error) => {
-        console.error('Error fetching sensor history:', error);
-        this.message = 'Error fetching sensor history';
+        console.error('Error al obtener el historial del sensor:', error);
+        this.message = `Error al obtener el historial del sensor: ${error.message}`;
       }
     );
   }
 
+  getMaxValue(data: any[]): number {
+    return Math.max(...data.map(item => item.value));
+  }
+  
+  getMinValue(data: any[]): number {
+    return Math.min(...data.map(item => item.value));
+  }
   toggleMenu() {
     this.sidenav.toggle();
   }

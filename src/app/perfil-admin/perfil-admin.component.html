@@ -1,0 +1,161 @@
+<mat-toolbar>
+    <div class="menu-icon" (click)="toggleMenu()">
+      <mat-icon>menu</mat-icon>
+    </div>
+    
+    <span class="toolbar-title" routerLink="/empleados">
+      <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
+      iHelmet
+    </span>
+  
+    <div class="user-menu">
+      <div class="menu-icon" (click)="toggleUserMenu()">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <div class="user-dropdown" [class.show]="isUserMenuOpen">
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </mat-toolbar>
+  
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav mode="over">
+      <mat-nav-list>
+        <a mat-list-item routerLink="/empleados">Inicio</a>
+        <a mat-list-item routerLink="/perfil-admin">Perfil</a>
+        <a mat-list-item routerLink="/registrar">Registro Empleado</a>
+        <a mat-list-item routerLink="/address">Registrar Direccion</a>
+        <a mat-list-item routerLink="/editar">Editar Empleado</a>
+        <a mat-list-item routerLink="/eliminar">Eliminar Empleado</a>
+        <a mat-list-item routerLink="/casco">Registrar Casco</a>
+        <a mat-list-item routerLink="/historial">Historial de Sensores</a>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+      <br>
+      <div class="user-info" *ngIf="user">
+        <mat-icon>account_circle</mat-icon>
+        <div class="info">
+          <p>Ing. {{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+          <p>{{ user.email }}</p>
+        </div>
+      </div>
+      <br>
+  
+      <div style="text-align: center; font-family: 'Alegreya Sans', sans-serif;">
+        <h1 style="font-size: 30px; font-weight: bold;">
+          Perfil de Usuario
+        </h1>
+      </div>
+  
+      <div class="user-profile-grid">
+        <div class="input-group">
+          <mat-form-field class="custom">
+            <mat-label>Nombre(s):</mat-label>
+            <input matInput [value]="user.person.person_name" readonly>
+          </mat-form-field>
+        </div>
+  
+        <div class="input-group">
+          <mat-form-field class="custom">
+            <mat-label>Apellido Paterno:</mat-label>
+            <input matInput [value]="user.person.person_last_name" readonly>
+          </mat-form-field>
+        </div>
+  
+        <div class="input-group">
+          <mat-form-field class="custom">
+            <mat-label>Apellido Materno:</mat-label>
+            <input matInput [value]="user.person.person_second_last_name" readonly>
+          </mat-form-field>
+        </div>
+  
+        <div class="input-group">
+          <mat-form-field class="custom">
+            <mat-label>Nombre de Usuario:</mat-label>
+            <input matInput [value]="user.user_name" readonly>
+          </mat-form-field>
+        </div>
+  
+        <div class="input-group">
+          <mat-form-field class="custom">
+            <mat-label>Correo Electrónico:</mat-label>
+            <input matInput [value]="user.email" readonly>
+          </mat-form-field>
+        </div>
+  
+        <div class="input-group">
+          <mat-form-field class="custom">
+            <mat-label>CURP:</mat-label>
+            <input matInput [value]="user.person.person_curp" readonly>
+          </mat-form-field>
+        </div>
+  
+        <div class="input-group">
+          <mat-form-field class="custom">
+            <mat-label>Número telefónico:</mat-label>
+            <input matInput [value]="user.person.person_phone_number" readonly>
+          </mat-form-field>
+        </div>
+  
+        <div class="input-group">
+          <mat-form-field class="custom">
+            <mat-label>Rol:</mat-label>
+            <input matInput [value]="user.rol.rol_name" readonly>
+          </mat-form-field>
+        </div>
+  
+      </div>
+  
+      <div *ngIf="addresses && addresses.length > 0" class="address-section">
+        <div style="text-align: center; font-family: 'Alegreya Sans', sans-serif;">
+            <h1 style="font-size: 30px; font-weight: bold;">
+            Direccion:
+            </h1>
+          </div>        <div class="input-group full-width">
+          <mat-form-field class="custom">
+            <mat-label>Seleccionar Dirección:</mat-label>
+            <mat-select [(ngModel)]="selectedAddress" (selectionChange)="onAddressChange($event.value)">
+              <mat-option *ngFor="let address of addresses" [value]="address">
+                {{ address.address_street }}, {{ address.address_exterior_number }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+  
+        <div *ngIf="selectedAddress" class="address-details-grid">
+          <div class="input-group">
+            <mat-form-field class="custom">
+              <mat-label>Calle y Número:</mat-label>
+              <input matInput [value]="selectedAddress.address_street + ', ' + selectedAddress.address_exterior_number" readonly>
+            </mat-form-field>
+          </div>
+  
+          <div class="input-group" *ngIf="selectedAddress.address_interior_number">
+            <mat-form-field class="custom">
+              <mat-label>Número Interior:</mat-label>
+              <input matInput [value]="selectedAddress.address_interior_number" readonly>
+            </mat-form-field>
+          </div>
+  
+          <div class="input-group">
+            <mat-form-field class="custom">
+              <mat-label>Colonia y Código Postal:</mat-label>
+              <input matInput [value]="selectedAddress.address_neighborhood + ', ' + selectedAddress.address_zip_code" readonly>
+            </mat-form-field>
+          </div>
+  
+          <div class="input-group">
+            <mat-form-field class="custom">
+              <mat-label>Ciudad, Estado y País:</mat-label>
+              <input matInput [value]="selectedAddress.address_city + ', ' + selectedAddress.address_state + ', ' + selectedAddress.address_country" readonly>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

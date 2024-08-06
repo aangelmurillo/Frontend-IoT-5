@@ -27,6 +27,7 @@ import { TemperaturaEmpComponent } from './temperatura-emp/temperatura-emp.compo
 import { CamaraEmpComponent } from './camara-emp/camara-emp.component';
 import { PerfilEmpleadoComponent } from './perfil-empleado/perfil-empleado.component';
 import { VerificacionComponent } from './verificacion/verificacion.component';
+import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component';
 
 const routes: Routes = [
   {
@@ -164,6 +165,12 @@ const routes: Routes = [
     component: PerfilEmpleadoComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
+  },
+  {
+    path:'perfil-admin',
+    component: PerfilAdminComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin'] }
   },
   {
     path: 'verificacion/:id/:email',

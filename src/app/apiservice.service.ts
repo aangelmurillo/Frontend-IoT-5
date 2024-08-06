@@ -91,12 +91,10 @@ export class ApiserviceService {
 
   userinfo(): Observable<any> {
     const token = this.cookieService.get('auth_token');
-    console.log('Token enviado en userinfo:', token);
-
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     
     return this.http.get(`${this.apiUrl}/users/info`, { headers }).pipe(
-      tap(response => console.log('Respuesta de userinfo:', response)),
+      tap(),
       catchError(error => {
         console.error('Error en userinfo:', error);
         return throwError(error);
@@ -129,9 +127,7 @@ private emailSource = new BehaviorSubject<string>('');
   }
 
   getSensorHistory(date: string): Observable<SensorHistoryResponse> {
-    const token = this.cookieService.get('auth_token');
-    console.log('Token enviado en userinfo:', token);
-  
+    const token = this.cookieService.get('auth_token');  
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const params = new HttpParams().set('date', date);
   
@@ -142,8 +138,8 @@ private emailSource = new BehaviorSubject<string>('');
         params: params
       }
     ).pipe(
-      catchError(this.handleError)
-    );
+      tap(response => console.log('Respuesta de la API:', response)),
+      catchError(this.handleError)    );
   }
   
   private handleError(error: HttpErrorResponse) {
