@@ -35,22 +35,63 @@ const routes: Routes = [
     component: InicioComponent
   },
   {
-    path: 'sensores/:id/camara',
-    component: CamaraComponent,
+    path: 'home',
+    component: EmpleadosComponent,
     canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin','emplo'] }
+    data: { roles: ['admin'] }
   },
   {
-    path: 'registrar',
+    path:'profile',
+    component: PerfilAdminComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin'] }
+  },
+  {
+    path: 'register-employee',
     component: RegistrarComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin'] }
   },
   {
-    path: 'editar',
+    path: 'register-address',
+    component: RegisterAddressComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin'] }
+  },
+  {
+    path: 'edit-employee',
     component: Editar1Component,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin'] }
+  },
+  {
+    path: 'edit-employee/edit/:id',
+    component: InfoEmpleadoComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin'] }
+  },
+  {
+    path: 'delete-employee',
+    component: EliminarEmpleadoComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin'] }
+  },
+  {
+    path: 'register-helmet',
+    component: CascoComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin'] }
+  },
+  {
+    path: 'sensor-record',
+    component: SensorHistoryComponent
+  },
+
+  {
+    path: 'sensores/:id/camara',
+    component: CamaraComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
   },
   {
     path: 'sensores/:id',
@@ -71,40 +112,10 @@ const routes: Routes = [
     data: { roles: ['admin','emplo'] }
   },
   {
-    path: 'editar-empleado/:id',
-    component: InfoEmpleadoComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin'] }
-  },
-  {
-    path: 'eliminar',
-    component: EliminarEmpleadoComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin'] }
-  },
-  {
-    path: 'home',
-    component: EmpleadosComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin'] }
-  },
-  {
-    path: 'casco',
-    component: CascoComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin'] }
-  },
-  {
     path: 'sensores/:id/gps',
     component: GpsComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
-  },
-  {
-    path: 'address',
-    component: RegisterAddressComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin'] }
   },
   {
     path: 'sensores/:id/ambiente',
@@ -132,10 +143,6 @@ const routes: Routes = [
     component: VerificationPasswordComponent
   },
   {
-    path: 'historial',
-    component: SensorHistoryComponent
-  },
-  {
     path: 'ambiente-emp',
     component: AmbienteEmpComponent,
     canActivate: [AuthProtectedGuard],
@@ -161,16 +168,10 @@ const routes: Routes = [
     data: { roles: ['admin','emplo'] }
   },
   {
-    path: 'perfil',
+    path: 'informacion',
     component: PerfilEmpleadoComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
-  },
-  {
-    path:'perfil-admin',
-    component: PerfilAdminComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin'] }
   },
   {
     path: 'verificacion/:id/:email',

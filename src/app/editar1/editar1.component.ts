@@ -49,7 +49,7 @@ export class Editar1Component implements OnInit {
   }
 
   onUserSelect(userId: number) {
-    this.router.navigate(['/editar-empleado', userId]);
+    this.router.navigate(['/edit-employee/edit/', userId]);
   }
 
   toggleMenu() {
