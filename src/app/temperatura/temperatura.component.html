@@ -25,6 +25,7 @@
   <mat-sidenav #sidenav mode="over">
     <mat-nav-list>
       <a mat-list-item routerLink="/empleados">Inicio</a>
+      <a mat-list-item routerLink="/perfil-admin">Perfil</a>
       <a mat-list-item routerLink="/registrar">Registro Empleado</a>
       <a mat-list-item routerLink="/address">Registrar Direccion</a>
       <a mat-list-item routerLink="/editar">Editar Empleado</a>
@@ -40,7 +41,7 @@
     <div class="user-info" *ngIf="user">
       <mat-icon>account_circle</mat-icon>
       <div class="info">
-        <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+        <p>Ing. {{ user.person.person_name }} {{ user.person.person_last_name }}</p>
         <p>{{ user.email }}</p>
       </div>
     </div>
@@ -48,6 +49,7 @@
     <br>
 
     <main class="main-content">
+      <h2>Empleado: {{ name }} - Casco: {{ helmet }}</h2>
       <h3>Temperatura</h3>
 
       <div class="temperature-display">

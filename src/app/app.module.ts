@@ -55,14 +55,13 @@ import { TemperaturaEmpComponent } from './temperatura-emp/temperatura-emp.compo
 import { CamaraEmpComponent } from './camara-emp/camara-emp.component';
 import { PerfilEmpleadoComponent } from './perfil-empleado/perfil-empleado.component';
 import { VerificacionComponent } from './verificacion/verificacion.component';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
+import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component';
 
-
-
-
-
-
-
-
+const config: SocketIoConfig = { url: environment.wsUrl, options: {
+  transports: ['websocket']
+} };
 
 @NgModule({
   declarations: [
@@ -94,6 +93,7 @@ import { VerificacionComponent } from './verificacion/verificacion.component';
     CamaraEmpComponent,
     PerfilEmpleadoComponent,
     VerificacionComponent,
+    PerfilAdminComponent,
     
   ],
   imports: [
@@ -114,9 +114,8 @@ import { VerificacionComponent } from './verificacion/verificacion.component';
     GoogleMapsModule,
     MatDialogModule,
     FormsModule,
-    MatSidenavModule
-
-
+    MatSidenavModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [SocketService],
   bootstrap: [AppComponent]

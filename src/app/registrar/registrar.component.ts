@@ -51,10 +51,10 @@ export class RegistrarComponent implements OnInit {
       address_interior_number: [''],
       address_neighborhood: ['', Validators.required],
       address_zip_code: ['', [Validators.required, Validators.pattern(/^[0-9]{5}$/)]],
-      address_city: ['', Validators.required],
-      address_state: ['', Validators.required],
-      address_country: ['', Validators.required],
-      address_references: ['', Validators.required],
+      address_city: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      address_state: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      address_country: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      address_references: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
       user_name: ['', [Validators.required, Validators.minLength(4)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -77,7 +77,8 @@ export class RegistrarComponent implements OnInit {
         this.apiService.register(personData).subscribe(
           personResponse => {
             console.log('Person registered successfully', personResponse);
-            
+            alert('Registro de persona exitosa');
+
             const addressData = {
               address_references: this.registerForm.get('address_references')?.value,
               address_street: this.registerForm.get('address_street')?.value,
@@ -94,7 +95,8 @@ export class RegistrarComponent implements OnInit {
             this.apiService.register_address(addressData).subscribe(
               addressResponse => {
                 console.log('Address registered successfully', addressResponse);
-                
+                alert('Registro de direccion exitoso');
+
                 const userData = {
                   person_id: personResponse.id,
                   user_name: this.registerForm.get('user_name')?.value,
@@ -107,7 +109,7 @@ export class RegistrarComponent implements OnInit {
                 this.apiService.register_user(userData).subscribe(
                   userResponse => {
                     console.log('User registered successfully', userResponse);
-                    alert('Registro exitoso. Por favor, verifica tu cuenta.');
+                    alert('Registro de usuario. Por favor, verifica tu cuenta.');
                   this.router.navigate(['/verificacion', userResponse.id, userResponse.email]);
                   },
                   error => {

@@ -27,6 +27,7 @@ import { TemperaturaEmpComponent } from './temperatura-emp/temperatura-emp.compo
 import { CamaraEmpComponent } from './camara-emp/camara-emp.component';
 import { PerfilEmpleadoComponent } from './perfil-empleado/perfil-empleado.component';
 import { VerificacionComponent } from './verificacion/verificacion.component';
+import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component';
 
 const routes: Routes = [
   {
@@ -34,7 +35,7 @@ const routes: Routes = [
     component: InicioComponent
   },
   {
-    path: 'camara/:cameraLink',
+    path: 'sensores/:id/camara',
     component: CamaraComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
@@ -58,13 +59,13 @@ const routes: Routes = [
     data: { roles: ['admin'] }
   },
   {
-    path: 'temperatura',
+    path: 'sensores/:id/temperatura',
     component: TemperaturaComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
   },
   {
-    path: 'gas-tierra',
+    path: 'sensores/:id/gas-tierra',
     component: GasTierraComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
@@ -94,7 +95,7 @@ const routes: Routes = [
     data: { roles: ['admin'] }
   },
   {
-    path: 'gps/:id',
+    path: 'sensores/:id/gps',
     component: GpsComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
@@ -106,7 +107,7 @@ const routes: Routes = [
     data: { roles: ['admin'] }
   },
   {
-    path: 'ambiente',
+    path: 'sensores/:id/ambiente',
     component: AmbienteComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
@@ -154,7 +155,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'camara-emp/:cameraLink',
+    path: 'camara-emp/',
     component: CamaraEmpComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
@@ -164,6 +165,12 @@ const routes: Routes = [
     component: PerfilEmpleadoComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
+  },
+  {
+    path:'perfil-admin',
+    component: PerfilAdminComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin'] }
   },
   {
     path: 'verificacion/:id/:email',

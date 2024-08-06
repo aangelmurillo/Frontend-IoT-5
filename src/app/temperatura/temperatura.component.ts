@@ -1,27 +1,11 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { SocketService } from '../socket.service';
 import { Subscription } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthserviceService } from '../authservice.service';
-
-interface SensorInfo {
-  valor: number;
-  unidad: string;
-  fecha: string;
-}
-
-interface Sensor {
-  nombre: string;
-  tipo: string;
-  info_sensor: SensorInfo;
-}
-
-interface SensorData {
-  id: string;
-  helmet_id: number;
-  sensors: Sensor[];
-}
+import { ApiserviceService } from '../apiservice.service';
+import { Socket } from 'ngx-socket-io';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-temperatura',
@@ -35,43 +19,26 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
   status: string = 'Normal';
   message: string = '';
   @ViewChild('sidenav') sidenav!: MatSidenav;
-
+  user_employee: any;
+  name: string = '';
+  helmet: any;
+  
   private subscription?: Subscription;
   user: any;
   employeeName: string = '';
-  helmetSerialNumber: any;
+  helmetSerialNumber: string = '';
   isUserMenuOpen = false;
 
   constructor(
-    private socketService: SocketService,
     private authService: AuthserviceService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private apiService: ApiserviceService,
+    private socket: Socket
+  ) { }
 
   ngOnInit() {
-    this.socketService.connect();
-    
-    // Aquí puedes obtener el helmetId dinámicamente si es necesario
-    const helmetId = '1'; // Cambia esto según sea necesario
-    this.socketService.subscribe(helmetId);
-
-    this.subscription = this.socketService.onSensorUpdate().subscribe(
-      (data: SensorData) => {
-        const temperatureSensor = data.sensors.find(sensor => sensor.tipo === 'temperatura');
-        if (temperatureSensor) {
-          this.temperature = temperatureSensor.info_sensor.valor;
-          this.temperatureF = (this.temperature * 9/5) + 32;
-          this.temperatureK = this.temperature + 273.15;
-          this.updateStatus();
-        }
-      },
-      (error) => {
-        console.error('Error en la actualización de sensores:', error);
-        this.message = 'Error al recibir datos de sensores';
-      }
-    );
-
+    // Obtener información del usuario actual
     this.authService.getCurrentUser().subscribe(
       user => {
         this.user = user;
@@ -82,7 +49,7 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
           }
         }
       },
-      (error) => {
+      error => {
         console.error('Error obteniendo datos del usuario:', error);
       }
     );
@@ -90,7 +57,35 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
-        // Lógica para cargar datos del usuario basado en el ID si es necesario
+        this.apiService.getUser(Number(id)).subscribe(
+          (data: any) => {
+            this.user_employee = data;
+            this.name = `${this.user_employee.person.person_name} ${this.user_employee.person.person_last_name}`;
+            this.helmet = this.user_employee.helmet.helmet_serial_number;
+          },
+          error => {
+            console.error('Error obteniendo datos del usuario:', error);
+          }
+        );
+      }
+    });
+
+    // Obtener ID de la URL y cargar datos del empleado
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.apiService.getUser(Number(id)).subscribe(
+          (data: any) => {
+            this.user_employee = data;
+            if (this.user_employee && this.user_employee.helmet) {
+              this.getSensorData(); // Llamada inicial para obtener datos del sensor
+              this.setupSocketSubscription(); // Configura la suscripción al WebSocket
+            }
+          },
+          error => {
+            console.error('Error obteniendo datos del usuario:', error);
+          }
+        );
       }
     });
   }
@@ -99,14 +94,51 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    this.socketService.disconnect();
+  }
+
+  private getSensorData() {
+    this.apiService.getSensorData({ helmet_id: this.user_employee.helmet.helmet_serial_number, sensor_type: 'temperatura' }).subscribe(
+      (data: any) => {
+        console.log('Datos del sensor:', data);
+        this.updateTemperature(data.latest_value); // Actualiza la temperatura inicial
+      },
+      error => {
+        console.error('Error obteniendo datos del sensor:', error);
+      }
+    );
+  }
+
+  private setupSocketSubscription() {
+    this.socket.emit('subscribe', this.user_employee.helmet.helmet_serial_number);
+
+    // Escuchar actualizaciones de temperatura
+    this.subscription = this.socket.fromEvent('sensor:update').subscribe((data: any) => {
+      const temperatureSensor = data.sensors.find((sensor: any) => sensor.tipo === 'temperatura');
+      if (temperatureSensor) {
+        this.updateTemperature(temperatureSensor.info_sensor.valor);
+      }
+    });
+
+    // Manejo de la falta de datos
+    this.socket.fromEvent('no_data').subscribe((data: any) => {
+      if (data.message === 'No se encontraron datos para el casco ' + this.user_employee.helmet.helmet_serial_number) {
+        this.getSensorData(); // Reintentar obtener datos del sensor
+      }
+    });
+  }
+
+  private updateTemperature(value: number) {
+    this.temperature = value;
+    this.temperatureF = (this.temperature * 9 / 5) + 32;
+    this.temperatureK = this.temperature + 273.15;
+    this.updateStatus(); // Actualiza el estado en función de la nueva temperatura
   }
 
   private updateStatus() {
-    if (this.temperature > 38) {
+    if (this.temperature > 35) {
       this.status = 'Peligro';
       this.message = 'La Temperatura ha superado el límite seguro';
-    } else if (this.temperature > 37) {
+    } else if (this.temperature > 27) {
       this.status = 'Advertencia';
       this.message = 'La Temperatura está cerca del límite seguro';
     } else {
@@ -114,7 +146,7 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
       this.message = 'La Temperatura está dentro del rango normal';
     }
   }
-  
+
   toggleMenu() {
     this.sidenav.toggle();
   }

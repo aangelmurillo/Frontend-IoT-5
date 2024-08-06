@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { SensorHistoryResponse } from './sensor-history/sensor-history.component';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class ApiserviceService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-  
+
     if (needsAuth) {
       const token = this.cookieService.get('auth_token');
       console.log('Token in headers:', token);
@@ -27,13 +28,17 @@ export class ApiserviceService {
         console.error('No token found in cookie');
       }
     }
-  
+
     return headers;
+  }
+
+  getSensorData(data: {helmet_id: string, sensor_type: string}): Observable<any> {
+    return this.http.post(`${this.apiUrl}/helmets/sensor-data`, data, { headers: this.getHeaders(true) });
   }
 
   // Registro
   register(userData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/people`, userData); 
+    return this.http.post(`${this.apiUrl}/people`, userData);
   }
 
   register_address(userData: any): Observable<any> {
@@ -46,15 +51,15 @@ export class ApiserviceService {
 
   // Update
   update(userData: any, userId: number): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/people/${userId}`, userData, { headers: this.getHeaders(true) }); 
+    return this.http.put<any>(`${this.apiUrl}/people/${userId}`, userData, { headers: this.getHeaders(true) });
   }
 
   update_address(userData: any, userId: number): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/addresses/${userId}`, userData, { headers: this.getHeaders(true) }); 
+    return this.http.put<any>(`${this.apiUrl}/addresses/${userId}`, userData, { headers: this.getHeaders(true) });
   }
 
   update_user(userData: any, userId: number): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/users/${userId}`, userData, { headers: this.getHeaders(true) }); 
+    return this.http.put<any>(`${this.apiUrl}/users/${userId}`, userData, { headers: this.getHeaders(true) });
   }
 
   delete_user(userId: number): Observable<any> {
@@ -74,7 +79,7 @@ export class ApiserviceService {
   }
 
   login(userData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, userData, { headers: this.getHeaders() }); 
+    return this.http.post<any>(`${this.apiUrl}/login`, userData, { headers: this.getHeaders() });
   }
 
   getPerson(id: number): Observable<any> {
@@ -92,12 +97,10 @@ export class ApiserviceService {
 
   userinfo(): Observable<any> {
     const token = this.cookieService.get('auth_token');
-    console.log('Token enviado en userinfo:', token);
-
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    
+
     return this.http.get(`${this.apiUrl}/users/info`, { headers }).pipe(
-      tap(response => console.log('Respuesta de userinfo:', response)),
+      tap(),
       catchError(error => {
         console.error('Error en userinfo:', error);
         return throwError(error);
@@ -108,21 +111,21 @@ export class ApiserviceService {
   helmets(helmetData: any): Observable<any> {
     const token = this.cookieService.get('auth_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    
-    return this.http.post(`${this.apiUrl}/helmets`, helmetData, { headers }); 
+
+    return this.http.post(`${this.apiUrl}/helmets`, helmetData, { headers });
   }
 
 
   sendEmailCode(email: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/password-code`, { email }, { headers: this.getHeaders(), responseType: 'text' as 'json' });
   }
-  
+
   updatePassword(data: { email: string, 'new-password': string, 'verification-code': string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/password-update`, data, { headers: this.getHeaders(), responseType: 'text' as 'json' });
   }
-  
 
-private emailSource = new BehaviorSubject<string>('');
+
+  private emailSource = new BehaviorSubject<string>('');
   currentEmail = this.emailSource.asObservable();
 
   setEmail(email: string) {
@@ -130,23 +133,21 @@ private emailSource = new BehaviorSubject<string>('');
   }
 
   getSensorHistory(date: string): Observable<SensorHistoryResponse> {
-    const token = this.cookieService.get('auth_token');
-    console.log('Token enviado en userinfo:', token);
-  
+    const token = this.cookieService.get('auth_token');  
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const params = new HttpParams().set('date', date);
-  
+
     return this.http.get<SensorHistoryResponse>(
-      `${this.apiUrl}/users/sensorHistory`, 
-      { 
+      `${this.apiUrl}/users/sensorHistory`,
+      {
         headers: headers,
         params: params
       }
     ).pipe(
-      catchError(this.handleError)
-    );
+      tap(response => console.log('Respuesta de la API:', response)),
+      catchError(this.handleError)    );
   }
-  
+
   private handleError(error: HttpErrorResponse) {
     console.error('An error occurred:', error);
     return throwError(() => new Error('Something bad happened; please try again later.'));
@@ -157,8 +158,8 @@ private emailSource = new BehaviorSubject<string>('');
   }
 
   deleteUser(userId: number) {
-    const token = this.cookieService.get('auth_token');  
+    const token = this.cookieService.get('auth_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.delete(`${this.apiUrl}/users/${userId}`,{headers},);
+    return this.http.delete(`${this.apiUrl}/users/${userId}`, { headers },);
   }
 }

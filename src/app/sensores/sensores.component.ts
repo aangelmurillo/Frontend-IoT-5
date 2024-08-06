@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthserviceService } from '../authservice.service';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -9,20 +9,23 @@ import { ApiserviceService } from '../apiservice.service';
   templateUrl: './sensores.component.html',
   styleUrls: ['./sensores.component.css']
 })
-export class SensoresComponent {
+export class SensoresComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   userId!: number;
-  personId!: number;
   user: any;
   availableHelmets: any[] = [];
   assignedHelmet: any = null;
   employeeName: string = '';
-  helmetSerialNumber: any;
+  helmetSerialNumber: string = '';
+  name: string = '';
+  helmet: any;
 
-  constructor(private router: Router,
-              private authService: AuthserviceService,
-              private route: ActivatedRoute,
-              private apiService: ApiserviceService) { }
+  constructor(
+    private router: Router,
+    private authService: AuthserviceService,
+    private route: ActivatedRoute,
+    private apiService: ApiserviceService
+  ) { }
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(user => {
@@ -35,7 +38,22 @@ export class SensoresComponent {
         }
       }
     });
-    
+
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.apiService.getUser(Number(id)).subscribe(
+          (data: any) => {
+            this.name = `${data.person.person_name} ${data.person.person_last_name}`;
+            this.helmet = data.helmet.helmet_serial_number;
+          },
+          error => {
+            console.error('Error obteniendo datos del usuario:', error);
+          }
+        );
+      }
+    });
+
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null) {
       this.userId = +id;
@@ -43,26 +61,6 @@ export class SensoresComponent {
     } else {
       console.error('User ID is not provided in the URL');
     }
-  }
-ambiente()
-{
-  this.router.navigate(['/ambiente']);
-}
-  estadisticas() {
-    this.router.navigate(['/temperatura']);
-  }
-
-  gps() {
-    if (this.user && this.user.helmet && this.user.helmet.id) {
-      this.router.navigate(['/gps', this.user.helmet.id]);
-    } else {
-      console.error('Los datos del usuario o del casco no están disponibles');
-    }
-  }
-
-  camara() {
-    const enlaceDePrueba = 'https://ihelmet-octavio.loca.lt/';
-    this.router.navigate(['/camara', encodeURIComponent(enlaceDePrueba)]);  
   }
 
   async loadUserData() {
@@ -92,5 +90,21 @@ ambiente()
 
   toggleMenu() {
     this.sidenav.toggle();
+  }
+
+  ambiente() {
+    this.router.navigate(['/sensores', this.userId, 'ambiente']);
+  }
+
+  estadisticas() {
+    this.router.navigate(['/sensores', this.userId, 'temperatura']);
+  }
+
+  gps() {
+    this.router.navigate(['/sensores', this.userId, 'gps']);
+  }
+
+  camara() {
+    this.router.navigate(['/sensores', this.userId, 'camara']);
   }
 }
