@@ -82,7 +82,7 @@ const routes: Routes = [
     data: { roles: ['admin'] }
   },
   {
-    path: 'empleados',
+    path: 'home',
     component: EmpleadosComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin'] }

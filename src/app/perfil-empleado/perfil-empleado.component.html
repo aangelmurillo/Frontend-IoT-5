@@ -115,10 +115,10 @@
         <h2>Dirección</h2>
         <div class="input-group full-width">
           <mat-form-field class="custom">
-            <mat-label>Seleccionar Dirección:</mat-label>
+            <mat-label>Seleccionar Referencia:</mat-label>
             <mat-select [(ngModel)]="selectedAddress" (selectionChange)="onAddressChange($event.value)">
               <mat-option *ngFor="let address of addresses" [value]="address">
-                {{ address.address_street }}, {{ address.address_exterior_number }}
+                {{ address.address_references }}
               </mat-option>
             </mat-select>
           </mat-form-field>

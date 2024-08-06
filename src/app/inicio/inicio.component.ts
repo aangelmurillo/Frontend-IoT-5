@@ -41,7 +41,7 @@ export class InicioComponent implements OnInit {
 
       this.authService.login(formData).subscribe(
         (user) => {
-          console.log('Usuario logueado y información cargada:', user);
+          console.log('Usuario logueado e información cargada:', user);
           this.redirectBasedOnRole();
         },
         error => {
@@ -60,7 +60,7 @@ export class InicioComponent implements OnInit {
       role => {
         console.log('Rol recibido:', role);
         if (role === 'admin') {
-          this.router.navigate(['/empleados']);
+          this.router.navigate(['/home']);
         } else if (role === 'emplo') {
           this.router.navigate(['/inicio']);
         } else {

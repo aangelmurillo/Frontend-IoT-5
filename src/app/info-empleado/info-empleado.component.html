@@ -91,10 +91,10 @@
    
     <div class="inputs">
       <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Dirección:</mat-label>
+        <mat-label style="font-size:22px;">Referencia:</mat-label>
         <mat-select formControlName="address_id" (selectionChange)="onAddressChange($event.value)">
           <mat-option *ngFor="let address of addresses" [value]="address.id">
-            {{ address.address_street }}, {{ address.address_exterior_number }}
+            {{ address.address_references }}
           </mat-option>
         </mat-select>
       </mat-form-field>

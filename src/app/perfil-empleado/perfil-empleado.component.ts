@@ -36,9 +36,19 @@ export class PerfilEmpleadoComponent implements OnInit {
     });
   }
 
+
+  //Lo de Referencias
   onAddressChange(address: any) {
-    this.selectedAddress = address;
+    if (!address) {
+      console.warn('No se ha seleccionado una dirección válida');
+      return;
+    }
+
+    this.selectedAddress = { ...address };
+  
+    console.log('Dirección seleccionada:', this.selectedAddress);
   }
+  
 
   toggleMenu() {
     this.sidenav.toggle();

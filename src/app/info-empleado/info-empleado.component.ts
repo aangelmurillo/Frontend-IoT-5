@@ -116,19 +116,29 @@ export class InfoEmpleadoComponent implements OnInit {
 
   onAddressChange(addressId: number) {
     const selectedAddress = this.addresses.find(addr => addr.id === addressId);
-    if (selectedAddress) {
-      this.editForm.patchValue({
-        address_street: selectedAddress.address_street,
-        address_exterior_number: selectedAddress.address_exterior_number,
-        address_interior_number: selectedAddress.address_interior_number,
-        address_neighborhood: selectedAddress.address_neighborhood,
-        address_zip_code: selectedAddress.address_zip_code,
-        address_city: selectedAddress.address_city,
-        address_state: selectedAddress.address_state,
-        address_country: selectedAddress.address_country,
-      });
-      this.addressId = addressId;
+    if (!selectedAddress) {
+      console.warn('No se encontró la dirección seleccionada');
+      return;
     }
+  
+    const addressFields = [
+      'address_street',
+      'address_exterior_number',
+      'address_interior_number',
+      'address_neighborhood',
+      'address_zip_code',
+      'address_city',
+      'address_state',
+      'address_country'
+    ];
+  
+    const updateObject = addressFields.reduce((acc, field) => {
+      acc[field] = selectedAddress[field];
+      return acc;
+    }, {} as {[key: string]: string});
+  
+    this.editForm.patchValue(updateObject);
+    this.addressId = addressId;
   }
 
   onSubmit() {
@@ -208,7 +218,7 @@ export class InfoEmpleadoComponent implements OnInit {
   }
 
   onBackToHome() {
-    this.router.navigate(['/crud']);
+    this.router.navigate(['/empleados']);
   }
 
   async loadAvailableHelmets() {

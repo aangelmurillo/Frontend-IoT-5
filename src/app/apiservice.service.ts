@@ -85,6 +85,7 @@ export class ApiserviceService {
     return this.http.get(`${this.apiUrl}/addresses/${id}`, { headers: this.getHeaders(true) });
   }
 
+  //show de user desde backend
   getUser(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/users/${id}`, { headers: this.getHeaders(true) });
   }
