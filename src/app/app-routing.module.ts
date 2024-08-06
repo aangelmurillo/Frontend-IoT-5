@@ -35,7 +35,7 @@ const routes: Routes = [
     component: InicioComponent
   },
   {
-    path: 'camara/:cameraLink',
+    path: 'sensores/:id/camara',
     component: CamaraComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
@@ -155,7 +155,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'camara-emp/:cameraLink',
+    path: 'camara-emp/',
     component: CamaraEmpComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }

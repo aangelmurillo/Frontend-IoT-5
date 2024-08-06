@@ -41,7 +41,7 @@
     <div class="user-info" *ngIf="user">
       <mat-icon>account_circle</mat-icon>
       <div class="info">
-        <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+        <p>Ing. {{ user.person.person_name }} {{ user.person.person_last_name }}</p>
         <p>{{ user.email }}</p>
       </div>
     </div>
@@ -49,6 +49,7 @@
     <br>
 
     <main class="main-content">
+      <h2>Empleado: {{ name }} - Casco: {{ helmet }}</h2>
       <h3>Temperatura</h3>
 
       <div class="temperature-display">

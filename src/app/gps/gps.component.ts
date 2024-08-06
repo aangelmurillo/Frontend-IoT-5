@@ -26,6 +26,8 @@ export class GpsComponent implements OnInit, OnDestroy {
   longitude: number | null = null;
   altitude: number | null = null;
   lastUpdated: Date | null = null;
+  helmet: any;
+  name: string = '';
 
   center: google.maps.LatLngLiteral = { lat: 25.54389, lng: -103.41898 };
   zoom = 15;
@@ -61,40 +63,29 @@ export class GpsComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
-        console.log('ID del usuario:', id);
         this.apiService.getUser(Number(id)).subscribe(
           (data: any) => {
             this.user_employee = data;
-            console.log('Datos del usuario:', data);
+            this.name = `${this.user_employee.person.person_name} ${this.user_employee.person.person_last_name}`;
+            this.helmet = this.user_employee.helmet.helmet_serial_number;
+          },
+          error => {
+            console.error('Error obteniendo datos del usuario:', error);
+          }
+        );
+      }
+    });
+
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.apiService.getUser(Number(id)).subscribe(
+          (data: any) => {
+            this.user_employee = data;
 
             if (this.user_employee && this.user_employee.helmet) {
-              // Suscribirse al ID del casco a través del WebSocket
-              this.socket.emit('subscribe', this.user_employee.helmet.helmet_serial_number);
-
-              // Escuchar las actualizaciones de sensores
-              this.socket.fromEvent('sensor:update').subscribe((data: any) => {
-                console.log('Actualización de sensor:', data);
-                const latitudeSensor = data.sensors.find((sensor: any) => sensor.tipo === 'gps-latitud');
-                const longitudeSensor = data.sensors.find((sensor: any) => sensor.tipo === 'gps-longitud');
-                const altitudeSensor = data.sensors.find((sensor: any) => sensor.tipo === 'altitud');
-
-                if (latitudeSensor && longitudeSensor) {
-                  this.latitude = latitudeSensor.info_sensor.valor;
-                  this.longitude = longitudeSensor.info_sensor.valor;
-                  this.lastUpdated = new Date(data.timestamp);
-                
-                  this.latitude && this.longitude && this.updateMapCenter(this.latitude, this.longitude);
-                }
-
-                if (altitudeSensor) {
-                  this.altitude = altitudeSensor.info_sensor.valor;
-                }
-              });
-
-              // Manejar el caso en que no hay datos para el casco
-              this.socket.fromEvent('no_data').subscribe((data: any) => {
-                console.log(data.message);
-              });
+              this.getSensorData(); // Llamada inicial para obtener datos del sensor
+              this.setupSocketSubscription(); // Configura la suscripción al WebSocket
             }
           },
           (error) => {
@@ -112,10 +103,64 @@ export class GpsComponent implements OnInit, OnDestroy {
     this.socket.emit('unsubscribe', this.helmetSerialNumber);
   }
 
-  private updateMapCenter(lat: number, lng: number) {
-    this.center = { lat, lng };
-    this.markerPosition = { lat, lng };
-    this.map.panTo(this.center);
+  private getSensorData() {
+    const helmetId = this.user_employee.helmet.helmet_serial_number;
+    
+    this.apiService.getSensorData({ helmet_id: helmetId, sensor_type: 'gps-latitud' }).subscribe(
+      (data: any) => {
+        this.latitude = data.latest_value;
+        this.lastUpdated = data.timestamp;
+        this.updateMapCenter();
+      },
+      (error) => console.error('Error obteniendo datos del sensor (latitud):', error)
+    );
+
+    this.apiService.getSensorData({ helmet_id: helmetId, sensor_type: 'gps-longitud' }).subscribe(
+      (data: any) => {
+        this.longitude = data.latest_value;
+        this.updateMapCenter();
+      },
+      (error) => console.error('Error obteniendo datos del sensor (longitud):', error)
+    );
+
+    this.apiService.getSensorData({ helmet_id: helmetId, sensor_type: 'altitud' }).subscribe(
+      (data: any) => this.altitude = data.latest_value,
+      (error) => console.error('Error obteniendo datos del sensor (altitud):', error)
+    );
+  }
+
+  private setupSocketSubscription() {
+    this.socket.emit('subscribe', this.user_employee.helmet.helmet_serial_number);
+
+    this.socket.fromEvent('sensor:update').subscribe((data: any) => {
+      const latitudeSensor = data.sensors.find((sensor: any) => sensor.tipo === 'gps-latitud');
+      const longitudeSensor = data.sensors.find((sensor: any) => sensor.tipo === 'gps-longitud');
+      const altitudeSensor = data.sensors.find((sensor: any) => sensor.tipo === 'altitud');
+
+      if (latitudeSensor && longitudeSensor) {
+        this.latitude = latitudeSensor.info_sensor.valor;
+        this.longitude = longitudeSensor.info_sensor.valor;
+        this.lastUpdated = new Date(data.timestamp);
+        this.updateMapCenter();
+      }
+
+      if (altitudeSensor) {
+        this.altitude = altitudeSensor.info_sensor.valor;
+      }
+    });
+
+    this.socket.fromEvent('no_data').subscribe((data: any) => {
+      console.log(data.message);
+      this.getSensorData();
+    });
+  }
+
+  private updateMapCenter() {
+    if (this.latitude !== null && this.longitude !== null) {
+      this.center = { lat: this.latitude, lng: this.longitude };
+      this.markerPosition = { lat: this.latitude, lng: this.longitude };
+      this.map.panTo(this.center);
+    }
   }
 
   toggleMenu() {

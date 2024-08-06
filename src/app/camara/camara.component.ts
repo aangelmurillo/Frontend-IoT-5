@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthserviceService } from '../authservice.service';
+import { ApiserviceService } from '../apiservice.service';
 
 @Component({
   selector: 'app-camara',
@@ -14,29 +15,33 @@ export class CamaraComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isUserMenuOpen = false; 
   user: any;
+  user_employee: any;
+  helmet: any;
+  name: string = '';
 
-
-
-  constructor(private route: ActivatedRoute,private authService: AuthserviceService, private router: Router,) {}
+  constructor(private route: ActivatedRoute,private authService: AuthserviceService, private router: Router, private apiService: ApiserviceService) {}
   
   ngOnInit() {
+
     this.route.paramMap.subscribe(params => {
-      const encodedLink = params.get('cameraLink');
-      console.log('Encoded Camera Link:', encodedLink);
-      if (encodedLink) {
-        this.cameraLink = decodeURIComponent(encodedLink);
-        this.timestamp = Date.now();
-        console.log('Decoded Camera Link:', this.cameraLink);
+      const id = params.get('id');
+      if (id) {
+        this.apiService.getUser(Number(id)).subscribe(
+          (data: any) => {
+            this.user_employee = data;
+            this.name = `${this.user_employee.person.person_name} ${this.user_employee.person.person_last_name}`;
+            this.helmet = this.user_employee.helmet.helmet_serial_number;
+          },
+          error => {
+            console.error('Error obteniendo datos del usuario:', error);
+          }
+        );
       }
     });
 
     this.authService.getCurrentUser().subscribe(user => {
       this.user = user;
     });
-  }
-  
-  getImageUrl(): string {
-    return this.cameraLink ? `${this.cameraLink}&t=${this.timestamp}` : '';
   }
 
   toggleMenu() {

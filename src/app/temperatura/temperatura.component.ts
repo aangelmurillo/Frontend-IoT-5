@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthserviceService } from '../authservice.service';
 import { ApiserviceService } from '../apiservice.service';
 import { Socket } from 'ngx-socket-io';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-temperatura',
@@ -19,11 +20,13 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
   message: string = '';
   @ViewChild('sidenav') sidenav!: MatSidenav;
   user_employee: any;
-
+  name: string = '';
+  helmet: any;
+  
   private subscription?: Subscription;
   user: any;
   employeeName: string = '';
-  helmetSerialNumber: any;
+  helmetSerialNumber: string = '';
   isUserMenuOpen = false;
 
   constructor(
@@ -32,9 +35,10 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
     private router: Router,
     private apiService: ApiserviceService,
     private socket: Socket
-  ) {}
+  ) { }
 
   ngOnInit() {
+    // Obtener información del usuario actual
     this.authService.getCurrentUser().subscribe(
       user => {
         this.user = user;
@@ -45,7 +49,7 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
           }
         }
       },
-      (error) => {
+      error => {
         console.error('Error obteniendo datos del usuario:', error);
       }
     );
@@ -53,36 +57,32 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
-        console.log('ID del usuario:', id);
         this.apiService.getUser(Number(id)).subscribe(
           (data: any) => {
             this.user_employee = data;
-            console.log('Datos del usuario:', data);
+            this.name = `${this.user_employee.person.person_name} ${this.user_employee.person.person_last_name}`;
+            this.helmet = this.user_employee.helmet.helmet_serial_number;
+          },
+          error => {
+            console.error('Error obteniendo datos del usuario:', error);
+          }
+        );
+      }
+    });
 
+    // Obtener ID de la URL y cargar datos del empleado
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.apiService.getUser(Number(id)).subscribe(
+          (data: any) => {
+            this.user_employee = data;
             if (this.user_employee && this.user_employee.helmet) {
-              // Suscribirse al ID del casco a través del WebSocket
-              this.socket.emit('subscribe', this.user_employee.helmet.helmet_serial_number);
-
-              // Escuchar las actualizaciones de sensores
-              this.socket.fromEvent('sensor:update').subscribe((data: any) => {
-                console.log('Actualización de sensor:', data);
-                // Aquí puedes manejar los datos recibidos del sensor
-                const temperatureSensor = data.sensors.find((sensor: any) => sensor.tipo === 'temperatura');
-                if (temperatureSensor) {
-                  this.temperature = temperatureSensor.info_sensor.valor;
-                  this.temperatureF = (this.temperature * 9/5) + 32;
-                  this.temperatureK = this.temperature + 273.15;
-                  this.updateStatus();
-                }
-              });
-
-              // Manejar el caso en que no hay datos para el casco
-              this.socket.fromEvent('no_data').subscribe((data: any) => {
-                console.log(data.message);
-              });
+              this.getSensorData(); // Llamada inicial para obtener datos del sensor
+              this.setupSocketSubscription(); // Configura la suscripción al WebSocket
             }
           },
-          (error) => {
+          error => {
             console.error('Error obteniendo datos del usuario:', error);
           }
         );
@@ -94,6 +94,44 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  private getSensorData() {
+    this.apiService.getSensorData({ helmet_id: this.user_employee.helmet.helmet_serial_number, sensor_type: 'temperatura' }).subscribe(
+      (data: any) => {
+        console.log('Datos del sensor:', data);
+        this.updateTemperature(data.latest_value); // Actualiza la temperatura inicial
+      },
+      error => {
+        console.error('Error obteniendo datos del sensor:', error);
+      }
+    );
+  }
+
+  private setupSocketSubscription() {
+    this.socket.emit('subscribe', this.user_employee.helmet.helmet_serial_number);
+
+    // Escuchar actualizaciones de temperatura
+    this.subscription = this.socket.fromEvent('sensor:update').subscribe((data: any) => {
+      const temperatureSensor = data.sensors.find((sensor: any) => sensor.tipo === 'temperatura');
+      if (temperatureSensor) {
+        this.updateTemperature(temperatureSensor.info_sensor.valor);
+      }
+    });
+
+    // Manejo de la falta de datos
+    this.socket.fromEvent('no_data').subscribe((data: any) => {
+      if (data.message === 'No se encontraron datos para el casco ' + this.user_employee.helmet.helmet_serial_number) {
+        this.getSensorData(); // Reintentar obtener datos del sensor
+      }
+    });
+  }
+
+  private updateTemperature(value: number) {
+    this.temperature = value;
+    this.temperatureF = (this.temperature * 9 / 5) + 32;
+    this.temperatureK = this.temperature + 273.15;
+    this.updateStatus(); // Actualiza el estado en función de la nueva temperatura
   }
 
   private updateStatus() {
@@ -108,7 +146,7 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
       this.message = 'La Temperatura está dentro del rango normal';
     }
   }
-  
+
   toggleMenu() {
     this.sidenav.toggle();
   }

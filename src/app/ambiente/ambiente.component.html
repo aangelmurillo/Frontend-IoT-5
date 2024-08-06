@@ -48,7 +48,7 @@
     <br>
 
     <main class="main-content">
-      <h3>Información de Sensores</h3>
+      <h3>Empleado: {{ name }} - Casco: {{ helmet }} <br><br> Información de sus sensores </h3>
 
       <div class="sensor-grid">
         <mat-card class="sensor-card">
@@ -56,14 +56,13 @@
             <mat-card-title>Gases</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <div class="sensor-value" [ngClass]="{'alert': gasDetected}">
-              {{ gasDetected ? 'Gases peligrosos' : 'Normal' }}
+            <div class="sensor-value" [ngClass]="{'warning': gasDetected}">
+              {{ gasDetected ? '¡Gas Detectado!' : 'Sin gas detectado' }}
             </div>
             <p>MQ135: {{ mq135Value }}</p>
             <p>MQ2: {{ mq2Value }}</p>
           </mat-card-content>
         </mat-card>
-        
 
         <mat-card class="sensor-card">
           <mat-card-header>
@@ -83,16 +82,11 @@
           </mat-card-header>
           <mat-card-content>
             <div class="sensor-value" [ngClass]="{'warning': humidityStatus !== 'Normal'}">
-              {{ humidity | number:'1.2-2' }}%
+              {{ humidityStatus }}
             </div>
-            <p>Sensor: BME-260</p>
-            <p>Estado: {{ humidityStatus }}</p>
+            <p>Humedad: {{ humidity }}%</p>
           </mat-card-content>
         </mat-card>
-      </div>
-
-      <div class="warning-message" *ngIf="message">
-        <p class="message">{{ message }}</p>
       </div>
     </main>
   </mat-sidenav-content>

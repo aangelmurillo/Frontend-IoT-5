@@ -20,6 +20,8 @@ export class AmbienteComponent implements OnInit, OnDestroy {
   soilMoisture: boolean = false;
   humidity: number = 0;
   humidityStatus: string = 'Normal';
+  helmet: any;
+  name: string = '';
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isUserMenuOpen = false;
@@ -46,6 +48,7 @@ export class AmbienteComponent implements OnInit, OnDestroy {
           if (user.helmet) {
             this.helmetSerialNumber = user.helmet.helmet_serial_number;
             this.socket.emit('subscribe', this.helmetSerialNumber);
+            this.getSensorData(this.helmetSerialNumber);
           }
         }
       },
@@ -53,6 +56,22 @@ export class AmbienteComponent implements OnInit, OnDestroy {
         console.error('Error obteniendo datos del usuario:', error);
       }
     );
+
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.api.getUser(Number(id)).subscribe(
+          (data: any) => {
+            this.user_employee = data;
+            this.name = `${this.user_employee.person.person_name} ${this.user_employee.person.person_last_name}`;
+            this.helmet = this.user_employee.helmet.helmet_serial_number;
+          },
+          error => {
+            console.error('Error obteniendo datos del usuario:', error);
+          }
+        );
+      }
+    });
 
     this.subscription = this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -77,6 +96,9 @@ export class AmbienteComponent implements OnInit, OnDestroy {
               this.socket.fromEvent('no_data').subscribe((data: any) => {
                 console.log('No hay datos:', data.message);
               });
+
+              // Obtener datos iniciales de los sensores
+              this.getSensorData(this.user_employee.helmet.helmet_serial_number);
             }
           },
           (error) => {
@@ -112,7 +134,6 @@ export class AmbienteComponent implements OnInit, OnDestroy {
       this.updateHumidityStatus();
     }
   };
-  
 
   private updateSensorValues(sensors: any[]) {
     console.log('Datos de sensores recibidos:', sensors);
@@ -125,22 +146,21 @@ export class AmbienteComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
-  
+
   private updateGasStatus() {
     this.gasDetected = this.mq135Value > 0 || this.mq2Value > 0;
     if (this.gasDetected) {
       this.message += ' ¡Alerta! Se ha detectado gas.';
     }
   }
-  
+
   private updateSoilMoistureStatus() {
     this.soilMoisture = this.fc28Value > 0;
     if (this.soilMoisture) {
       this.message += ' Se ha detectado humedad en el suelo.';
     }
   }
-  
+
   private updateHumidityStatus() {
     if (this.humidity > 70) {
       this.humidityStatus = 'Alta';
@@ -152,7 +172,40 @@ export class AmbienteComponent implements OnInit, OnDestroy {
       this.humidityStatus = 'Normal';
     }
   }
-  
+
+  private getSensorData(helmetId: string) {
+    this.api.getSensorData({ helmet_id: helmetId, sensor_type: 'mq135' }).subscribe(
+      (data: any) => {
+        this.mq135Value = data.latest_value;
+        this.updateGasStatus();
+      },
+      (error) => console.error('Error obteniendo datos del sensor mq135:', error)
+    );
+
+    this.api.getSensorData({ helmet_id: helmetId, sensor_type: 'mq2' }).subscribe(
+      (data: any) => {
+        this.mq2Value = data.latest_value;
+        this.updateGasStatus();
+      },
+      (error) => console.error('Error obteniendo datos del sensor mq2:', error)
+    );
+
+    this.api.getSensorData({ helmet_id: helmetId, sensor_type: 'fc28' }).subscribe(
+      (data: any) => {
+        this.fc28Value = data.latest_value;
+        this.updateSoilMoistureStatus(); // Asegúrate de llamar a esta función para actualizar el estado
+      },
+      (error) => console.error('Error obteniendo datos del sensor fc28:', error)
+    );
+
+    this.api.getSensorData({ helmet_id: helmetId, sensor_type: 'humedad' }).subscribe(
+      (data: any) => {
+        this.humidity = data.latest_value;
+        this.updateHumidityStatus();
+      },
+      (error) => console.error('Error obteniendo datos del sensor humedad:', error)
+    );
+  }
 
   toggleMenu() {
     this.sidenav.toggle();

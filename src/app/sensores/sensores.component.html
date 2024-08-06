@@ -24,44 +24,43 @@
       <a mat-list-item routerLink="/eliminar">Eliminar Empleado</a>
       <a mat-list-item routerLink="/casco">Registrar Casco</a>
       <a mat-list-item routerLink="/reportes">Historial de Sensores</a>
-
     </mat-nav-list>
   </mat-sidenav>
 
   <!-- Contenido Principal -->
   <mat-sidenav-content>
     <br>
-  
 
-  <div class="user-info" *ngIf="user">
-    <mat-icon>account_circle</mat-icon>
-    <div class="info">
-      <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
-      <p>{{ user.email }}</p>
+    <div class="user-info" *ngIf="user">
+      <mat-icon>account_circle</mat-icon>
+      <div class="info">
+        <p>Ing. {{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+        <p>{{ user.email }}</p>
+      </div>
     </div>
-  </div>
-  <br>
+    <br>
 
-<div class="container">
-  <h2>Empleado: {{ employeeName }} - Casco: {{ helmetSerialNumber }}</h2>
-  <br>
-  <div class="button-container">
-    
-      <button class="custom-button" (click)="gps()">
-        <img src="../../assets/gps1.png" (click)="gps()" alt="GPS" class="button-icon">
-        <span>GPS</span>
-      </button>
-      <button class="custom-button1" (click)="ambiente()">
-        <img src="../../assets/carbon-monoxide.png" (click)="ambiente()" alt="AMBIENTE" class="button-icon">
-        <span>AMBIENTE</span>
-      </button>
-      <button class="custom-button2" (click)="estadisticas()">
-        <img src="../../assets/thermometer.png" (click)="estadisticas()" alt="Temperatura" class="button-icon">
-        <span>TEMPERATURA</span>
-      </button>
-      <button class="custom-button3" (click)="camara()">
-        <img src="../../assets/video-camera.png" (click)="camara()" alt="Camara" class="button-icon">
-        <span>CAMARA</span>
-      </button>
+    <div class="container">
+      <h2>Empleado: {{ name }} - Casco: {{ helmet }}</h2>
+      <br>
+      <div class="button-container">
+        <button class="custom-button" (click)="gps()">
+          <img src="../../assets/gps1.png" alt="GPS" class="button-icon">
+          <span>GPS</span>
+        </button>
+        <button class="custom-button1" (click)="ambiente()">
+          <img src="../../assets/carbon-monoxide.png" alt="AMBIENTE" class="button-icon">
+          <span>AMBIENTE</span>
+        </button>
+        <button class="custom-button2" (click)="estadisticas()">
+          <img src="../../assets/thermometer.png" alt="Temperatura" class="button-icon">
+          <span>TEMPERATURA</span>
+        </button>
+        <button class="custom-button3" (click)="camara()">
+          <img src="../../assets/video-camera.png" alt="Camara" class="button-icon">
+          <span>CAMARA</span>
+        </button>
+      </div>
     </div>
-  </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
