@@ -34,11 +34,42 @@ const routes: Routes = [
     path: '', 
     component: InicioComponent
   },
+  //ADMINISTRADOR
   {
     path: 'home',
     component: EmpleadosComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin'] }
+  },
+  {
+    path: 'sensores/:id',
+    component: SensoresComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin'] }
+  },
+  {
+    path: 'sensores/:id/gps',
+    component: GpsComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
+  },
+  {
+    path: 'sensores/:id/ambiente',
+    component: AmbienteComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
+  },
+  {
+    path: 'sensores/:id/temperatura',
+    component: TemperaturaComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
+  },
+  {
+    path: 'sensores/:id/camara',
+    component: CamaraComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
   },
   {
     path:'profile',
@@ -85,41 +116,17 @@ const routes: Routes = [
   {
     path: 'sensor-record',
     component: SensorHistoryComponent
-  },
+  },  
 
-  {
-    path: 'sensores/:id/camara',
-    component: CamaraComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin','emplo'] }
-  },
-  {
-    path: 'sensores/:id',
-    component: SensoresComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin'] }
-  },
-  {
-    path: 'sensores/:id/temperatura',
-    component: TemperaturaComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin','emplo'] }
-  },
+
+
+
+
+
+
   {
     path: 'sensores/:id/gas-tierra',
     component: GasTierraComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin','emplo'] }
-  },
-  {
-    path: 'sensores/:id/gps',
-    component: GpsComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin','emplo'] }
-  },
-  {
-    path: 'sensores/:id/ambiente',
-    component: AmbienteComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
   },
