@@ -60,7 +60,7 @@ export class InicioComponent implements OnInit {
         if (role === 'admin') {
           this.router.navigate(['/home']);
         } else if (role === 'emplo') {
-          this.router.navigate(['/inicio']);
+          this.router.navigate(['/home-emp']);
         } else {
   
           this.errorMessage = 'Error al determinar el rol del usuario.';

@@ -34,6 +34,7 @@ const routes: Routes = [
     path: '', 
     component: InicioComponent
   },
+
   //ADMINISTRADOR
   {
     path: 'home',
@@ -121,6 +122,38 @@ const routes: Routes = [
 
 
 
+  //EMPLEADO
+  {
+    path: 'home-emp',
+    component: HomeEmpComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['emplo','admin'] }
+  },
+  {
+    path: 'gps-emp/:id',
+    component: GpsEmpComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
+  },
+  {
+    path: 'ambiente-emp',
+    component: AmbienteEmpComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
+  },
+  {
+    path: 'temperatura-emp',
+    component: TemperaturaEmpComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
+  },
+  {
+    path: 'profile-emp',
+    component: PerfilEmpleadoComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
+  },
+  
 
 
 
@@ -136,12 +169,6 @@ const routes: Routes = [
     canActivate: []
   },
   {
-    path: 'inicio',
-    component: HomeEmpComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['emplo','admin'] }
-  },
-  {
     path:'password',
     component: PasswordComponent
   },
@@ -149,34 +176,11 @@ const routes: Routes = [
     path:'verificacion',
     component: VerificationPasswordComponent
   },
-  {
-    path: 'ambiente-emp',
-    component: AmbienteEmpComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin','emplo'] }
-  },
-  {
-    path: 'gps-emp/:id',
-    component: GpsEmpComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin','emplo'] }
-  },
-  {
-    path: 'temperatura-emp',
-    component: TemperaturaEmpComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin','emplo'] }
-  },
+  
 
   {
-    path: 'camara-emp/',
+    path: 'camara-emp',
     component: CamaraEmpComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin','emplo'] }
-  },
-  {
-    path: 'informacion',
-    component: PerfilEmpleadoComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
   },

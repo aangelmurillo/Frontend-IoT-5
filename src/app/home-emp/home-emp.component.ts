@@ -51,8 +51,8 @@ ambiente()
   }
 
   camara() {
-    const enlaceDePrueba = 'https://via.placeholder.com/640x480.png?text=Camera+Test';
-    this.router.navigate(['/camara-emp', encodeURIComponent(enlaceDePrueba)]);  
+    //const enlaceDePrueba = 'https://via.placeholder.com/640x480.png?text=Camera+Test';
+    this.router.navigate(['/camara-emp', /*encodeURIComponent(enlaceDePrueba)*/]);  
   }
 
   async loadUserData() {
