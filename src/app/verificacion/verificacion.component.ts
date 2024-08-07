@@ -43,7 +43,7 @@ export class VerificacionComponent implements OnInit {
 
     if (!this.email) {
       console.error('No email provided');
-      this.router.navigate(['/empleados']);
+      this.router.navigate(['/home']);
     }
 
     this.authService.getCurrentUser().subscribe(
@@ -68,7 +68,7 @@ export class VerificacionComponent implements OnInit {
         response => {
           console.log('User verified successfully', response);
           alert('Verificación exitosa');
-          this.router.navigate(['/empleados']);
+          this.router.navigate(['/home']);
         },
         error => {
           console.error('Error verifying user', error);

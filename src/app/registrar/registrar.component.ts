@@ -43,7 +43,7 @@ export class RegistrarComponent implements OnInit {
     this.registerForm = this.fb.group({
       person_name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
       person_last_name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
-      person_second_last_name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      person_second_last_name: ['', [Validators.pattern(/^[a-zA-Z\s]+$/)]],
       person_curp: ['', [Validators.required, Validators.pattern(/^[A-Z0-9]{18}$/)]],
       person_phone_number: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       address_street: ['', Validators.required],
@@ -59,7 +59,7 @@ export class RegistrarComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       rol_id: ['', Validators.required],
-      helmet_id: ['', Validators.required],
+      helmet_id: [''],
     });
   }
 
@@ -103,7 +103,7 @@ export class RegistrarComponent implements OnInit {
                   email: this.registerForm.get('email')?.value,
                   password: this.registerForm.get('password')?.value,
                   rol_id: this.registerForm.get('rol_id')?.value,
-                  helmet_id: this.registerForm.get('helmet_id')?.value,
+                  helmet_id: this.registerForm.get('rol_id')?.value === '1' ? null : this.registerForm.get('helmet_id')?.value,
                 };
   
                 this.apiService.register_user(userData).subscribe(

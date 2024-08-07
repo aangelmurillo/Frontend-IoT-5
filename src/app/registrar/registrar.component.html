@@ -79,7 +79,6 @@
     <mat-form-field class="custom">
       <mat-label style="font-size:22px;">Apellido Materno:</mat-label>
       <input matInput formControlName="person_second_last_name">
-      <mat-error *ngIf="registerForm.controls['person_second_last_name'].hasError('required')">Este campo es obligatorio</mat-error>
       <mat-error *ngIf="registerForm.controls['person_second_last_name'].hasError('pattern')">Solo se permiten letras</mat-error>
     </mat-form-field>
   </div>
@@ -130,7 +129,7 @@
 
   <div class="inputs">
     <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Descripcion  :</mat-label>
+      <mat-label style="font-size:22px;">Referencia:</mat-label>
       <input matInput formControlName="address_references" placeholder="Ej: Casa,Departamento,Oficina">
     </mat-form-field>
   </div>
