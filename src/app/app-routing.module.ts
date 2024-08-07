@@ -28,6 +28,7 @@ import { CamaraEmpComponent } from './camara-emp/camara-emp.component';
 import { PerfilEmpleadoComponent } from './perfil-empleado/perfil-empleado.component';
 import { VerificacionComponent } from './verificacion/verificacion.component';
 import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -176,6 +177,10 @@ const routes: Routes = [
   {
     path:'verificacion',
     component: VerificationPasswordComponent
+  },
+  {
+    path: 'changepwd',
+    component: ChangePasswordComponent
   },
   
 
