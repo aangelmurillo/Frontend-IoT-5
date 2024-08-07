@@ -1,255 +1,298 @@
 mat-toolbar {
-    background-color: #2596BE;
+  background-color: #2596BE;
+  color: white;
+  height: 80px; /* Increase the height of the toolbar */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.menu-icon mat-icon, .user-icon mat-icon {
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+}
+
+mat-sidenav-container {
+  height: 100vh;
+}
+
+mat-sidenav {
+  width: 250px;
+}
+
+.toolbar-title {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: bold;
+  font-size: 38px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.helmet-icon {
+  height: 50px;
+  margin-right: 10px;
+}
+
+mat-icon {
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+}
+
+.menu {
+  font-size: x-large !important;
+  color: white;
+  flex: 0;
+}
+
+.tama{
+ font-size: 30px ;
+}
+  
+  .user-info {
+    background-color: #006691;
     color: white;
-    height: 80px; /* Increase the height of the toolbar */
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 18px;
+  }
+  
+  .user-info mat-icon {
+    font-size: 60px;
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+  }
+  
+  .info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .info p {
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  .info p:first-child {
+    font-weight: bold;
+  }
+  
+  /* Para el icono de login, si lo tiene */
+  .login-icon {
+    font-size: 24px;
+    margin-left: auto;
+    margin-right: 20px;
+  }
+  
+  /* Si necesita ajustar el contenedor principal */
+  .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 10px 0;
+    background-color: #008080; /* Ajuste este color según su diseño */
   }
-  
-  .menu-icon mat-icon, .user-icon mat-icon {
-    font-size: 50px;
-    height: 50px;
-    width: 50px;
-  }
-  
-  mat-sidenav-container {
-    height: 100vh;
-  }
-  
-  mat-sidenav {
-    width: 250px;
-  }
-  
-  .toolbar-title {
-    font-family: 'League Spartan', sans-serif;
-    font-weight: bold;
-    font-size: 38px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-  
-  .helmet-icon {
-    height: 50px;
+
+  .user-icon {
+    width: 80px;
+    height: 40px;
+    background-color: #f0f7fa;
+    border-radius: 50%;
     margin-right: 10px;
   }
   
-  mat-icon {
-    font-size: 50px;
-    height: 50px;
-    width: 50px;
+  .info p {
+    margin: 0;
   }
   
-  .menu {
-    font-size: x-large !important;
+  .container {
+    padding: 20px;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .app-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .app-header {
+    background-color: #4DB6AC;
     color: white;
-    flex: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
   }
   
-  .tama{
-   font-size: 30px ;
+  .menu-button, .user-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
   }
-    
-    .user-info {
-      background-color: #006691;
-      color: white;
-      display: flex;
-      align-items: center;
-      padding: 10px;
-    }
-    
-    .user-info {
-      display: flex;
-      align-items: center;
-      padding: 10px 20px;
-      font-size: 18px;
-    }
-    
-    .user-info mat-icon {
-      font-size: 60px;
-      width: 60px;
-      height: 60px;
-      margin-right: 15px;
-    }
-    
-    .info {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .info p {
-      margin: 0;
-      line-height: 1.2;
-    }
-    
-    .info p:first-child {
-      font-weight: bold;
-    }
-    
-    /* Para el icono de login, si lo tiene */
-    .login-icon {
-      font-size: 24px;
-      margin-left: auto;
-      margin-right: 20px;
-    }
-    
-    /* Si necesita ajustar el contenedor principal */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      background-color: #008080; /* Ajuste este color según su diseño */
-    }
   
-    .user-icon {
-      width: 80px;
-      height: 40px;
-      background-color: #f0f7fa;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-    
-    .info p {
-      margin: 0;
-    }
-    
-    .container {
-      padding: 20px;
-    }
+  .app-title {
+    display: flex;
+    align-items: center;
+  }
+ 
   
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    
-    .app-container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    
-    .app-header {
-      background-color: #4DB6AC;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px;
-    }
-    
-    .menu-button, .user-button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 24px;
-    }
-    
-    .app-title {
-      display: flex;
-      align-items: center;
-    }
-   
-    
+
+ 
   
-   
-    
-    .user-details p {
-      margin: 0;
-    }
-    
-    .main-content {
-      padding: 20px;
-    }
-    
-    h2, h3 {
-      text-align: center;
-      font-size: 40px;
-    }
-    
-    .temperature-display {
-      background-color: #85CAFF;
-      padding: 80px;
-      text-align: center;
-      max-width: 800px; /* Ajuste este valor según sea necesario */
-      margin: 0 auto; /* Esto centrará el contenedor */
-      border-radius: 5px;
-    }
-    
-    .temperature, .kelvin {
-      margin: 5px 0;
-      font-size: 35px;
-    }
-    
-    .status {
-      text-align: center;
-      font-size: 30px;
+  .user-details p {
+    margin: 0;
+  }
   
-    }
-    
-    .danger {
-      color: red;
-      font-weight: bold;
-      font-size: 30px;
-    }
-    
-    .warning-message {
-      background-color: #2499C7;
-      color: white;
-      max-width: 800px; /* Ajuste este valor según sea necesario */
-      margin: 0 auto; /* Esto centrará el contenedor */    text-align: center;
-      border-radius: 5px;
-      padding: 80px;
-    }
-    
-    .message{
-      font-size: 30px;
+  .main-content {
+    padding: 20px;
+  }
   
-    }
+  h2, h3 {
+    text-align: center;
+    font-size: 40px;
+  }
   
-    .user-menu {
-      position: relative;
-    }
+  .temperature-display {
+    background-color: #85CAFF;
+    padding: 80px;
+    text-align: center;
+    max-width: 800px; /* Ajuste este valor según sea necesario */
+    margin: 0 auto; /* Esto centrará el contenedor */
+    border-radius: 5px;
+  }
   
-    .user-menu button {
-      cursor: pointer;
-    }
-    
-    .user-dropdown {
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 100%;
-      width: 200px;
-      margin-top: 5px;
-      background-color: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      border-radius: 4px;
-      z-index: 1000;
-    }
-    
-    .user-dropdown.show {
-      display: block;
-    }
-    
-    .user-dropdown button {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      background: none;
-      cursor: pointer;
-      text-align: left;
-      color: black;
-    }
-    
-    .user-dropdown button:hover {
-      background-color: #f5f5f5;
-    }
-    
-    .user-dropdown mat-icon {
-      margin-right: 8px;
-    }
+  .temperature, .kelvin {
+    margin: 5px 0;
+    font-size: 35px;
+  }
+  
+  .status {
+    text-align: center;
+    font-size: 30px;
+
+  }
+  
+  .danger {
+    color: red;
+    font-weight: bold;
+    font-size: 30px;
+  }
+  
+  .warning-message {
+    background-color: #40CFFF;
+    color: white;
+    max-width: 800px; /* Ajuste este valor según sea necesario */
+    margin: 0 auto; /* Esto centrará el contenedor */    text-align: center;
+    border-radius: 5px;
+    padding: 80px;
+  }
+  
+  .message{
+    font-size: 30px;
+
+  }
+
+  .user-menu {
+    position: relative;
+  }
+
+  .user-menu button {
+    cursor: pointer;
+  }
+  
+  .user-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    width: 200px;
+    margin-top: 5px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    z-index: 1000;
+  }
+  
+  .user-dropdown.show {
+    display: block;
+  }
+  
+  .user-dropdown button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    color: black;
+  }
+  
+  .user-dropdown button:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .user-dropdown mat-icon {
+    margin-right: 8px;
+  }
+
+.message-display {
+  background-color: #2499C7;
+  padding: 80px;
+  text-align: center;
+  max-width: 800px; /* Ajuste este valor según sea necesario */
+  margin: 0 auto; /* Esto centrará el contenedor */
+  border-radius: 5px;
+}
+
+.temperature, .kelvin, .message {
+  font-size: 24px;
+  margin: 0;
+}
+
+h2.status {
+  font-size: 24px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+h2.status span.danger {
+  color: red;
+  font-weight: bold;
+}
+
+h2.status span.warning {
+  color: orange;
+  font-weight: bold;
+}
+
+h2.status span.normal {
+  color: green;
+  font-weight: bold;
+}
+
+
+
+.message {
+  font-size: 18px;
+  margin: 0;
+}

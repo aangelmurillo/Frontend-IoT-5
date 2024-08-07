@@ -21,13 +21,6 @@
   </div>
   </mat-toolbar>
 
-  <br>
-
-
-
-
-
-  <br>
   <mat-sidenav-container>
     <mat-sidenav #sidenav mode="over">
       <mat-nav-list>
@@ -39,14 +32,12 @@
     <br>
 
   
-    <mat-sidenav-content>
-      <div class="camera-container" *ngIf="cameraLink">
-        <img [src]="getImageUrl()" alt="Camera Image" class="camera-image">
-        <p>Camera Link: {{ cameraLink }}</p>
-      </div>
-      <div *ngIf="!cameraLink" class="no-camera-message">
-        <p>No camera link available. Please make sure you're passing a valid camera link in the URL.</p>
-      </div>
-    </mat-sidenav-content>
+    <div class="center">
+      <h1 style="text-align: center;">Empleado: {{ name }} - Casco: {{ helmet }}  </h1>
+    </div>
+  
+    <div class="video-container">
+      <iframe width="800" height="450" src="https://ihelmet-octavio.loca.lt/" frameborder="0" allowfullscreen></iframe>
+    </div>
   </mat-sidenav-container>
   

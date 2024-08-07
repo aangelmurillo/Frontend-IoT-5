@@ -1,17 +1,17 @@
 <mat-toolbar>
-    <div class="menu-icon" (click)="toggleMenu()">
-      <mat-icon>menu</mat-icon>
+  <div class="menu-icon" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </div>
+
+  <span class="toolbar-title" routerLink="/home-emp">
+    <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
+    iHelmet
+  </span>
+
+  <div class="user-menu">
+    <div class="menu-icon" (click)="toggleUserMenu()">
+      <mat-icon>account_circle</mat-icon>
     </div>
-    
-    <span class="toolbar-title" routerLink="/home-emp">
-      <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
-      iHelmet
-    </span>
-  
-    <div class="user-menu">
-      <div class="menu-icon" (click)="toggleUserMenu()">
-        <mat-icon>account_circle</mat-icon>
-      </div>
     <div class="user-dropdown" [class.show]="isUserMenuOpen">
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
@@ -20,37 +20,30 @@
     </div>
   </div>
 </mat-toolbar>
-  
-  <mat-sidenav-container>
-    <mat-sidenav #sidenav mode="over">
-      <mat-nav-list>
-        <a mat-list-item routerLink="/home-emp">Inicio</a>
-        <a mat-list-item routerLink="/profile-emp">Perfil</a>
-      </mat-nav-list>
-    </mat-sidenav>
-  
-    <!-- Contenido Principal -->
-    <mat-sidenav-content>
-      <br>
-
-    
-
-      
-      <!-- helmet-location-map.component.html -->
-      <div class="helmet-location-container">
-        <div class="map-container">
-          <google-map #map [center]="center" [zoom]="zoom">
-            <map-marker *ngIf="markerPosition"
-              [position]="markerPosition"
-              [options]="markerOptions">
-            </map-marker>
-          </google-map>
-        </div>
-        <div class="info-container">
-          <h2>Helmet Location</h2>
-          <p>Latitude: {{ latitude }}</p>
-          <p>Longitude: {{ longitude }}</p>
-          <p>Last updated: {{ lastUpdated | date:'medium' }}</p>
-        </div>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/home-emp">Inicio</a>
+      <a mat-list-item routerLink="/profile-emp">Perfil</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <!-- Contenido Principal -->
+  <mat-sidenav-content>
+    <br>
+    <!-- helmet-location-map.component.html -->
+    <h1 style="text-align: center;">Empleado: {{ name }} - Casco: {{ helmet }} </h1>
+    <div class="helmet-location-container">
+      <div class="map-container">
+        <google-map #map [center]="center" [zoom]="zoom">
+          <map-marker *ngIf="markerPosition" [position]="markerPosition" [options]="markerOptions"></map-marker>
+        </google-map>
       </div>
-      </mat-sidenav-content>
+      <div class="info-container">
+        <h2>Helmet Location</h2>
+        <p>Latitude: {{ latitude }}</p>
+        <p>Longitude: {{ longitude }}</p>
+        <p>Altitude: {{ altitude }}</p>
+        <p>Last updated: {{ lastUpdated | date:'medium' }}</p>
+      </div>
+    </div>
+  </mat-sidenav-content>

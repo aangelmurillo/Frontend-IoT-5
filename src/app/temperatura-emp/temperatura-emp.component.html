@@ -1,17 +1,17 @@
 <mat-toolbar>
-    <div class="menu-icon" (click)="toggleMenu()">
-      <mat-icon>menu</mat-icon>
-    </div>
-    
-    <span class="toolbar-title" routerLink="/home-emp">
-      <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
-      iHelmet
-    </span>
+  <div class="menu-icon" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </div>
   
-    <div class="user-menu">
-      <div class="menu-icon" (click)="toggleUserMenu()">
-        <mat-icon>account_circle</mat-icon>
-      </div>
+  <span class="toolbar-title" routerLink="/home-emp">
+    <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
+    iHelmet
+  </span>
+
+  <div class="user-menu">
+    <div class="menu-icon" (click)="toggleUserMenu()">
+      <mat-icon>account_circle</mat-icon>
+    </div>
     <div class="user-dropdown" [class.show]="isUserMenuOpen">
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
@@ -19,36 +19,35 @@
       </button>
     </div>
   </div>
-  </mat-toolbar>
-  
-  <mat-sidenav-container>
-    <mat-sidenav #sidenav mode="over">
-      <mat-nav-list>
-        <a mat-list-item routerLink="/home-emp">Inicio</a>
-        <a mat-list-item routerLink="/profile-emp">Perfil</a>
-      </mat-nav-list>
-    </mat-sidenav>
-  
-    <!-- Contenido Principal -->
-    <mat-sidenav-content>
-  
-      <br>
-  
-      <main class="main-content">
-        <h3>Temperatura</h3>
-  
-        <div class="temperature-display">
-          <p class="temperature">{{ temperature | number:'1.2-2' }} °C / {{ temperatureF | number:'1.2-2' }} °F</p>
-          <br>
-          <p class="kelvin">{{ temperatureK | number:'1.2-2' }} °K</p>
-        </div>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/home-emp">Inicio</a>
+      <a mat-list-item routerLink="/profile-emp">Perfil</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Contenido Principal -->
+  <mat-sidenav-content>
+    <br>
+
+    <main class="main-content">
+      <h2>Usuario: {{ name }} - Casco: {{ helmet }}</h2>
+      <h3>Temperatura</h3>
+
+      <div class="temperature-display">
+        <p class="temperature">{{ temperature | number:'1.2-2' }} °C / {{ temperatureF | number:'1.2-2' }} °F</p>
         <br>
-        <p class="status">Estado: <span [ngClass]="{'danger': status === 'Peligro', 'warning': status === 'Advertencia'}">{{ status }}</span></p>
-  
-        <div class="warning-message" *ngIf="message">
-          <p class="message">{{ message }}</p>
-        </div>
-      </main>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-  
+        <p class="kelvin">{{ temperatureK | number:'1.2-2' }} °K</p>
+      </div>
+      <br>
+      <h2 class="status">Estado: <span [ngClass]="{'danger': status === 'Peligro', 'warning': status === 'Advertencia', 'normal': status === 'Normal'}">{{ status }}</span></h2>
+
+      <div class="message-display">
+        <p class="message">{{ message }}</p>
+      </div>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

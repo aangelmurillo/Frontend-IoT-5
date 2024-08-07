@@ -1,66 +1,95 @@
 <mat-toolbar>
-    <div class="menu-icon" (click)="toggleMenu()">
-      <mat-icon>menu</mat-icon>
+  <div class="menu-icon" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </div>
+
+  <span class="toolbar-title" routerLink="/home-emp">
+    <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
+    iHelmet
+  </span>
+
+  <div class="user-menu">
+    <div class="menu-icon" (click)="toggleUserMenu()">
+      <mat-icon>account_circle</mat-icon>
     </div>
-    
-    <span class="toolbar-title" routerLink="/home-emp">
-        <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
-        iHelmet
-      </span>
+    <div class="user-dropdown" [class.show]="isUserMenuOpen">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/home-emp">Inicio</a>
+      <a mat-list-item routerLink="/profile-emp">Perfil</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <br>
+    <main class="main-content">
+      <h3>Usuario: {{ name }} - Casco: {{ helmet }} <br><br> Información de sus sensores </h3>
   
-    <div class="user-menu">
-        <div class="menu-icon" (click)="toggleUserMenu()">
-          <mat-icon>account_circle</mat-icon>
-        </div>
-      <div class="user-dropdown" [class.show]="isUserMenuOpen">
-        <button mat-menu-item (click)="logout()">
-          <mat-icon>exit_to_app</mat-icon>
-          <span>Logout</span>
-        </button>
+      <div class="sensor-grid">
+        <mat-card class="sensor-card">
+          <mat-card-header>
+            <mat-card-title>Gases</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div *ngIf="mq135Value !== null && mq2Value !== null; else noGasData">
+              <div class="sensor-value" [ngClass]="{'warning': gasDetected}">
+                {{ gasDetected ? 'Detectado' : 'No detectado' }}
+              </div>
+              <div *ngIf="message.includes('gases')" class="sensor-message">
+                {{ message }}
+              </div>
+            </div>
+            <ng-template #noGasData>
+              <div class="error-message">No se encontraron datos de gases para este casco</div>
+            </ng-template>
+          </mat-card-content>
+        </mat-card>
+  
+        <mat-card class="sensor-card">
+          <mat-card-header>
+            <mat-card-title>Humedad del Suelo</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div *ngIf="fc28Value !== null; else noSoilData">
+              <div class="sensor-value" [ngClass]="{'warning': soilMoisture}">
+                {{ soilMoisture ? 'Detectada' : 'No detectada' }}
+              </div>
+              <div *ngIf="message.includes('suelo')" class="sensor-message">
+                {{ message }}
+              </div>
+            </div>
+            <ng-template #noSoilData>
+              <div class="error-message">No se encontraron datos de humedad del suelo para este casco</div>
+            </ng-template>
+          </mat-card-content>
+        </mat-card>
+  
+        <mat-card class="sensor-card">
+          <mat-card-header>
+            <mat-card-title>Humedad del Aire</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div *ngIf="humidity !== null; else noHumidityData">
+              <div class="sensor-value" [ngClass]="{'warning': humidityStatus !== 'Normal'}">
+                {{ humidity }}% - {{ humidityStatus }}
+              </div>
+              <div *ngIf="message.includes('humedad')" class="sensor-message">
+                {{ message }}
+              </div>
+            </div>
+            <ng-template #noHumidityData>
+              <div class="error-message">No se encontraron datos de humedad del aire para este casco</div>
+            </ng-template>
+          </mat-card-content>
+        </mat-card>
       </div>
-    </div>
-  </mat-toolbar>
-  
-  <mat-sidenav-container>
-    <mat-sidenav #sidenav mode="over">
-      <mat-nav-list>
-        <a mat-list-item routerLink="/home-emp">Inicio</a>
-        <a mat-list-item routerLink="/profile-emp">Perfil</a>
-      </mat-nav-list>
-    </mat-sidenav>
-  
-    <mat-sidenav-content>
-      <br>
-  
-      <main class="main-content">
-        <h3>Información de Sensores</h3>
-  
-        <div class="sensor-grid">
-            <mat-card class="sensor-card">
-              <mat-card-header>
-                <mat-card-title>Gases</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <div class="sensor-value" [ngClass]="{'alert': gasDetected}">
-                  {{ gasDetected ? 'Se han Detectado gases peligrosos' : 'No se han detectado gases' }}
-                </div>
-                <p>MQ135: {{ mq135Value }}</p>
-                <p>MQ2: {{ mq2Value }}</p>
-              </mat-card-content>
-            </mat-card>
-  
-            <mat-card class="sensor-card">
-                <mat-card-header>
-                  <mat-card-title>Tierra</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                  <div class="sensor-value" [ngClass]="{'warning': soilMoisture}">
-                    {{ soilMoisture ? 'Se ha detectado humedad' : 'No se ha detectado humedad' }}
-                  </div>
-                  <p>FC28: {{ fc28Value }}</p>
-                </mat-card-content>
-              </mat-card>
-  
-        <div class="warning-message" *ngIf="message">
-          <p class="message">{{ message }}</p>
-        </div>
+    </main>
