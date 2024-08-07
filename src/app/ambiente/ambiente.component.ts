@@ -193,16 +193,13 @@ export class AmbienteComponent implements OnInit, OnDestroy {
       this.message = ' ¡Alerta! Se han detectado los siguientes gases: CH4, C3H8, C4H10, H2, CO, C2H50H, CO2, NOx';
     }
 
-    if (this.mq135Value === 0 && this.mq2Value === 0) {
-      this.message = ' No se han detectado gases.';
+    if (this.mq135Value > 0 && this.mq2Value > 0) {
+      this.message = ' ¡Alerta! Se han detectado los siguientes gases: CO2, NH3, C6H6, CH4, C3H8, C4H10, H2, CO, C2H50H, CO2, NOx';
     }
   }
 
   private updateSoilMoistureStatus() {
-    this.soilMoisture = this.fc28Value > 0;
-    if (this.soilMoisture) {
-      this.message = ' Se ha detectado humedad en el suelo.';
-    }
+    this.soilMoisture = this.fc28Value == 0;
   }
 
   private updateHumidityStatus() {

@@ -318,3 +318,11 @@ h3 {
   color: red;
   font-weight: bold;
 }
+
+.centered-text {
+  text-align: center;
+}
+
+.sensor-card {
+  margin: 10px;
+}
