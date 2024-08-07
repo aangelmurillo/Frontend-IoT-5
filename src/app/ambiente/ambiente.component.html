@@ -49,42 +49,62 @@
 
     <main class="main-content">
       <h3>Empleado: {{ name }} - Casco: {{ helmet }} <br><br> Información de sus sensores </h3>
-
+  
       <div class="sensor-grid">
         <mat-card class="sensor-card">
           <mat-card-header>
             <mat-card-title>Gases</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <div class="sensor-value" [ngClass]="{'warning': gasDetected}">
-              {{ gasDetected ? '¡Gas Detectado!' : 'Sin gas detectado' }}
+            <div *ngIf="mq135Value !== null && mq2Value !== null; else noGasData">
+              <div class="sensor-value" [ngClass]="{'warning': gasDetected}">
+                {{ gasDetected ? 'Detectado' : 'No detectado' }}
+              </div>
+              <div *ngIf="message.includes('gases')" class="sensor-message">
+                {{ message }}
+              </div>
             </div>
-            <p>MQ135: {{ mq135Value }}</p>
-            <p>MQ2: {{ mq2Value }}</p>
+            <ng-template #noGasData>
+              <div class="error-message">No se encontraron datos de gases para este casco</div>
+            </ng-template>
           </mat-card-content>
         </mat-card>
-
+  
         <mat-card class="sensor-card">
           <mat-card-header>
             <mat-card-title>Humedad del Suelo</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <div class="sensor-value" [ngClass]="{'warning': soilMoisture}">
-              {{ soilMoisture ? 'Húmedo' : 'Seco' }}
+            <div *ngIf="fc28Value !== null; else noSoilData">
+              <div class="sensor-value" [ngClass]="{'warning': soilMoisture}">
+                {{ soilMoisture ? 'Detectada' : 'No detectada' }}
+              </div>
+              <div *ngIf="message.includes('suelo')" class="sensor-message">
+                {{ message }}
+              </div>
             </div>
-            <p>FC28: {{ fc28Value }}</p>
+            <ng-template #noSoilData>
+              <div class="error-message">No se encontraron datos de humedad del suelo para este casco</div>
+            </ng-template>
           </mat-card-content>
         </mat-card>
-
+  
         <mat-card class="sensor-card">
           <mat-card-header>
             <mat-card-title>Humedad del Aire</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <div class="sensor-value" [ngClass]="{'warning': humidityStatus !== 'Normal'}">
-              {{ humidityStatus }}
+            <div *ngIf="humidity !== null; else noHumidityData">
+              <div class="sensor-value" [ngClass]="{'warning': humidityStatus !== 'Normal'}">
+                {{ humidity }}% - {{ humidityStatus }}
+              </div>
+              <div *ngIf="message.includes('humedad')" class="sensor-message">
+                {{ message }}
+              </div>
             </div>
-            <p>Humedad: {{ humidity }}%</p>
+            <ng-template #noHumidityData>
+              <div class="error-message">No se encontraron datos de humedad del aire para este casco</div>
+            </ng-template>
           </mat-card-content>
         </mat-card>
       </div>

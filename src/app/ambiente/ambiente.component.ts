@@ -3,8 +3,8 @@ import { Subscription } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthserviceService } from '../authservice.service';
-import { Socket } from 'ngx-socket-io';
 import { ApiserviceService } from '../apiservice.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-ambiente',
@@ -12,31 +12,34 @@ import { ApiserviceService } from '../apiservice.service';
   styleUrls: ['./ambiente.component.css']
 })
 export class AmbienteComponent implements OnInit, OnDestroy {
-  message: string = '';
-  mq135Value: number = 0;
-  mq2Value: number = 0;
-  fc28Value: number = 0;
-  gasDetected: boolean = false;
-  soilMoisture: boolean = false;
-  humidity: number = 0;
-  humidityStatus: string = 'Normal';
-  helmet: any;
-  name: string = '';
-
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isUserMenuOpen = false;
-  private subscription?: Subscription;
+
   user: any;
   employeeName: string = '';
   helmetSerialNumber: string = '';
   user_employee: any;
 
+  mq135Value: number = 0;
+  mq2Value: number = 0;
+  fc28Value: number = 0;
+  humidity: number = 0;
+  gasDetected: boolean = false;
+  soilMoisture: boolean = false;
+  humidityStatus: string = 'Normal';
+  message: string = '';
+  noDataMessage: string = '';
+  name: string = '';
+  helmet: string = '';
+
+  private subscription?: Subscription;
+
   constructor(
-    private socket: Socket,
     private authService: AuthserviceService,
     private route: ActivatedRoute,
     private router: Router,
-    private api: ApiserviceService
+    private apiService: ApiserviceService,
+    private socket: Socket
   ) {}
 
   ngOnInit() {
@@ -47,12 +50,10 @@ export class AmbienteComponent implements OnInit, OnDestroy {
           this.employeeName = `${user.person.person_name} ${user.person.person_last_name}`;
           if (user.helmet) {
             this.helmetSerialNumber = user.helmet.helmet_serial_number;
-            this.socket.emit('subscribe', this.helmetSerialNumber);
-            this.getSensorData(this.helmetSerialNumber);
           }
         }
       },
-      (error) => {
+      error => {
         console.error('Error obteniendo datos del usuario:', error);
       }
     );
@@ -60,48 +61,19 @@ export class AmbienteComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
-        this.api.getUser(Number(id)).subscribe(
-          (data: any) => {
+        this.apiService.getUser(Number(id)).subscribe(
+          data => {
             this.user_employee = data;
             this.name = `${this.user_employee.person.person_name} ${this.user_employee.person.person_last_name}`;
             this.helmet = this.user_employee.helmet.helmet_serial_number;
-          },
-          error => {
-            console.error('Error obteniendo datos del usuario:', error);
-          }
-        );
-      }
-    });
-
-    this.subscription = this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        console.log('ID del usuario:', id);
-        this.api.getUser(Number(id)).subscribe(
-          (data: any) => {
-            this.user_employee = data;
-            console.log('Datos del usuario:', data);
 
             if (this.user_employee && this.user_employee.helmet) {
-              // Suscribirse al ID del casco a través del WebSocket
-              this.socket.emit('subscribe', this.user_employee.helmet.helmet_serial_number);
-
-              // Escuchar las actualizaciones de sensores
-              this.socket.fromEvent('sensor:update').subscribe((data: any) => {
-                console.log('Actualización de sensor:', data);
-                this.updateSensorValues(data.sensors);
-              });
-
-              // Manejar el caso en que no hay datos para el casco
-              this.socket.fromEvent('no_data').subscribe((data: any) => {
-                console.log('No hay datos:', data.message);
-              });
-
-              // Obtener datos iniciales de los sensores
-              this.getSensorData(this.user_employee.helmet.helmet_serial_number);
+              this.getSensorData();
+              this.setupSocketSubscription();
             }
           },
-          (error) => {
+          error => {
+            this.message = "No se encontraron datos en el empleado";
             console.error('Error obteniendo datos del usuario:', error);
           }
         );
@@ -116,95 +88,133 @@ export class AmbienteComponent implements OnInit, OnDestroy {
     this.socket.emit('unsubscribe', this.helmetSerialNumber);
   }
 
-  private sensorHandlers: { [key: string]: (valor: number) => void } = {
-    'mq135': (valor: number) => {
-      this.mq135Value = valor;
-      this.updateGasStatus();
-    },
-    'mq2': (valor: number) => {
-      this.mq2Value = valor;
-      this.updateGasStatus();
-    },
-    'fc28': (valor: number) => {
-      this.fc28Value = valor;
-      this.updateSoilMoistureStatus();
-    },
-    'humedad': (valor: number) => {
-      this.humidity = valor;
-      this.updateHumidityStatus();
-    }
-  };
+  private getSensorData() {
+    const helmetId = this.user_employee.helmet.helmet_serial_number;
 
-  private updateSensorValues(sensors: any[]) {
-    console.log('Datos de sensores recibidos:', sensors);
-    sensors.forEach((sensor: any) => {
-      const handler = this.sensorHandlers[sensor.tipo];
-      if (handler) {
-        handler(sensor.info_sensor.valor);
-      } else {
-        console.log(`No hay manejador para el tipo de sensor: ${sensor.tipo}`);
+    this.apiService.getSensorData({ helmet_id: helmetId, sensor_type: 'mq135' }).subscribe(
+      data => {
+        this.mq135Value = data.latest_value || 0;
+        this.updateGasStatus();
+      },
+      error => {
+        this.message = "No se encontraron datos del sensor (mq135)";
+        console.error('Error obteniendo datos del sensor mq135:', error);
+      }
+    );
+
+    this.apiService.getSensorData({ helmet_id: helmetId, sensor_type: 'mq2' }).subscribe(
+      data => {
+        this.mq2Value = data.latest_value || 0;
+        this.updateGasStatus();
+      },
+      error => {
+        console.error('Error obteniendo datos del sensor mq2:', error);
+        this.message = "No se encontraron datos del sensor (mq2)";
+      }
+    );
+
+    this.apiService.getSensorData({ helmet_id: helmetId, sensor_type: 'fc28' }).subscribe(
+      data => {
+        this.fc28Value = data.latest_value || 0;
+        this.updateSoilMoistureStatus();
+      },
+      error => {
+        console.error('Error obteniendo datos del sensor fc28:', error);
+        this.message = "No se encontraron datos del sensor (fc28)";
+      }
+    );
+
+    this.apiService.getSensorData({ helmet_id: helmetId, sensor_type: 'humedad' }).subscribe(
+      data => {
+        this.humidity = data.latest_value || 0;
+        this.updateHumidityStatus();
+      },
+      error => {
+        console.error('Error obteniendo datos del sensor humedad:', error);
+        this.message = "No se encontraron datos del sensor (humedad)";
+      }
+    );
+  }
+
+  private setupSocketSubscription() {
+    this.socket.emit('subscribe', this.user_employee.helmet.helmet_serial_number);
+  
+    this.socket.fromEvent('sensor:update').subscribe((data: any) => {
+      if (!data.sensors || data.sensors.length === 0) {
+        this.noDataMessage = 'No hay datos disponibles para este casco';
+        return;
+      }
+  
+      this.noDataMessage = '';
+  
+      const mq135Sensor = data.sensors.find((sensor: any) => sensor.tipo === 'mq135');
+      const mq2Sensor = data.sensors.find((sensor: any) => sensor.tipo === 'mq2');
+      const fc28Sensor = data.sensors.find((sensor: any) => sensor.tipo === 'fc28');
+      const humiditySensor = data.sensors.find((sensor: any) => sensor.tipo === 'humedad');
+  
+      if (mq135Sensor) {
+        this.mq135Value = mq135Sensor.info_sensor.valor || 0;
+        this.updateGasStatus();
+      }
+  
+      if (mq2Sensor) {
+        this.mq2Value = mq2Sensor.info_sensor.valor || 0;
+        this.updateGasStatus();
+      }
+  
+      if (fc28Sensor) {
+        this.fc28Value = fc28Sensor.info_sensor.valor || 0;
+        this.updateSoilMoistureStatus();
+      }
+  
+      if (humiditySensor) {
+        this.humidity = humiditySensor.info_sensor.valor || 0;
+        this.updateHumidityStatus();
       }
     });
+  
+    this.socket.fromEvent('no_data').subscribe((data: any) => {
+      console.log(data.message);
+      this.noDataMessage = 'No hay datos disponibles para este casco';
+      this.getSensorData();
+    });
   }
+  
 
   private updateGasStatus() {
     this.gasDetected = this.mq135Value > 0 || this.mq2Value > 0;
-    if (this.gasDetected) {
-      this.message += ' ¡Alerta! Se ha detectado gas.';
+    this.message = '';
+
+    if (this.mq135Value > 0) {
+      this.message = ' ¡Alerta! Se han detectado los siguientes gases: CO2, NH3, C6H6';
+    }
+
+    if (this.mq2Value > 0) {
+      this.message = ' ¡Alerta! Se han detectado los siguientes gases: CH4, C3H8, C4H10, H2, CO, C2H50H, CO2, NOx';
+    }
+
+    if (this.mq135Value === 0 && this.mq2Value === 0) {
+      this.message = ' No se han detectado gases.';
     }
   }
 
   private updateSoilMoistureStatus() {
     this.soilMoisture = this.fc28Value > 0;
     if (this.soilMoisture) {
-      this.message += ' Se ha detectado humedad en el suelo.';
+      this.message = ' Se ha detectado humedad en el suelo.';
     }
   }
 
   private updateHumidityStatus() {
     if (this.humidity > 70) {
       this.humidityStatus = 'Alta';
-      this.message += ' La humedad es alta.';
+      this.message = ' La humedad es alta.';
     } else if (this.humidity < 30) {
       this.humidityStatus = 'Baja';
-      this.message += ' La humedad es baja.';
+      this.message = ' La humedad es baja.';
     } else {
       this.humidityStatus = 'Normal';
     }
-  }
-
-  private getSensorData(helmetId: string) {
-    this.api.getSensorData({ helmet_id: helmetId, sensor_type: 'mq135' }).subscribe(
-      (data: any) => {
-        this.mq135Value = data.latest_value;
-        this.updateGasStatus();
-      },
-      (error) => console.error('Error obteniendo datos del sensor mq135:', error)
-    );
-
-    this.api.getSensorData({ helmet_id: helmetId, sensor_type: 'mq2' }).subscribe(
-      (data: any) => {
-        this.mq2Value = data.latest_value;
-        this.updateGasStatus();
-      },
-      (error) => console.error('Error obteniendo datos del sensor mq2:', error)
-    );
-
-    this.api.getSensorData({ helmet_id: helmetId, sensor_type: 'fc28' }).subscribe(
-      (data: any) => {
-        this.fc28Value = data.latest_value;
-        this.updateSoilMoistureStatus(); // Asegúrate de llamar a esta función para actualizar el estado
-      },
-      (error) => console.error('Error obteniendo datos del sensor fc28:', error)
-    );
-
-    this.api.getSensorData({ helmet_id: helmetId, sensor_type: 'humedad' }).subscribe(
-      (data: any) => {
-        this.humidity = data.latest_value;
-        this.updateHumidityStatus();
-      },
-      (error) => console.error('Error obteniendo datos del sensor humedad:', error)
-    );
   }
 
   toggleMenu() {

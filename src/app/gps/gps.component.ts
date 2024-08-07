@@ -22,9 +22,9 @@ export class GpsComponent implements OnInit, OnDestroy {
   helmetSerialNumber: any;
   user_employee: any;
 
-  latitude: number | null = null;
-  longitude: number | null = null;
-  altitude: number | null = null;
+  latitude: string | null = null;
+  longitude: string | null = null;
+  altitude: string | null = null;
   lastUpdated: Date | null = null;
   helmet: any;
   name: string = '';
@@ -68,27 +68,17 @@ export class GpsComponent implements OnInit, OnDestroy {
             this.user_employee = data;
             this.name = `${this.user_employee.person.person_name} ${this.user_employee.person.person_last_name}`;
             this.helmet = this.user_employee.helmet.helmet_serial_number;
-          },
-          error => {
-            console.error('Error obteniendo datos del usuario:', error);
-          }
-        );
-      }
-    });
-
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.apiService.getUser(Number(id)).subscribe(
-          (data: any) => {
-            this.user_employee = data;
 
             if (this.user_employee && this.user_employee.helmet) {
               this.getSensorData(); // Llamada inicial para obtener datos del sensor
               this.setupSocketSubscription(); // Configura la suscripción al WebSocket
             }
           },
-          (error) => {
+          error => {
+            this.latitude = "No se encontraron datos en el empleado";
+            this.altitude = "No se encontraron datos en el empleado";
+            this.longitude = "No se encontraron datos en el empleado";
+            this.lastUpdated = new Date();
             console.error('Error obteniendo datos del usuario:', error);
           }
         );
@@ -105,27 +95,38 @@ export class GpsComponent implements OnInit, OnDestroy {
 
   private getSensorData() {
     const helmetId = this.user_employee.helmet.helmet_serial_number;
-    
+
     this.apiService.getSensorData({ helmet_id: helmetId, sensor_type: 'gps-latitud' }).subscribe(
       (data: any) => {
-        this.latitude = data.latest_value;
+        this.latitude = data.latest_value || "No se encontraron datos del sensor (latitud)";
         this.lastUpdated = data.timestamp;
         this.updateMapCenter();
       },
-      (error) => console.error('Error obteniendo datos del sensor (latitud):', error)
+      (error) => {
+        this.latitude = "No se encontraron datos del sensor (latitud)";
+        console.error('Error obteniendo datos del sensor (latitud):', error);
+      }
     );
 
     this.apiService.getSensorData({ helmet_id: helmetId, sensor_type: 'gps-longitud' }).subscribe(
       (data: any) => {
-        this.longitude = data.latest_value;
+        this.longitude = data.latest_value || "No se encontraron datos del sensor (longitud)";
         this.updateMapCenter();
       },
-      (error) => console.error('Error obteniendo datos del sensor (longitud):', error)
+      (error) => {
+        this.longitude = "No se encontraron datos del sensor (longitud)";
+        console.error('Error obteniendo datos del sensor (longitud):', error);
+      }
     );
 
     this.apiService.getSensorData({ helmet_id: helmetId, sensor_type: 'altitud' }).subscribe(
-      (data: any) => this.altitude = data.latest_value,
-      (error) => console.error('Error obteniendo datos del sensor (altitud):', error)
+      (data: any) => {
+        this.altitude = data.latest_value || "No se encontraron datos del sensor (altitud)";
+      },
+      (error) => {
+        this.altitude = "No se encontraron datos del sensor (altitud)";
+        console.error('Error obteniendo datos del sensor (altitud):', error);
+      }
     );
   }
 
@@ -138,14 +139,14 @@ export class GpsComponent implements OnInit, OnDestroy {
       const altitudeSensor = data.sensors.find((sensor: any) => sensor.tipo === 'altitud');
 
       if (latitudeSensor && longitudeSensor) {
-        this.latitude = latitudeSensor.info_sensor.valor;
-        this.longitude = longitudeSensor.info_sensor.valor;
+        this.latitude = latitudeSensor.info_sensor.valor || "No se encontraron datos del sensor (latitud)";
+        this.longitude = longitudeSensor.info_sensor.valor || "No se encontraron datos del sensor (longitud)";
         this.lastUpdated = new Date(data.timestamp);
         this.updateMapCenter();
       }
 
       if (altitudeSensor) {
-        this.altitude = altitudeSensor.info_sensor.valor;
+        this.altitude = altitudeSensor.info_sensor.valor || "No se encontraron datos del sensor (altitud)";
       }
     });
 
@@ -156,9 +157,9 @@ export class GpsComponent implements OnInit, OnDestroy {
   }
 
   private updateMapCenter() {
-    if (this.latitude !== null && this.longitude !== null) {
-      this.center = { lat: this.latitude, lng: this.longitude };
-      this.markerPosition = { lat: this.latitude, lng: this.longitude };
+    if (this.latitude !== null && this.longitude !== null && this.latitude !== "No se encontraron datos del sensor (latitud)" && this.longitude !== "No se encontraron datos del sensor (longitud)") {
+      this.center = { lat: parseFloat(this.latitude), lng: parseFloat(this.longitude) };
+      this.markerPosition = { lat: parseFloat(this.latitude), lng: parseFloat(this.longitude) };
       this.map.panTo(this.center);
     }
   }
