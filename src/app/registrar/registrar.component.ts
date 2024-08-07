@@ -136,7 +136,7 @@ export class RegistrarComponent implements OnInit {
   
 
   onBackToHome() {
-    this.router.navigate(['/empleados']);
+    this.router.navigate(['/home']);
   }
 
   loadAvailableHelmets() {

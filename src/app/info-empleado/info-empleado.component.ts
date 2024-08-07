@@ -218,7 +218,7 @@ export class InfoEmpleadoComponent implements OnInit {
   }
 
   onBackToHome() {
-    this.router.navigate(['/empleados']);
+    this.router.navigate(['/home']);
   }
 
   async loadAvailableHelmets() {
