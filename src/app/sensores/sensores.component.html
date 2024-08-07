@@ -8,8 +8,16 @@
     iHelmet
   </span>
 
-  <div class="menu-icon">
+  <div class="user-menu">
+    <button mat-icon-button (click)="toggleUserMenu()">
       <mat-icon>account_circle</mat-icon>
+    </button>
+    <div class="user-dropdown" [class.show]="isUserMenuOpen">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </div>
   </div>
 </mat-toolbar>
 

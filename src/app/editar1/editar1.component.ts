@@ -15,6 +15,8 @@ export class Editar1Component implements OnInit {
   user: any;
 
   users: any[] = [];
+  
+  isUserMenuOpen = false;
 
   constructor(
     private userService: ApiserviceService,
@@ -54,5 +56,15 @@ export class Editar1Component implements OnInit {
 
   toggleMenu() {
     this.sidenav.toggle();
+  }
+
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  logout() {
+    this.authService.logout();
+        this.router.navigate(['/']);
+        this.isUserMenuOpen = false;
   }
 }

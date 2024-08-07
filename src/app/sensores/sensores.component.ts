@@ -19,6 +19,7 @@ export class SensoresComponent implements OnInit {
   helmetSerialNumber: string = '';
   name: string = '';
   helmet: any;
+  isUserMenuOpen = false;
 
   constructor(
     private router: Router,
@@ -106,5 +107,15 @@ export class SensoresComponent implements OnInit {
 
   camara() {
     this.router.navigate(['/sensores', this.userId, 'camara']);
+  }
+
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+    this.isUserMenuOpen = false;
   }
 }
