@@ -104,9 +104,12 @@ body, html {
   }
   
   .error-message {
+    color: #f44336;
+    font-size: 0.875rem;
+    margin-top: 8px;
+    margin-bottom: 8px;
     text-align: center;
-    color: red;
-    margin-top: 20px;
+    font-weight: 500;
   }
   
   /* Media queries para responsividad */
@@ -114,6 +117,7 @@ body, html {
     button[mat-raised-button] {
       padding: 16px 32px;
       font-size: 1rem;
+      margin-top: 8px;
     }
   }
   

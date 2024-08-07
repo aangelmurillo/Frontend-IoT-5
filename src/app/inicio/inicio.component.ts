@@ -11,6 +11,7 @@ import { AuthserviceService } from '../authservice.service';
 export class InicioComponent implements OnInit {
   panelForm: FormGroup;
   errorMessage: string | null = null;
+  hidePassword = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,13 +45,21 @@ export class InicioComponent implements OnInit {
           this.redirectBasedOnRole();
         },
         error => {
-  
-          this.errorMessage = 'Error al iniciar sesión. Por favor, inténtelo de nuevo.';
+          if (error.error && error.error.message) {
+            this.errorMessage = error.error.message;
+          } else {
+            this.errorMessage = 'Error al iniciar sesión. Por favor, inténtelo de nuevo.';
+          }
         }
       );
     } else {
-      this.errorMessage = 'Por favor, complete todos los campos correctamente.';
+      this.errorMessage = 'Por favor, complete todos los campos.';
     }
+  }
+
+  togglePasswordVisibility(event: MouseEvent) {
+    event.preventDefault();
+    this.hidePassword = !this.hidePassword;
   }
 
   private redirectBasedOnRole() {
@@ -61,9 +70,6 @@ export class InicioComponent implements OnInit {
           this.router.navigate(['/home']);
         } else if (role === 'emplo') {
           this.router.navigate(['/home-emp']);
-        } else {
-  
-          this.errorMessage = 'Error al determinar el rol del usuario.';
         }
       },
       error => {
