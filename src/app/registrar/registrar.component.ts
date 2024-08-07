@@ -17,6 +17,7 @@ export class RegistrarComponent implements OnInit {
   availableHelmets: any[] = [];
   user: any;
   isUserMenuOpen = false;
+  errorMessages: string [] = []; //esto quiere decir que es un arreglo de strings
 
   ngOnInit() {
     this.loadAvailableHelmets();
@@ -26,7 +27,7 @@ export class RegistrarComponent implements OnInit {
     });
 
     this.registerForm.get('rol_id')?.valueChanges.subscribe(value => {
-      if (value === '1') { // Assuming '1' is for Administrador
+      if (value === '1') { //Aqui se asume que el rol de administrador es 1
         this.registerForm.get('helmet_id')?.disable();
       } else {
         this.registerForm.get('helmet_id')?.enable();
@@ -64,74 +65,92 @@ export class RegistrarComponent implements OnInit {
   }
 
   onSubmit() {
-    try {
-      if (this.registerForm.valid) {
-        const personData = {
-          person_name: this.registerForm.get('person_name')?.value,
-          person_last_name: this.registerForm.get('person_last_name')?.value,
-          person_second_last_name: this.registerForm.get('person_second_last_name')?.value,
-          person_curp: this.registerForm.get('person_curp')?.value,
-          person_phone_number: this.registerForm.get('person_phone_number')?.value,
-        };
-  
-        this.apiService.register(personData).subscribe(
-          personResponse => {
-            console.log('Person registered successfully', personResponse);
-            alert('Registro de persona exitosa');
+    this.errorMessages = []; // Limpiar errores previos
+    if (this.registerForm.valid) {
+      const personData = {
+        person_name: this.registerForm.get('person_name')?.value,
+        person_last_name: this.registerForm.get('person_last_name')?.value,
+        person_second_last_name: this.registerForm.get('person_second_last_name')?.value,
+        person_curp: this.registerForm.get('person_curp')?.value,
+        person_phone_number: this.registerForm.get('person_phone_number')?.value,
+      };
 
-            const addressData = {
-              address_references: this.registerForm.get('address_references')?.value,
-              address_street: this.registerForm.get('address_street')?.value,
-              address_exterior_number: this.registerForm.get('address_exterior_number')?.value,
-              address_interior_number: this.registerForm.get('address_interior_number')?.value,
-              address_neighborhood: this.registerForm.get('address_neighborhood')?.value,
-              address_zip_code: this.registerForm.get('address_zip_code')?.value,
-              address_city: this.registerForm.get('address_city')?.value,
-              address_state: this.registerForm.get('address_state')?.value,
-              address_country: this.registerForm.get('address_country')?.value,
-              person_id: personResponse.id,
-            };
-  
-            this.apiService.register_address(addressData).subscribe(
-              addressResponse => {
-                console.log('Address registered successfully', addressResponse);
-                alert('Registro de direccion exitoso');
-
-                const userData = {
-                  person_id: personResponse.id,
-                  user_name: this.registerForm.get('user_name')?.value,
-                  email: this.registerForm.get('email')?.value,
-                  password: this.registerForm.get('password')?.value,
-                  rol_id: this.registerForm.get('rol_id')?.value,
-                  helmet_id: this.registerForm.get('rol_id')?.value === '1' ? null : this.registerForm.get('helmet_id')?.value,
-                };
-  
-                this.apiService.register_user(userData).subscribe(
-                  userResponse => {
-                    console.log('User registered successfully', userResponse);
-                    alert('Registro de usuario. Por favor, verifica tu cuenta.');
-                  this.router.navigate(['/verificacion', userResponse.id, userResponse.email]);
-                  },
-                  error => {
-                    console.error('Error registering user', error);
-                  }
-                );
-              },
-              error => {
-                console.error('Error registering address', error);
-              }
-            );
-          },
-          error => {
-            console.error('Error registering person', error);
+      this.apiService.register(personData).subscribe(
+        personResponse => {
+          console.log('Person registered successfully', personResponse);
+          this.registerAddress(personResponse.id);
+        },
+        error => {
+          console.error('Error registering person', error);
+          if (error.error && error.error.message) {
+            this.errorMessages.push(error.error.message);
           }
-        );
-      } else {
-        console.error('Form is invalid');
-      }
-    } catch (error) {
-      console.error('An unexpected error occurred', error);
+        }
+      );
+    } else {
+      this.errorMessages.push('Por favor, complete todos los campos requeridos correctamente.');
     }
+  }
+
+  registerAddress(personId: number) {
+    const addressData = {
+      address_references: this.registerForm.get('address_references')?.value,
+      address_street: this.registerForm.get('address_street')?.value,
+      address_exterior_number: this.registerForm.get('address_exterior_number')?.value,
+      address_interior_number: this.registerForm.get('address_interior_number')?.value,
+      address_neighborhood: this.registerForm.get('address_neighborhood')?.value,
+      address_zip_code: this.registerForm.get('address_zip_code')?.value,
+      address_city: this.registerForm.get('address_city')?.value,
+      address_state: this.registerForm.get('address_state')?.value,
+      address_country: this.registerForm.get('address_country')?.value,
+      person_id: personId,
+    };
+
+    this.apiService.register_address(addressData).subscribe(
+      addressResponse => {
+        console.log('Address registered successfully', addressResponse);
+        this.registerUser(personId);
+      },
+      error => {
+        console.error('Error registering address', error);
+        this.apiService.deletePerson(personId).subscribe(
+          () => console.log('Person eliminada por error en registro de dirección'),
+          error => console.error('Error deleting person', error)
+        );
+        if (error.error && error.error.message) {
+          this.errorMessages.push(error.error.message);
+        }
+      }
+    );
+  }
+
+  registerUser(personId: number) {
+    const userData = {
+      person_id: personId,
+      user_name: this.registerForm.get('user_name')?.value,
+      email: this.registerForm.get('email')?.value,
+      password: this.registerForm.get('password')?.value,
+      rol_id: this.registerForm.get('rol_id')?.value,
+      helmet_id: this.registerForm.get('rol_id')?.value === '1' ? null : this.registerForm.get('helmet_id')?.value,
+    };
+
+    this.apiService.register_user(userData).subscribe(
+      userResponse => {
+        console.log('User registered successfully', userResponse);
+        alert('Usuario registrado. Favor, de verificar la cuenta.');
+        this.router.navigate(['/verificacion', userResponse.id, userResponse.email]);
+      },
+      error => {
+        console.error('Error al registrar usario', error);
+        this.apiService.deletePerson(personId).subscribe(
+          () => console.log('Person eliminada por error en registro de usuario'),
+          error => console.error('Error deleting person', error)
+        );
+        if (error.error && error.error.message) {
+          this.errorMessages.push(error.error.message);
+        }
+      }
+    );
   }
   
 
