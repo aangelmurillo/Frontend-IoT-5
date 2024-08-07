@@ -28,17 +28,16 @@ export class EmpleadosComponent {
     this.loadUsers();
     this.authService.getCurrentUser().subscribe(user => {
       this.user = user;
-      console.log('User: ', user);
     });
   }
   loadUsers() {
     this.userService.getUsers().subscribe(
       (data) => {
-        console.log("Datos del we ", data)
+
         this.users = data;
       },
       (error) => {
-        console.error('Error fetching users', error);
+
       }
     );
   }

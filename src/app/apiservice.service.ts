@@ -21,7 +21,6 @@ export class ApiserviceService {
 
     if (needsAuth) {
       const token = this.cookieService.get('auth_token');
-      console.log('Token in headers:', token);
       if (token) {
         headers = headers.set('Authorization', `Bearer ${token}`);
       } else {

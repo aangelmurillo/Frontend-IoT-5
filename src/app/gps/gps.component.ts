@@ -54,9 +54,6 @@ export class GpsComponent implements OnInit, OnDestroy {
             this.helmetSerialNumber = user.helmet.helmet_serial_number;
           }
         }
-      },
-      (error) => {
-        console.error('Error obteniendo datos del usuario:', error);
       }
     );
 
@@ -79,7 +76,6 @@ export class GpsComponent implements OnInit, OnDestroy {
             this.altitude = "No se encontraron datos en el empleado";
             this.longitude = "No se encontraron datos en el empleado";
             this.lastUpdated = new Date();
-            console.error('Error obteniendo datos del usuario:', error);
           }
         );
       }
@@ -104,7 +100,6 @@ export class GpsComponent implements OnInit, OnDestroy {
       },
       (error) => {
         this.latitude = "No se encontraron datos del sensor (latitud)";
-        console.error('Error obteniendo datos del sensor (latitud):', error);
       }
     );
 
@@ -115,7 +110,6 @@ export class GpsComponent implements OnInit, OnDestroy {
       },
       (error) => {
         this.longitude = "No se encontraron datos del sensor (longitud)";
-        console.error('Error obteniendo datos del sensor (longitud):', error);
       }
     );
 
@@ -125,7 +119,6 @@ export class GpsComponent implements OnInit, OnDestroy {
       },
       (error) => {
         this.altitude = "No se encontraron datos del sensor (altitud)";
-        console.error('Error obteniendo datos del sensor (altitud):', error);
       }
     );
   }
@@ -151,7 +144,6 @@ export class GpsComponent implements OnInit, OnDestroy {
     });
 
     this.socket.fromEvent('no_data').subscribe((data: any) => {
-      console.log(data.message);
       this.getSensorData();
     });
   }

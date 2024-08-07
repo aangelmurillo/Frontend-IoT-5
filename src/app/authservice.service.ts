@@ -22,19 +22,17 @@ export class AuthserviceService {
     return new Promise((resolve, reject) => {
       const token = this.cookieService.get('auth_token');
       if (token) {
-        console.log('Token encontrado en cookies:', token);
         this.loadUserInfo().subscribe(
           user => {
-            console.log('Usuario cargado:', user);
+  
             resolve();
           },
           error => {
-            console.error('Error al cargar el usuario:', error);
+  
             reject(error);
           }
         );
       } else {
-        console.log('No se encontró token en cookies');
         resolve();
       }
     });
@@ -44,7 +42,7 @@ export class AuthserviceService {
     return this.apiService.login(credentials).pipe(
       switchMap(response => {
         if (response && response.token) {
-          console.log('Token recibido:', response.token);
+
           this.cookieService.set('auth_token', response.token.token, { expires: 1, path: '/' });
           return this.loadUserInfo();
         }
@@ -65,11 +63,9 @@ export class AuthserviceService {
   loadUserInfo(): Observable<any> {
     return this.apiService.userinfo().pipe(
       tap(user => {
-        console.log('Información completa del usuario:', user);
         this.currentUserSubject.next(user);
       }),
       catchError(error => {
-        console.error('Error al cargar la información del usuario', error);
         this.logout();
         return throwError(error);
       })
@@ -83,9 +79,7 @@ export class AuthserviceService {
   getUserRole(): Observable<string | null> {
     return this.currentUser$.pipe(
       map(user => {
-        console.log('Usuario completo:', user);
         const rolSlug = user?.rol?.rol_slug;
-        console.log('Rol del usuario:', rolSlug);
         return rolSlug ?? null;
       })
     );

@@ -47,9 +47,6 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
             this.helmetSerialNumber = user.helmet.helmet_serial_number;
           }
         }
-      },
-      error => {
-        console.error('Error obteniendo datos del usuario:', error);
       }
     );
 
@@ -66,9 +63,6 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
               this.getSensorData(); // Llamada inicial para obtener datos del sensor
               this.setupSocketSubscription(); // Configura la suscripción al WebSocket
             }
-          },
-          error => {
-            console.error('Error obteniendo datos del usuario:', error);
           }
         );
       }
@@ -84,11 +78,9 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
   private getSensorData() {
     this.apiService.getSensorData({ helmet_id: this.user_employee.helmet.helmet_serial_number, sensor_type: 'temperatura' }).subscribe(
       (data: any) => {
-        console.log('Datos del sensor:', data);
         this.updateTemperature(data.latest_value !== undefined ? data.latest_value : null);
       },
       error => {
-        console.error('Error obteniendo datos del sensor:', error);
         this.updateTemperature(null);
       }
     );

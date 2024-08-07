@@ -27,7 +27,6 @@ export class InicioComponent implements OnInit {
     this.authService.checkAuthStatus().then(() => {
       this.redirectBasedOnRole();
     }).catch(error => {
-      console.error('Error al verificar el estado de autenticación:', error);
     });
   }
 
@@ -41,16 +40,15 @@ export class InicioComponent implements OnInit {
 
       this.authService.login(formData).subscribe(
         (user) => {
-          console.log('Usuario logueado e información cargada:', user);
+  
           this.redirectBasedOnRole();
         },
         error => {
-          console.error('Error al loguear usuario', error);
+  
           this.errorMessage = 'Error al iniciar sesión. Por favor, inténtelo de nuevo.';
         }
       );
     } else {
-      console.error('Formulario inválido');
       this.errorMessage = 'Por favor, complete todos los campos correctamente.';
     }
   }
@@ -58,18 +56,18 @@ export class InicioComponent implements OnInit {
   private redirectBasedOnRole() {
     this.authService.getUserRole().subscribe(
       role => {
-        console.log('Rol recibido:', role);
+
         if (role === 'admin') {
           this.router.navigate(['/home']);
         } else if (role === 'emplo') {
           this.router.navigate(['/inicio']);
         } else {
-          console.error('Rol de usuario desconocido:', role);
+  
           this.errorMessage = 'Error al determinar el rol del usuario.';
         }
       },
       error => {
-        console.error('Error al obtener el rol del usuario', error);
+
         this.errorMessage = 'Error al determinar el rol del usuario.';
       }
     );

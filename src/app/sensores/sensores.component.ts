@@ -30,7 +30,7 @@ export class SensoresComponent implements OnInit {
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(user => {
       this.user = user;
-      console.log('User: ', user);
+      
       if (user) {
         this.employeeName = `${user.person.person_name} ${user.person.person_last_name}`;
         if (user.helmet) {
@@ -48,7 +48,7 @@ export class SensoresComponent implements OnInit {
             this.helmet = data.helmet.helmet_serial_number;
           },
           error => {
-            console.error('Error obteniendo datos del usuario:', error);
+            
           }
         );
       }
@@ -59,14 +59,14 @@ export class SensoresComponent implements OnInit {
       this.userId = +id;
       this.loadUserData();
     } else {
-      console.error('User ID is not provided in the URL');
+      
     }
   }
 
   async loadUserData() {
     try {
       const userData = await this.apiService.getUser(this.userId).toPromise();
-      console.log('User Data:', userData);
+      
       if (userData) {
         this.employeeName = `${userData.person.person_name} ${userData.person.person_last_name}`;
         if (userData.helmet) {
@@ -74,7 +74,7 @@ export class SensoresComponent implements OnInit {
         }
       }
     } catch (error) {
-      console.error('Error loading user data', error);
+      
     }
   }
 
@@ -84,7 +84,7 @@ export class SensoresComponent implements OnInit {
       // Filtrar el casco asignado de la lista de disponibles
       this.availableHelmets = this.availableHelmets.filter(helmet => helmet.id !== this.assignedHelmet?.id);
     } catch (error) {
-      console.error('Error loading available helmets', error);
+      
     }
   }
 

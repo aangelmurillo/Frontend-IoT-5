@@ -54,7 +54,7 @@ export class AmbienteComponent implements OnInit, OnDestroy {
         }
       },
       error => {
-        console.error('Error obteniendo datos del usuario:', error);
+        
       }
     );
 
@@ -74,7 +74,7 @@ export class AmbienteComponent implements OnInit, OnDestroy {
           },
           error => {
             this.message = "No se encontraron datos en el empleado";
-            console.error('Error obteniendo datos del usuario:', error);
+            
           }
         );
       }
@@ -98,7 +98,7 @@ export class AmbienteComponent implements OnInit, OnDestroy {
       },
       error => {
         this.message = "No se encontraron datos del sensor (mq135)";
-        console.error('Error obteniendo datos del sensor mq135:', error);
+        
       }
     );
 
@@ -108,7 +108,7 @@ export class AmbienteComponent implements OnInit, OnDestroy {
         this.updateGasStatus();
       },
       error => {
-        console.error('Error obteniendo datos del sensor mq2:', error);
+        
         this.message = "No se encontraron datos del sensor (mq2)";
       }
     );
@@ -119,7 +119,7 @@ export class AmbienteComponent implements OnInit, OnDestroy {
         this.updateSoilMoistureStatus();
       },
       error => {
-        console.error('Error obteniendo datos del sensor fc28:', error);
+        
         this.message = "No se encontraron datos del sensor (fc28)";
       }
     );
@@ -130,7 +130,7 @@ export class AmbienteComponent implements OnInit, OnDestroy {
         this.updateHumidityStatus();
       },
       error => {
-        console.error('Error obteniendo datos del sensor humedad:', error);
+        
         this.message = "No se encontraron datos del sensor (humedad)";
       }
     );
@@ -174,7 +174,7 @@ export class AmbienteComponent implements OnInit, OnDestroy {
     });
   
     this.socket.fromEvent('no_data').subscribe((data: any) => {
-      console.log(data.message);
+      
       this.noDataMessage = 'No hay datos disponibles para este casco';
       this.getSensorData();
     });
