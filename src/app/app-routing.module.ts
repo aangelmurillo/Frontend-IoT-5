@@ -29,6 +29,7 @@ import { PerfilEmpleadoComponent } from './perfil-empleado/perfil-empleado.compo
 import { VerificacionComponent } from './verificacion/verificacion.component';
 import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { InfEmployeeComponent } from './inf-employee/inf-employee.component';
 
 const routes: Routes = [
   {
@@ -118,7 +119,14 @@ const routes: Routes = [
   {
     path: 'sensor-record',
     component: SensorHistoryComponent
-  },  
+  }, 
+  {
+    path: 'inf-employee',
+    component: InfEmployeeComponent ,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin'] }
+  }, 
+
 
 
 

@@ -60,6 +60,7 @@ import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component';
 import { SuccessDialogComponent } from './success-dialog/success-dialog.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { DialogPsdComponent } from './dialog-psd/dialog-psd.component';
+import { InfEmployeeComponent } from './inf-employee/inf-employee.component';
 
 const config: SocketIoConfig = { url: environment.wsUrl, options: {
   transports: ['websocket']
@@ -99,6 +100,7 @@ const config: SocketIoConfig = { url: environment.wsUrl, options: {
     SuccessDialogComponent,
     ChangePasswordComponent,
     DialogPsdComponent,
+    InfEmployeeComponent,
     
   ],
   imports: [
