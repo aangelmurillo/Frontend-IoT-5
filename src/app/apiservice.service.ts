@@ -161,4 +161,8 @@ export class ApiserviceService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.delete(`${this.apiUrl}/users/${userId}`, { headers },);
   }
+
+  deletePerson(personId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/people/${personId}`, { headers: this.getHeaders(true) });
+  }
 }
