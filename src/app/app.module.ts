@@ -16,7 +16,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 
 
-
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -58,6 +57,7 @@ import { VerificacionComponent } from './verificacion/verificacion.component';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component';
+import { SuccessDialogComponent } from './success-dialog/success-dialog.component';
 
 const config: SocketIoConfig = { url: environment.wsUrl, options: {
   transports: ['websocket']
@@ -94,6 +94,7 @@ const config: SocketIoConfig = { url: environment.wsUrl, options: {
     PerfilEmpleadoComponent,
     VerificacionComponent,
     PerfilAdminComponent,
+    SuccessDialogComponent,
     
   ],
   imports: [

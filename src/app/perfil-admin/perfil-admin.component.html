@@ -48,9 +48,10 @@
   
       <div style="text-align: center; font-family: 'Alegreya Sans', sans-serif;">
         <h1 style="font-size: 30px; font-weight: bold;">
-          Perfil de Usuario
+          Perfil del Usuario:
         </h1>
       </div>
+      <br>
   
       <div class="user-profile-grid">
         <div class="input-group">
@@ -116,16 +117,22 @@
             <h1 style="font-size: 30px; font-weight: bold;">
             Direccion:
             </h1>
-          </div>        <div class="input-group full-width">
-          <mat-form-field class="custom">
-            <mat-label>Seleccionar Dirección:</mat-label>
-            <mat-select [(ngModel)]="selectedAddress" (selectionChange)="onAddressChange($event.value)">
-              <mat-option *ngFor="let address of addresses" [value]="address">
-                {{ address.address_street }}, {{ address.address_exterior_number }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+          </div>   
+
+          <br>
+
+          <div class="input-container">
+            <div class="input-wrapper">
+              <mat-form-field class="custom">
+                <mat-label>Seleccionar Dirección:</mat-label>
+                <mat-select [(ngModel)]="selectedAddress" (selectionChange)="onAddressChange($event.value)">
+                  <mat-option *ngFor="let address of addresses" [value]="address">
+                    {{ address.address_street }}, {{ address.address_exterior_number }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
   
         <div *ngIf="selectedAddress" class="address-details-grid">
           <div class="input-group">

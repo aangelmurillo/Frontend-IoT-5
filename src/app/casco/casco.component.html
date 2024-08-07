@@ -46,27 +46,50 @@
     </div>
     <br>
   
-    <div class="form-container">
-      <h1 class="form-title">Registrar Casco:</h1>
-    </div>
-  
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="inputs centered-input">
-        <mat-form-field class="custom">
-          <mat-label style="font-size:22px;">Numero serial:</mat-label>
-          <input matInput formControlName="helmet_serial_number" placeholder="Ej: ZX098">
-          <mat-error *ngIf="registerForm.controls['helmet_serial_number'].hasError('required')">
-            Este campo es obligatorio
-          </mat-error>
-          <mat-error *ngIf="registerForm.controls['helmet_serial_number'].hasError('pattern')">
-            Formato inválido, use el formato 'ZX098'
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="example-button-row">
-        <button mat-flat-button class="cancel-button" (click)="onBackToHome()">Cancelar</button>
-        <button mat-flat-button class="accept-button" type="submit">Aceptar</button>
-      </div>
-    </form>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    <mat-sidenav-container>
+      <mat-sidenav-content>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+          <h2 class="form-title">Registro de Casco</h2>
+          
+          <div class="form-field">
+            <mat-form-field appearance="outline">
+              <mat-label>Número serial</mat-label>
+              <input matInput
+                     formControlName="helmet_serial_number"
+                     placeholder="Ej: ZX098"
+                     aria-describedby="serial-hint serial-error"
+                     autocomplete="off">
+              <mat-hint id="serial-hint">Ingrese el número serial del casco</mat-hint>
+              <mat-error id="serial-error" *ngIf="registerForm.get('helmet_serial_number')?.invalid">
+                <span *ngIf="registerForm.get('helmet_serial_number')?.hasError('required')">
+                  Este campo es obligatorio
+                </span>
+                <span *ngIf="registerForm.get('helmet_serial_number')?.hasError('pattern')">
+                  Formato inválido, use el formato 'ZX098'
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div class="form-actions">
+            <button mat-flat-button 
+                    type="button"
+                    class="cancel-button" 
+                    (click)="onBackToHome()"
+                    aria-label="Cancelar registro">
+             
+              <span>Cancelar</span>
+            </button>
+            
+            <button mat-flat-button 
+                    class="accept-button" 
+                    type="submit"
+                    [disabled]="registerForm.invalid"
+                    aria-label="Aceptar y enviar registro">
+             
+              <span>Aceptar</span>
+            </button>
+          </div>
+        </form>
+      </mat-sidenav-content>
+    </mat-sidenav-container>

@@ -197,9 +197,22 @@ mat-toolbar {
         margin-top: 20px;
       }
       
+
+      .input-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+      
+      .input-wrapper {
+        width: 100%;
+        max-width: 800px; /* Ajusta este valor para controlar el ancho máximo */
+      }
+      
       mat-form-field.custom {
         width: 100%;
       }
+
     
   
   

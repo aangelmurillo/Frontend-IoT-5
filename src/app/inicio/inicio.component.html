@@ -1,27 +1,30 @@
-<div class="login-container">
-  <div class="oval-background">
-    <h1>¡Bienvenido!</h1>
-    <img src="../../assets/tool3_122846.png" alt="helmet" class="login-image" />
-  </div>
-  <form class="login-form" [formGroup]="panelForm" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="fill">
-      <mat-label>Usuario</mat-label>
-      <input matInput formControlName="user" type="user" />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Contraseña</mat-label>
-      <input matInput formControlName="password" type="password" />
-      <mat-error *ngIf="panelForm.get('password')?.invalid && panelForm.get('password')?.touched">
-        La contraseña es requerida.
-      </mat-error>
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Ingresar</button>
-    <div class="login-links">
-      <a [routerLink]="['/password']">¿Olvidaste tu contraseña?</a>
+<div class="page-container">
+  <div class="login-container">
+    <div class="oval-background">
+      <h1>¡Bienvenido!</h1>
+      <img src="../../assets/tool3_122846.png" alt="helmet" class="login-image" />
     </div>
-  </form>
-</div>
-
-<div *ngIf="errorMessage" class="error-message">
-  {{ errorMessage }}
+    <br>
+    <br>
+    
+    <form class="login-form" [formGroup]="panelForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill">
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="user" type="user" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Contraseña</mat-label>
+        <input matInput formControlName="password" type="password" />
+        <mat-error *ngIf="panelForm.get('password')?.invalid && panelForm.get('password')?.touched">
+          La contraseña es requerida.
+        </mat-error>
+      </mat-form-field>
+      
+      <button mat-raised-button color="primary" type="submit">Ingresar</button>
+      
+      <div class="login-links">
+        <a [routerLink]="['/password']">¿Olvidaste tu contraseña?</a>
+      </div>
+    </form>
+  </div>
 </div>
