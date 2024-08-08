@@ -13,16 +13,17 @@ export class Editar1Component implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
   user: any;
-
   users: any[] = [];
-  
   isUserMenuOpen = false;
+  currentPage = 1;
+  itemsPerPage = 8;
+  totalPages = 0;
+  userGroups: any[] = [];
 
   constructor(
     private userService: ApiserviceService,
     private router: Router,
-    private authService: AuthserviceService,
-
+    private authService: AuthserviceService
   ) {}
 
   ngOnInit() {
@@ -34,15 +35,31 @@ export class Editar1Component implements OnInit {
   }
 
   loadUsers() {
-    this.userService.getUsers().subscribe(
+    this.userService.getAllUsers().subscribe(
       (data) => {
-        console.log("Datos del we ", data)
+        console.log("Datos del usuario ", data);
         this.users = data;
+        this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
+        this.updateUserGroups();
       },
       (error) => {
         console.error('Error fetching users', error);
       }
     );
+  }
+
+  updateUserGroups() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.userGroups = this.groupUsers(this.users.slice(startIndex, endIndex), 4);
+  }
+
+  groupUsers(array: any[], groupSize: number) {
+    let result = [];
+    for (let i = 0; i < array.length; i += groupSize) {
+      result.push(array.slice(i, i + groupSize));
+    }
+    return result;
   }
 
   getButtonColor(index: number): string {
@@ -51,6 +68,10 @@ export class Editar1Component implements OnInit {
   }
 
   onUserSelect(userId: number) {
+    if (this.user.id === userId) {
+      alert('No puedes editar tu propio usuario.');
+      return;
+    }
     this.router.navigate(['/edit-employee/edit/', userId]);
   }
 
@@ -64,7 +85,12 @@ export class Editar1Component implements OnInit {
 
   logout() {
     this.authService.logout();
-        this.router.navigate(['/']);
-        this.isUserMenuOpen = false;
+    this.router.navigate(['/']);
+    this.isUserMenuOpen = false;
+  }
+
+  changePage(page: number) {
+    this.currentPage = page;
+    this.updateUserGroups();
   }
 }

@@ -41,14 +41,15 @@ mat-icon {
   height: 30px;
   width: 30px;
 }
+
 .menu {
   font-size: x-large !important;
   color: white;
   flex: 0;
 }
 
-.tama{
- font-size: 70px ;
+.tama {
+  font-size: 70px;
 }
 
 .custom-card {
@@ -82,14 +83,13 @@ mat-icon {
 
 .mat-card-title,
 .mat-card-subtitle {
-margin: 0; /* Eliminar el margen predeterminado */
+  margin: 0; /* Eliminar el margen predeterminado */
 }
 
 .centered-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  
 }
 
 .example-button-row {
@@ -115,7 +115,7 @@ margin: 0; /* Eliminar el margen predeterminado */
   margin-top: 20px;
 }
 
- .user-info {
+.user-info {
   background-color: #006691;
   color: white;
   display: flex;
@@ -167,7 +167,7 @@ margin: 0; /* Eliminar el margen predeterminado */
   width: 200px;
   margin-top: 5px;
   background-color: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   z-index: 1000;
 }
@@ -194,4 +194,16 @@ margin: 0; /* Eliminar el margen predeterminado */
 
 .user-dropdown mat-icon {
   margin-right: 8px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 10px;
+  font-size: 16px;
 }

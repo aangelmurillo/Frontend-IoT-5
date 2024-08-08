@@ -82,14 +82,13 @@ mat-icon {
 
 .mat-card-title,
 .mat-card-subtitle {
-margin: 0; /* Eliminar el margen predeterminado */
+  margin: 0; /* Eliminar el margen predeterminado */
 }
 
 .centered-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  
 }
 
 .example-button-row {
@@ -115,7 +114,7 @@ margin: 0; /* Eliminar el margen predeterminado */
   margin-top: 20px;
 }
 
- .user-info {
+.user-info {
   background-color: #006691;
   color: white;
   display: flex;
@@ -194,4 +193,16 @@ margin: 0; /* Eliminar el margen predeterminado */
 
 .user-dropdown mat-icon {
   margin-right: 8px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 10px;
+  font-size: 18px;
 }

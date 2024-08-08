@@ -114,6 +114,9 @@ export class ApiserviceService {
     return this.http.post(`${this.apiUrl}/helmets`, helmetData, { headers });
   }
 
+  getAllUsers(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/all-users`, { headers: this.getHeaders(true) });
+  }
 
   sendEmailCode(email: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/password-code`, { email }, { headers: this.getHeaders(), responseType: 'text' as 'json' });
