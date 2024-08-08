@@ -158,14 +158,12 @@ export class RegistrarComponent implements OnInit {
   openSuccessDialog(id: string, email: string) {
     const dialogRef = this.dialog.open(DialogExitoComponent, {
       data: {
-        message: "Empleado registrado exitosamente",
-        id: id,
-        email: email
+        message: "Usuario registrado exitosamente, favor de verificar su cuenta"
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.router.navigate(['/verificacion', id, email]);
+      this.router.navigate(['/verificate-account']);
     });
   }
 
