@@ -20,6 +20,7 @@ export class InfoEmpleadoComponent implements OnInit {
   assignedHelmet: any = null;
   user: any;
   addresses: any[] = [];
+  errorMessage: string[] = [];
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isUserMenuOpen = false;
@@ -142,6 +143,7 @@ export class InfoEmpleadoComponent implements OnInit {
   }
 
   onSubmit() {
+    this.errorMessage = [];
     try {
       if (this.editForm.valid) {
         const personData = {
@@ -188,25 +190,29 @@ export class InfoEmpleadoComponent implements OnInit {
                 this.apiService.update_user(userData, userId).subscribe(
                   userResponse => {
                     console.log('User updated successfully', userResponse);
-                    this.router.navigate(['/empleados']);
+                    this.router.navigate(['/home']);
                   },
                   error => {
                     console.error('Error updating user', error);
+                    if (error.error && error.error.message) {
+                      this.errorMessage.push(error.error.message);
+                    } 
                   }
                 );
               },
               error => {
                 console.error('Error updating address', error);
-                if (error.status === 404) {
-                  alert('Dirección no encontrada');
-                } else {
-                  alert('Error al actualizar la dirección');
+                if (error.error && error.error.message) {
+                  this.errorMessage.push(error.error.message);
                 }
               }
             );
           },
           error => {
             console.error('Error updating person', error);
+            if (error.error && error.error.message) {
+              this.errorMessage.push(error.error.message);
+            }
           }
         );
       } else {

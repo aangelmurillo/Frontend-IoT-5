@@ -167,6 +167,15 @@ const routes: Routes = [
 
 
 
+  //CAMBIO CONTRASENA
+  {
+    path:'password',
+    component: PasswordComponent
+  },
+
+
+  
+
   {
     path: 'sensores/:id/gas-tierra',
     component: GasTierraComponent,
@@ -177,10 +186,6 @@ const routes: Routes = [
     path: 'unauthorized',
     component: NotFoundComponent,
     canActivate: []
-  },
-  {
-    path:'password',
-    component: PasswordComponent
   },
   {
     path:'verificacion',

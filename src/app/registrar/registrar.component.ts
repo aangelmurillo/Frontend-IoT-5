@@ -117,8 +117,8 @@ export class RegistrarComponent implements OnInit {
       error => {
         console.error('Error registering address', error);
         this.apiService.deletePerson(personId).subscribe(
-          () => console.log('Person eliminada por error en registro de dirección'),
-          error => console.error('Error deleting person', error)
+          () => console.log('Person eliminada '),
+          error => console.error('Error al borrar persona', error)
         );
         if (error.error && error.error.message) {
           this.errorMessages.push(error.error.message);

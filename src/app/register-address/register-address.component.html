@@ -125,6 +125,12 @@
         <input matInput formControlName="address_country">
       </mat-form-field>
     </div>
+
+    <div class="error-message-container">
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </div>
     
     <div class="example-button-row" style="text-align: center;">
       <button mat-flat-button style="background-color: #2499C7; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;" (click)="onBackToHome()">

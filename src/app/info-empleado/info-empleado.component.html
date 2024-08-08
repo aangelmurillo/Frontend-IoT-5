@@ -76,20 +76,6 @@
         <input matInput formControlName="person_second_last_name">
       </mat-form-field>
     </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Nombre de Usuario:</mat-label>
-        <input matInput formControlName="user_name">
-      </mat-form-field>
-    </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Correo Electronico:</mat-label>
-        <input matInput formControlName="email">
-      </mat-form-field>
-    </div>
    
     <div class="inputs">
       <mat-form-field class="custom">
@@ -200,6 +186,14 @@
           </mat-optgroup>
         </mat-select>
       </mat-form-field>
+    </div>
+
+    <div class="error-messages-container">
+      <div *ngIf="errorMessage.length > 0" class="error-messages">
+        <mat-error *ngFor="let message of errorMessage">
+          {{ message }}
+        </mat-error>
+      </div>
     </div>
     
     <div class="example-button-row" style="text-align: center;">

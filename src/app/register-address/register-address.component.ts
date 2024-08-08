@@ -17,6 +17,7 @@ export class RegisterAddressComponent implements OnInit {
   availableHelmets: any[] = [];
   user: any;
   isUserMenuOpen = false;
+  errorMessage: string = '';
 
 
   ngOnInit() {
@@ -49,6 +50,7 @@ export class RegisterAddressComponent implements OnInit {
   }
 
   onSubmit() {
+    this.errorMessage = '';
     try {
       if (this.registerForm.valid) {
         const addressData = {
@@ -66,10 +68,15 @@ export class RegisterAddressComponent implements OnInit {
         this.apiService.register_address(addressData).subscribe(
           addressResponse => {
             console.log('Address registered successfully', addressResponse);
-            this.router.navigate(['/empleados']);
+            this.router.navigate(['/home']);
           },
           error => {
             console.error('Error registering address', error);
+            if (error.error && error.error.message) {
+              this.errorMessage = error.error.message;
+            } else {
+              this.errorMessage = 'Ocurrió un error al registrar la dirección';
+            }
           }
         );
       } else {

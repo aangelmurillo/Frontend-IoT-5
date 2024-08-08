@@ -17,6 +17,10 @@ export class EliminarEmpleadoComponent implements OnInit {
 
   user: any;
   users: any[] = [];
+  userGroups: any[] = [];
+  currentPage = 1;
+  itemsPerPage = 8;
+  totalPages = 0;
 
   constructor(
     private userService: ApiserviceService,
@@ -34,15 +38,31 @@ export class EliminarEmpleadoComponent implements OnInit {
   }
 
   loadUsers() {
-    this.userService.getUsers().subscribe(
+    this.userService.getAllUsers().subscribe(
       (data) => {
-        console.log("Datos del usuario ", data)
+        console.log("Datos del usuario ", data);
         this.users = data;
+        this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
+        this.updateUserGroups();
       },
       (error) => {
         console.error('Error fetching users', error);
       }
     );
+  }
+
+  updateUserGroups() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.userGroups = this.groupUsers(this.users.slice(startIndex, endIndex), 4);
+  }
+
+  groupUsers(array: any[], groupSize: number) {
+    let result = [];
+    for (let i = 0; i < array.length; i += groupSize) {
+      result.push(array.slice(i, i + groupSize));
+    }
+    return result;
   }
 
   getButtonColor(index: number): string {
@@ -51,21 +71,25 @@ export class EliminarEmpleadoComponent implements OnInit {
   }
 
   onUserSelect(userId: number) {
+    if (this.user.id === userId) {
+      alert('No puedes eliminar tu propio usuario.');
+      return;
+    }
+
     const confirmed = window.confirm('¿Estás seguro que deseas eliminar este usuario?');
     if (confirmed) {
       this.userService.deleteUser(userId).subscribe(
         () => {
-          alert('Usuario eliminado');          
+          alert('Usuario eliminado');
           this.loadUsers();
-          this.router.navigate(['/empleados']);
+          this.router.navigate(['/delete-employee']);
         },
         (error) => {
           console.error('Error al eliminar usuario', error);
         }
       );
+    }
   }
-}
-
 
   toggleMenu() {
     this.sidenav.toggle();
@@ -79,5 +103,10 @@ export class EliminarEmpleadoComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/']);
     this.isUserMenuOpen = false;
+  }
+
+  changePage(page: number) {
+    this.currentPage = page;
+    this.updateUserGroups();
   }
 }
