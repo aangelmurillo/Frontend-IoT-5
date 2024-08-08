@@ -1,52 +1,67 @@
 <mat-toolbar>
-    <div class="menu-icon" (click)="toggleMenu()">
-      <mat-icon>menu</mat-icon>
+  <div class="menu-icon" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </div>
+  
+  <span class="toolbar-title" routerLink="/home">
+    <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
+    iHelmet
+  </span>
+  
+  <div class="user-menu">
+    <div class="menu-icon" (click)="toggleUserMenu()">
+      <mat-icon>account_circle</mat-icon>
     </div>
-    
-    <span class="toolbar-title" routerLink="/home">
-      <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
-      iHelmet
-    </span>
-  
-    <div class="user-menu">
-      <div class="menu-icon" (click)="toggleUserMenu()">
-        <mat-icon>account_circle</mat-icon>
-      </div>
-      <div class="user-dropdown" [class.show]="isUserMenuOpen">
-        <button mat-menu-item (click)="logout()">
-          <mat-icon>exit_to_app</mat-icon>
-          <span>Logout</span>
-        </button>
+    <div class="user-dropdown" [class.show]="isUserMenuOpen">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
+    <div class="user-info" *ngIf="user">
+      <mat-icon>account_circle</mat-icon>
+      <div class="info">
+        <p>Ing. {{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+        <p>{{ user.email }}</p>
       </div>
     </div>
-  </mat-toolbar>
-  
-  <mat-sidenav-container>
-      <div class="user-info" *ngIf="user">
-        <mat-icon>account_circle</mat-icon>
-        <div class="info">
-          <p>Ing. {{ user.person.person_name }} {{ user.person.person_last_name }}</p>
-          <p>{{ user.email }}</p>
-        </div>
-      </div>
-      <!-- Contenido del sidenav -->
-  
-    <mat-sidenav-content>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="content-area">
+      <br>
+      <br>
       <div class="form-container">
         <h2 class="form-title">Verificación de Cuenta</h2>
-        <form [formGroup]="verificationForm" (ngSubmit)="onSubmit()">
-          <div class="centered-input">
-            <mat-form-field class="custom">
-              <mat-label>Código de Verificación</mat-label>
-              <input matInput formControlName="code" placeholder="Ingrese el código de 6 dígitos">
-            </mat-form-field>
+        <br>
+        <br>
+        <form class="login-form" (ngSubmit)="verifyCode()">
+          <p class="instruction">Ingrese el código de verificación<br>enviado al correo electrónico.</p>
+          
+          <div class="verification-code-container">
+            <div class="letters-container">
+              <input type="text" maxlength="1" placeholder="A" class="code-input letter" #codeInput1 (keyup)="onCodeInput($event, codeInput2)">
+              <input type="text" maxlength="1" placeholder="B" class="code-input letter" #codeInput2 (keyup)="onCodeInput($event, codeInput3)">
+              <input type="text" maxlength="1" placeholder="C" class="code-input letter" #codeInput3 (keyup)="onCodeInput($event, codeInput4)">
+            </div>
+            <div class="numbers-container">
+              <input type="text" maxlength="1" placeholder="1" class="code-input number" #codeInput4 (keyup)="onCodeInput($event, codeInput5)">
+              <input type="text" maxlength="1" placeholder="2" class="code-input number" #codeInput5 (keyup)="onCodeInput($event, codeInput6)">
+              <input type="text" maxlength="1" placeholder="3" class="code-input number" #codeInput6 (keyup)="onCodeInput($event, null)">
+            </div>
           </div>
-          <div class="example-button-row">
-            <button mat-raised-button color="primary" type="submit" [disabled]="verificationForm.invalid" class="accept-button">Verificar</button>
-            <button mat-raised-button color="warn" type="button" (click)="onCancel()" class="cancel-button">Cancelar</button>
-          </div>
+          
+          <div *ngIf="codeError" class="error-message">{{ codeError }}</div>
+          
+          <button mat-raised-button color="primary" type="submit">Verificar Código</button>
         </form>
       </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
   

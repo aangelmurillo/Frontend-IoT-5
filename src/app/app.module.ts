@@ -61,6 +61,7 @@ import { SuccessDialogComponent } from './success-dialog/success-dialog.componen
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { DialogPsdComponent } from './dialog-psd/dialog-psd.component';
 import { InfEmployeeComponent } from './inf-employee/inf-employee.component';
+import { DialogExitoComponent } from './dialog-exito/dialog-exito.component';
 
 const config: SocketIoConfig = { url: environment.wsUrl, options: {
   transports: ['websocket']
@@ -101,6 +102,7 @@ const config: SocketIoConfig = { url: environment.wsUrl, options: {
     ChangePasswordComponent,
     DialogPsdComponent,
     InfEmployeeComponent,
+    DialogExitoComponent,
     
   ],
   imports: [

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { ApiserviceService } from '../apiservice.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AuthserviceService } from '../authservice.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogExitoComponent } from '../dialog-exito/dialog-exito.component'
 
 @Component({
   selector: 'app-registrar',
@@ -17,7 +19,7 @@ export class RegistrarComponent implements OnInit {
   availableHelmets: any[] = [];
   user: any;
   isUserMenuOpen = false;
-  errorMessages: string [] = []; //esto quiere decir que es un arreglo de strings
+  errorMessages: string [] = [];
 
   ngOnInit() {
     this.loadAvailableHelmets();
@@ -27,7 +29,7 @@ export class RegistrarComponent implements OnInit {
     });
 
     this.registerForm.get('rol_id')?.valueChanges.subscribe(value => {
-      if (value === '1') { //Aqui se asume que el rol de administrador es 1
+      if (value === '1') {
         this.registerForm.get('helmet_id')?.disable();
       } else {
         this.registerForm.get('helmet_id')?.enable();
@@ -40,6 +42,7 @@ export class RegistrarComponent implements OnInit {
     private router: Router,
     private apiService: ApiserviceService,
     private authService: AuthserviceService,
+    private dialog: MatDialog // Añade esta línea
   ) {
     this.registerForm = this.fb.group({
       person_name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
@@ -48,8 +51,8 @@ export class RegistrarComponent implements OnInit {
       person_curp: ['', [Validators.required, Validators.pattern(/^[A-Z0-9]{18}$/)]],
       person_phone_number: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       address_street: ['', Validators.required],
-      address_exterior_number: ['', Validators.required],
-      address_interior_number: [''],
+      address_exterior_number: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
+      address_interior_number: ['', Validators.pattern(/^[a-zA-Z0-9]+$/)],
       address_neighborhood: ['', Validators.required],
       address_zip_code: ['', [Validators.required, Validators.pattern(/^[0-9]{5}$/)]],
       address_city: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
@@ -65,7 +68,7 @@ export class RegistrarComponent implements OnInit {
   }
 
   onSubmit() {
-    this.errorMessages = []; // Limpiar errores previos
+    this.errorMessages = [];
     if (this.registerForm.valid) {
       const personData = {
         person_name: this.registerForm.get('person_name')?.value,
@@ -137,8 +140,7 @@ export class RegistrarComponent implements OnInit {
     this.apiService.register_user(userData).subscribe(
       userResponse => {
         console.log('User registered successfully', userResponse);
-        alert('Usuario registrado. Favor, de verificar la cuenta.');
-        this.router.navigate(['/verificacion', userResponse.id, userResponse.email]);
+        this.openSuccessDialog(userResponse.id, userResponse.email);
       },
       error => {
         console.error('Error al registrar usario', error);
@@ -152,7 +154,20 @@ export class RegistrarComponent implements OnInit {
       }
     );
   }
-  
+
+  openSuccessDialog(id: string, email: string) {
+    const dialogRef = this.dialog.open(DialogExitoComponent, {
+      data: {
+        message: "Empleado registrado exitosamente",
+        id: id,
+        email: email
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(['/verificacion', id, email]);
+    });
+  }
 
   onBackToHome() {
     this.router.navigate(['/home']);

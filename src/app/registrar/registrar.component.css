@@ -1,7 +1,7 @@
 mat-toolbar {
   background-color: #2596BE;
   color: white;
-  height: 80px; /* Increase the height of the toolbar */
+  height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,6 +41,7 @@ mat-icon {
   height: 30px;
   width: 30px;
 }
+
 .menu {
   font-size: x-large !important;
   color: white;
@@ -50,12 +51,6 @@ mat-icon {
 .user-info {
   background-color: #006691;
   color: white;
-  display: flex;
-  align-items: center;
-  padding: 10px;
-}
-
-.user-info {
   display: flex;
   align-items: center;
   padding: 10px 20px;
@@ -90,6 +85,7 @@ form {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+  padding-bottom: 60px;
 }
 
 .inputs {
@@ -105,22 +101,21 @@ form {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .example-button-row button {
   margin: 0 15px;
-  padding: 15px 50px;
-  margin-bottom: 20px;
+  padding: 19.69px 65.63px;
+  margin-bottom: 40px;
+  font-size: 39.38px;
 }
 
 @media (max-width: 768px) {
   .inputs {
-      width: 100%;
+    width: 100%;
   }
 }
-
-
 
 .user-menu {
   position: relative;
