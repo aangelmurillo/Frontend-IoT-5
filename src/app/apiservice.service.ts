@@ -164,10 +164,19 @@ export class ApiserviceService {
     return this.http.post(`${this.apiUrl}/verificate-account`, verificationData, { headers: this.getHeaders(true) });
   }
 
-  verifySendCode(verificationData: { email: string}) {
-    return this.http.post(`${this.apiUrl}/verificate-account/send-code`, verificationData, {headers: this.getHeaders(true)});
+  verifySendCode(verificationData: { email: string}): Observable<any> {
+    return this.http.post(`${this.apiUrl}/verificate-account/send-code`, verificationData, {headers: this.getHeaders(true)}).pipe(
+      tap(response => console.log('Respuesta completa del servidor:', response)),
+      catchError(error => {
+        console.error('Error en verifySendCode:', error);
+        // Aquí es donde manejamos el error específico del backend
+        if (error.error && error.error.message) {
+          return throwError(() => new Error(error.error.message));
+        }
+        return throwError(() => new Error('Error al enviar el código de verificación'));
+      })
+    );
   }
-
 
   deleteUser(userId: number) {
     const token = this.cookieService.get('auth_token');

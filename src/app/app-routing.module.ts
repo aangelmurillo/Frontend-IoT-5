@@ -94,6 +94,12 @@ const routes: Routes = [
     data: { roles: ['admin'] }
   },
   {
+    path: 'verificate-account-code/:id/:email',
+    component: VerificacionComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin'] }
+  },
+  {
     path: 'register-address',
     component: RegisterAddressComponent,
     canActivate: [AuthProtectedGuard],
@@ -178,7 +184,12 @@ const routes: Routes = [
   {
     path:'password',
     component: PasswordComponent
+  }, 
+  {
+    path:'verificacion',
+    component: VerificationPasswordComponent
   },
+
 
 
   
@@ -195,10 +206,6 @@ const routes: Routes = [
     canActivate: []
   },
   {
-    path:'verificacion',
-    component: VerificationPasswordComponent
-  },
-  {
     path: 'changepwd',
     component: ChangePasswordComponent
   },
@@ -209,12 +216,6 @@ const routes: Routes = [
     component: CamaraEmpComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin','emplo'] }
-  },
-  {
-    path: 'verificacion/:id/:email',
-    component: VerificacionComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin'] }
   },
   {
     path: '**', 

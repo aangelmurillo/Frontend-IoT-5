@@ -40,15 +40,17 @@ export class VerificacionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.email = this.route.snapshot.paramMap.get('email');
-    const id = this.route.snapshot.paramMap.get('id');
-    this.userId = id ? +id : null;
-
-    if (!this.email) {
-      console.error('No email provided');
-      this.router.navigate(['/home']);
-    }
-
+    this.route.paramMap.subscribe(params => {
+      this.email = params.get('email');
+      const id = params.get('id');
+      this.userId = id ? +id : null;
+  
+      if (!this.email || !this.userId) {
+        console.error('Parámetros de ruta incompletos');
+        this.router.navigate(['/verificate-account']);
+      }
+    });
+  
     this.authService.getCurrentUser().subscribe(
       user => {
         this.user = user;
@@ -118,7 +120,7 @@ export class VerificacionComponent implements OnInit {
         response => {
           console.log('User verified successfully', response);
           alert('Verificación exitosa');
-          this.router.navigate(['/changepwd']);
+          this.router.navigate(['/home']);
         },
         error => {
           console.error('Error verifying user', error);

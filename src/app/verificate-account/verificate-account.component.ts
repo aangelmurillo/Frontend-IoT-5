@@ -42,13 +42,25 @@ export class VerificateAccountComponent implements OnInit {
     this.errorMessages = []; // Limpiar errores previos
     this.apiService.verifySendCode({email: this.email}).subscribe({
       next: (response: any) => {
+        console.log('Respuesta recibida:', response);
         this.message = response.message;
-        this.apiService.setEmail(this.email);
-        this.router.navigate(['/verificacion']);
+        if (response && response.id) {
+          console.log('ID recibido:', response.id);
+          this.router.navigate(['/verificate-account-code', response.id, this.email]);
+        } else {
+          console.error('Estructura de respuesta inválida:', response);
+          this.errorMessages.push('Error al procesar la solicitud. Estructura de respuesta inválida.');
+        }
       },
       error: (error: any) => {
         console.error('Error detallado:', error);
-        this.errorMessages.push(error.error.message);
+        if (error.error && error.error.message) {
+          this.errorMessages.push(error.error.message);
+        } else if (error.message) {
+          this.errorMessages.push(error.message);
+        } else {
+          this.errorMessages.push('Ocurrió un error desconocido');
+        }
       }
     });
   }
