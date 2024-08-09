@@ -1,1 +1,75 @@
-<p>verificate-account works!</p>
+<mat-toolbar>
+    <div class="menu-icon" (click)="toggleMenu()">
+      <mat-icon>menu</mat-icon>
+    </div>
+    
+    <span class="toolbar-title" routerLink="/home">
+      <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
+      iHelmet
+    </span>
+  
+    <div class="user-menu">
+      <button mat-icon-button (click)="toggleUserMenu()">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <div class="user-dropdown" [class.show]="isUserMenuOpen">
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </mat-toolbar>
+  
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav mode="over">
+      <mat-nav-list>
+        <a mat-list-item routerLink="/home">Inicio</a>
+        <a mat-list-item routerLink="/profile">Perfil</a>
+        <a mat-list-item routerLink="/register-employee">Registro Empleado</a>
+        <a mat-list-item routerLink="/verificate-account">Verificar Cuentas</a>
+        <a mat-list-item routerLink="/register-address">Registrar Direccion</a>
+        <a mat-list-item routerLink="/edit-employee">Editar Empleado</a>
+        <a mat-list-item routerLink="/delete-employee">Eliminar Empleado</a>
+        <a mat-list-item routerLink="/register-helmet">Registrar Casco</a>
+        <a mat-list-item routerLink="/sensor-record">Historial de Sensores</a>
+        <a mat-list-item routerLink="/inf-employee">Información Empleados</a>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <!-- Contenido Principal -->
+    <mat-sidenav-content>
+      <br>
+  
+      <div class="user-info" *ngIf="user">
+        <mat-icon>account_circle</mat-icon>
+        <div class="info">
+          <p>Ing. {{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+          <p>{{ user.email }}</p>
+        </div>
+      </div>
+      <br>
+
+      <div class="content-container">
+        <p class="instruction-text">Favor de ingresar un correo electrónico para verificar su cuenta.</p>
+  
+        <form (ngSubmit)="sendVerificationCode()" #verificationForm="ngForm" class="verification-form">
+          <mat-form-field appearance="fill">
+            <mat-label>Correo electrónico</mat-label>
+            <input matInput type="email" [(ngModel)]="email" name="email" required email>
+          </mat-form-field>
+
+          <div *ngIf="errorMessages.length > 0" class="error-messages">
+            <p *ngFor="let error of errorMessages">{{ error }}</p>
+          </div>
+  
+          <button mat-raised-button color="primary" type="submit" [disabled]="!verificationForm.form.valid">
+            Enviar Código
+          </button>
+        </form>
+  
+        
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

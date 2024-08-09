@@ -122,6 +122,10 @@ export class ApiserviceService {
     return this.http.post(`${this.apiUrl}/password-code`, { email }, { headers: this.getHeaders(), responseType: 'text' as 'json' });
   }
 
+  verifyPasswordCode(data: { email: string, code: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/password-verify`, data, { headers: this.getHeaders(), responseType: 'text' as 'json' });
+  }
+
   updatePassword(data: { email: string, 'new-password': string, 'verification-code': string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/password-update`, data, { headers: this.getHeaders(), responseType: 'text' as 'json' });
   }
@@ -155,9 +159,15 @@ export class ApiserviceService {
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 
+  //APARTADO VERIFICACION DE CUENTA
   verifyUser(verificationData: { email: string, code: string }) {
-    return this.http.post(`${this.apiUrl}/verificate-account`, verificationData);
+    return this.http.post(`${this.apiUrl}/verificate-account`, verificationData, { headers: this.getHeaders(true) });
   }
+
+  verifySendCode(verificationData: { email: string}) {
+    return this.http.post(`${this.apiUrl}/verificate-account/send-code`, verificationData, {headers: this.getHeaders(true)});
+  }
+
 
   deleteUser(userId: number) {
     const token = this.cookieService.get('auth_token');
