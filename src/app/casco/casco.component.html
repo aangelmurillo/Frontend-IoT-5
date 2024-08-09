@@ -98,7 +98,11 @@
                 <span *ngIf="registerForm.get('helmet_serial_number')?.hasError('pattern')">
                   Formato inválido, use el formato 'AZ123'
                 </span>
+                <span *ngIf="registerForm.get('helmet_serial_number')?.hasError('backendError')">
+                  {{ backendError }}
+                </span>
               </mat-error>
+              
             </mat-form-field>
           </div>
           

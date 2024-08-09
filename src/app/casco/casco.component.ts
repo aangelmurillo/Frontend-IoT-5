@@ -23,12 +23,14 @@ export class CascoComponent implements OnInit {
     this.expandedMenus[menu] = !this.expandedMenus[menu];
   }
 
+
   
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isUserMenuOpen = false;
 
   registerForm: FormGroup;
   user: any;
+  backendError: string = '';
 
   constructor(
     private fb: FormBuilder, 
@@ -59,10 +61,17 @@ export class CascoComponent implements OnInit {
         response => {
           console.log('Casco registrado exitosamente', response);
           this.openSuccessDialog('Registro de Helmet exitoso');
+          this.backendError = ''; // Limpiar el error si el registro es exitoso
         },
         error => {
           console.error('Error registrando el casco', error);
-          // You might want to show an error dialog here
+          if (error.error && error.error.message) {
+            this.backendError = error.error.message;
+          } else {
+            this.backendError = 'Error al registrar el casco';
+          }
+          // Forzar la detección de cambios
+          this.registerForm.get('helmet_serial_number')?.setErrors({'backendError': true});
         }
       );
     } else {

@@ -118,8 +118,19 @@ export class ApiserviceService {
     return this.http.get(`${this.apiUrl}/all-users`, { headers: this.getHeaders(true) });
   }
 
-  sendEmailCode(email: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/password-code`, { email }, { headers: this.getHeaders(), responseType: 'text' as 'json' });
+  //PRIMER PASO DEL APARTADO DE LA CONTRASENA
+  sendEmailCode(verificationData: { email: string}): Observable<any> {
+    return this.http.post(`${this.apiUrl}/password-code`, verificationData, {headers: this.getHeaders()}).pipe(
+      tap(response => console.log('Respuesta completa del servidor:', response)),
+      catchError(error => {
+        console.error('Error en verifySendCode:', error);
+        // Aquí es donde manejamos el error específico del backend
+        if (error.error && error.error.message) {
+          return throwError(() => new Error(error.error.message));
+        }
+        return throwError(() => new Error('Error al enviar el código de verificación'));
+      })
+    );
   }
 
   verifyPasswordCode(data: { email: string, code: string }): Observable<any> {

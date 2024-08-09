@@ -12,6 +12,7 @@ export class PasswordComponent {
   message: string = '';
   emailInvalid: boolean = false;
   isSuccess: boolean = false;
+  errorMessages: string[] = [];
 
   constructor(
     private apiService: ApiserviceService,
@@ -19,6 +20,7 @@ export class PasswordComponent {
   ) {}
 
   sendVerificationCode() {
+    this.errorMessages = []; // Limpiar errores previos
     // Validación general de formato de correo electrónico
     const generalEmailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     
@@ -33,18 +35,24 @@ export class PasswordComponent {
 
     this.emailInvalid = false;
 
-    this.apiService.sendEmailCode(this.email).subscribe(
-      (response: any) => {
+    this.apiService.sendEmailCode({email: this.email}).subscribe({
+      next: (response: any) => {
         this.message = response;
         this.isSuccess = true;
         this.apiService.setEmail(this.email);
         this.router.navigate(['/verificacion']);
       },
-      (error) => {
+      error: (error: any) => {
         console.error('Error detallado:', error);
-        this.message = `Error al enviar el código de verificación: ${error.message || error}`;
-        this.isSuccess = false;
+        if (error.error && error.error.message) {
+          this.errorMessages.push(error.error.message);
+        } else if (error.message) {
+          this.errorMessages.push(error.message);
+        } else {
+          this.errorMessages.push('Ocurrió un error desconocido');
+        }
       }
+    }
     );
   }
 }
