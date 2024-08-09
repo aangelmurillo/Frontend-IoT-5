@@ -30,6 +30,7 @@ import { VerificacionComponent } from './verificacion/verificacion.component';
 import { PerfilAdminComponent } from './perfil-admin/perfil-admin.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { InfEmployeeComponent } from './inf-employee/inf-employee.component';
+import { VerificateAccountComponent } from './verificate-account/verificate-account.component';
 
 const routes: Routes = [
   {
@@ -83,6 +84,12 @@ const routes: Routes = [
   {
     path: 'register-employee',
     component: RegistrarComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin'] }
+  },
+  {
+    path: 'verificate-account',
+    component: VerificateAccountComponent,
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin'] }
   },
