@@ -2,16 +2,16 @@
   <div class="menu-icon" (click)="toggleMenu()">
     <mat-icon>menu</mat-icon>
   </div>
-  
+
   <span class="toolbar-title" routerLink="/home">
     <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
     iHelmet
   </span>
 
   <div class="user-menu">
-      <div class="menu-icon" (click)="toggleUserMenu()">
-        <mat-icon>account_circle</mat-icon>
-      </div>
+    <div class="menu-icon" (click)="toggleUserMenu()">
+      <mat-icon>account_circle</mat-icon>
+    </div>
     <div class="user-dropdown" [class.show]="isUserMenuOpen">
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
@@ -40,170 +40,173 @@
   <!-- Contenido Principal -->
   <mat-sidenav-content>
 
-      <br>
-      <div class="user-info" *ngIf="user">
-        <mat-icon>account_circle</mat-icon>
-        <div class="info">
-          <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
-          <p>{{ user.email }}</p>
+    <br>
+    <div class="user-info" *ngIf="user">
+      <mat-icon>account_circle</mat-icon>
+      <div class="info">
+        <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+        <p>{{ user.email }}</p>
+      </div>
+    </div>
+    <br>
+
+    <div style="text-align: center; font-family: 'Alegreya Sans', sans-serif;">
+      <h1 style="font-size: 30px; font-weight: bold;">
+        Editar Empleado:
+      </h1>
+    </div>
+
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Nombre(s):</mat-label>
+          <input matInput formControlName="person_name">
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Apellido Paterno:</mat-label>
+          <input matInput formControlName="person_last_name">
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Apellido Materno:</mat-label>
+          <input matInput formControlName="person_second_last_name">
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Referencia:</mat-label>
+          <mat-select formControlName="address_id" (selectionChange)="onAddressChange($event.value)">
+            <mat-option *ngFor="let address of addresses" [value]="address.id">
+              {{ address.address_references }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Calle:</mat-label>
+          <input matInput formControlName="address_street">
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Num.Exterior:</mat-label>
+          <input matInput formControlName="address_exterior_number">
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Num.Interior:</mat-label>
+          <input matInput formControlName="address_interior_number">
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Colonia:</mat-label>
+          <input matInput formControlName="address_neighborhood">
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Codigo_Postal:</mat-label>
+          <input matInput formControlName="address_zip_code">
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Ciudad:</mat-label>
+          <input matInput formControlName="address_city">
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Estado:</mat-label>
+          <input matInput formControlName="address_state">
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Pais:</mat-label>
+          <input matInput formControlName="address_country">
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">CURP:</mat-label>
+          <input matInput formControlName="person_curp">
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Número telefónico:</mat-label>
+          <input matInput formControlName="person_phone_number">
+        </mat-form-field>
+      </div>
+
+
+
+      <div class="inputs" *ngIf="esAdmin">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Rol:</mat-label>
+          <mat-select formControlName="rol_id">
+            <mat-option value="1">Administrador</mat-option>
+            <mat-option value="2">Empleado</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs" *ngIf="esAdmin">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Casco:</mat-label>
+          <mat-select formControlName="helmet_id">
+            <mat-option *ngIf="assignedHelmet" [value]="assignedHelmet.id">
+              {{ assignedHelmet.helmet_serial_number }} (Asignado)
+            </mat-option>
+            <mat-option *ngIf="assignedHelmet" [value]="null">-- Quitar casco asignado --</mat-option>
+            <mat-option *ngIf="!assignedHelmet" [value]="null">Sin casco asignado</mat-option>
+            <mat-optgroup label="Cascos disponibles">
+              <mat-option *ngFor="let helmet of availableHelmets" [value]="helmet.id">
+                {{ helmet.helmet_serial_number }}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="error-messages-container">
+        <div *ngIf="errorMessage.length > 0" class="error-messages">
+          <mat-error *ngFor="let message of errorMessage">
+            {{ message }}
+          </mat-error>
         </div>
       </div>
-      <br>
-  
-  <div style="text-align: center; font-family: 'Alegreya Sans', sans-serif;">
-    <h1 style="font-size: 30px; font-weight: bold;">
-      Editar Empleado:
-    </h1>
-  </div>
-  
-  <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Nombre(s):</mat-label>
-        <input matInput formControlName="person_name">
-      </mat-form-field>
-    </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Apellido Paterno:</mat-label>
-        <input matInput formControlName="person_last_name">
-      </mat-form-field>
-    </div>
-    
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Apellido Materno:</mat-label>
-        <input matInput formControlName="person_second_last_name">
-      </mat-form-field>
-    </div>
-   
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Referencia:</mat-label>
-        <mat-select formControlName="address_id" (selectionChange)="onAddressChange($event.value)">
-          <mat-option *ngFor="let address of addresses" [value]="address.id">
-            {{ address.address_references }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Calle:</mat-label>
-        <input matInput formControlName="address_street">
-      </mat-form-field>
-    </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Num.Exterior:</mat-label>
-        <input matInput formControlName="address_exterior_number">
-      </mat-form-field>
-    </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Num.Interior:</mat-label>
-        <input matInput formControlName="address_interior_number">
-      </mat-form-field>
-    </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Colonia:</mat-label>
-        <input matInput formControlName="address_neighborhood">
-      </mat-form-field>
-    </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Codigo_Postal:</mat-label>
-        <input matInput formControlName="address_zip_code">
-      </mat-form-field>
-    </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Ciudad:</mat-label>
-        <input matInput formControlName="address_city">
-      </mat-form-field>
-    </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Estado:</mat-label>
-        <input matInput formControlName="address_state">
-      </mat-form-field>
-    </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Pais:</mat-label>
-        <input matInput formControlName="address_country">
-      </mat-form-field>
-    </div>
-    
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">CURP:</mat-label>
-        <input matInput formControlName="person_curp">
-      </mat-form-field>
-    </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Número telefónico:</mat-label>
-        <input matInput formControlName="person_phone_number">
-      </mat-form-field>
-    </div>
-  
-  
 
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Rol:</mat-label>
-        <mat-select formControlName="rol_id">
-          <mat-option value="1">Administrador</mat-option>
-          <mat-option value="2">Empleado</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  
-    <div class="inputs">
-      <mat-form-field class="custom">
-        <mat-label style="font-size:22px;">Casco:</mat-label>
-        <mat-select formControlName="helmet_id">
-          <mat-option *ngIf="assignedHelmet" [value]="assignedHelmet.id">
-            {{ assignedHelmet.helmet_serial_number }} (Asignado)
-          </mat-option>
-          <mat-option *ngIf="assignedHelmet" [value]="null">-- Quitar casco asignado --</mat-option>
-          <mat-option *ngIf="!assignedHelmet" [value]="null">Sin casco asignado</mat-option>
-          <mat-optgroup label="Cascos disponibles">
-            <mat-option *ngFor="let helmet of availableHelmets" [value]="helmet.id">
-              {{ helmet.helmet_serial_number }}
-            </mat-option>
-          </mat-optgroup>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <div class="error-messages-container">
-      <div *ngIf="errorMessage.length > 0" class="error-messages">
-        <mat-error *ngFor="let message of errorMessage">
-          {{ message }}
-        </mat-error>
+      <div class="example-button-row" style="text-align: center;">
+        <button mat-flat-button
+          style="background-color: #2499C7; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;"
+          (click)="onBackToHome()">
+          Cancelar
+        </button>
+        <button mat-flat-button
+          style="background-color: #40CFFF; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;"
+          type="submit">
+          Guardar Cambios
+        </button>
       </div>
-    </div>
-    
-    <div class="example-button-row" style="text-align: center;">
-      <button mat-flat-button style="background-color: #2499C7; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;" (click)="onBackToHome()">
-        Cancelar
-      </button>
-      <button mat-flat-button style="background-color: #40CFFF; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;" type="submit">
-        Guardar Cambios
-      </button>
-    </div>
-  </form>
-  
+    </form>

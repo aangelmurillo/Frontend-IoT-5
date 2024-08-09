@@ -19,6 +19,7 @@ export class Editar1Component implements OnInit {
   itemsPerPage = 8;
   totalPages = 0;
   userGroups: any[] = [];
+  idActual: any;
 
   constructor(
     private userService: ApiserviceService,
@@ -30,14 +31,13 @@ export class Editar1Component implements OnInit {
     this.loadUsers();
     this.authService.getCurrentUser().subscribe(user => {
       this.user = user;
-      console.log('User: ', user);
+      this.idActual = user.id;
     });
   }
 
   loadUsers() {
     this.userService.getAllUsers().subscribe(
       (data) => {
-        console.log("Datos del usuario ", data);
         this.users = data;
         this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
         this.updateUserGroups();
@@ -68,10 +68,13 @@ export class Editar1Component implements OnInit {
   }
 
   onUserSelect(userId: number) {
-    if (this.user.id === userId) {
-      alert('No puedes editar tu propio usuario.');
+    const selectedUser = this.users.find(user => user.id === userId);
+    
+    if (this.idActual != userId && selectedUser.rol.rol_name != "Employee") {
+      alert('No puedes editar a otro administrador.');
       return;
     }
+  
     this.router.navigate(['/edit-employee/edit/', userId]);
   }
 
