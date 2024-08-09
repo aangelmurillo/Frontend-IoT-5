@@ -12,6 +12,12 @@ import { AuthserviceService } from '../authservice.service';
 })
 export class InfoEmpleadoComponent implements OnInit {
 
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
   userId!: number;
   personId!: number;
   addressId!: number;
@@ -274,5 +280,9 @@ export class InfoEmpleadoComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/']);
     this.isUserMenuOpen = false;
+  }
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
   }
 }

@@ -13,6 +13,16 @@ import { GoogleMap } from '@angular/google-maps';
   styleUrls: ['./gps.component.css']
 })
 export class GpsComponent implements OnInit, OnDestroy {
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
+  }
+
   @ViewChild('sidenav') sidenav!: MatSidenav;
   @ViewChild('map') map!: GoogleMap;
   isUserMenuOpen = false;

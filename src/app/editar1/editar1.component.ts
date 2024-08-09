@@ -12,6 +12,12 @@ import { AuthserviceService } from '../authservice.service';
 export class Editar1Component implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
   user: any;
   users: any[] = [];
   isUserMenuOpen = false;
@@ -95,5 +101,9 @@ export class Editar1Component implements OnInit {
   changePage(page: number) {
     this.currentPage = page;
     this.updateUserGroups();
+  }
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
   }
 }

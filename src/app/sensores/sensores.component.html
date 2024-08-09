@@ -9,10 +9,14 @@
   </span>
 
   <div class="user-menu">
-    <button mat-icon-button (click)="toggleUserMenu()">
+    <div class="menu-icon" (click)="toggleUserMenu()">
       <mat-icon>account_circle</mat-icon>
-    </button>
+    </div>
     <div class="user-dropdown" [class.show]="isUserMenuOpen">
+      <button mat-menu-item routerLink="/profile">
+        <mat-icon>person</mat-icon>
+        <span>Perfil</span>
+      </button>
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
         <span>Logout</span>
@@ -24,16 +28,41 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav mode="over">
     <mat-nav-list>
-      <a mat-list-item routerLink="/home">Inicio</a>
-      <a mat-list-item routerLink="/profile">Perfil</a>
-      <a mat-list-item routerLink="/register-employee">Registro Empleado</a>
-      <a mat-list-item routerLink="/verificate-account">Verificar Cuentas</a>
-      <a mat-list-item routerLink="/register-address">Registrar Direccion</a>
-      <a mat-list-item routerLink="/edit-employee">Editar Empleado</a>
-      <a mat-list-item routerLink="/delete-employee">Eliminar Empleado</a>
-      <a mat-list-item routerLink="/register-helmet">Registrar Casco</a>
-      <a mat-list-item routerLink="/sensor-record">Historial de Sensores</a>
-      <a mat-list-item routerLink="/inf-employee">Información Empleados</a>
+      <a mat-list-item (click)="toggleSubmenu('inicio')">
+        <span class="menu-item">
+          <span>Inicio</span>
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </a>
+      <div class="submenu" [class.expanded]="expandedMenus['inicio']">
+        <a mat-list-item routerLink="/home">Inicio</a>
+      </div>
+
+      <a mat-list-item (click)="toggleSubmenu('empleados')">
+        <span class="menu-item">
+          <span>Empleados</span>
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </a>
+      <div class="submenu" [class.expanded]="expandedMenus['empleados']">
+        <a mat-list-item routerLink="/register-employee">Registro Empleado</a>
+        <a mat-list-item routerLink="/edit-employee">Editar Empleado</a>
+        <a mat-list-item routerLink="/delete-employee">Eliminar Empleado</a>
+        <a mat-list-item routerLink="/inf-employee">Información Empleados</a>
+      </div>
+
+      <a mat-list-item (click)="toggleSubmenu('otros')">
+        <span class="menu-item">
+          <span>Otros</span>
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </a>
+      <div class="submenu" [class.expanded]="expandedMenus['otros']">
+        <a mat-list-item routerLink="/verificate-account">Verificar Cuentas</a>
+        <a mat-list-item routerLink="/register-address">Registrar Dirección</a>
+        <a mat-list-item routerLink="/register-helmet">Registrar Casco</a>
+        <a mat-list-item routerLink="/sensor-record">Historial de Sensores</a>
+      </div>
     </mat-nav-list>
   </mat-sidenav>
 

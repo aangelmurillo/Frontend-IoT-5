@@ -5,6 +5,7 @@ import { AuthserviceService } from '../authservice.service';
 import { Router } from '@angular/router';
 
 export interface SensorHistoryResponse {
+  
   user_id: number;
   helmet_id: string;
   sensor_history: {
@@ -32,6 +33,15 @@ export class SensorHistoryComponent implements OnInit {
   isUserMenuOpen = false;
   sensorData: SensorHistoryResponse | null = null;
 
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
+  }
 
 
   constructor(private apiService: ApiserviceService,

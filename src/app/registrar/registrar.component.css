@@ -8,7 +8,8 @@ mat-toolbar {
   padding: 0 20px;
 }
 
-.menu-icon mat-icon, .user-icon mat-icon {
+.menu-icon mat-icon,
+.user-icon mat-icon {
   font-size: 40px;
   height: 40px;
   width: 40px;
@@ -133,7 +134,7 @@ form {
   width: 200px;
   margin-top: 5px;
   background-color: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   z-index: 1000;
 }
@@ -181,4 +182,62 @@ form {
   margin-bottom: 5px;
   color: #b71c1c;
   font-size: 16px;
+}
+
+.submenu {
+  display: none;
+  padding-left: 20px;
+}
+
+.submenu.expanded {
+  display: block;
+}
+
+.mat-list-item {
+  cursor: pointer;
+}
+
+.mat-icon {
+  transition: transform 0.3s ease;
+}
+
+.expanded .mat-icon {
+  transform: rotate(180deg);
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.mat-list-item {
+  height: auto !important;
+  padding: 8px 0;
+}
+
+.mat-list-item .mat-icon {
+  margin-left: 8px;
+}
+
+.submenu {
+  display: none;
+  padding-left: 20px;
+}
+
+.submenu.expanded {
+  display: block;
+}
+
+.mat-list-item {
+  cursor: pointer;
+}
+
+.mat-icon {
+  transition: transform 0.3s ease;
+}
+
+.expanded .mat-icon {
+  transform: rotate(180deg);
 }

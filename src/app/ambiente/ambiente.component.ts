@@ -15,6 +15,12 @@ export class AmbienteComponent implements OnInit, OnDestroy {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isUserMenuOpen = false;
 
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
   user: any;
   employeeName: string = '';
   helmetSerialNumber: string = '';
@@ -226,5 +232,9 @@ export class AmbienteComponent implements OnInit, OnDestroy {
     this.authService.logout();
     this.router.navigate(['/']);
     this.isUserMenuOpen = false;
+  }
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
   }
 }

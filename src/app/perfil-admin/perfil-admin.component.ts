@@ -9,7 +9,11 @@ import { AuthserviceService } from '../authservice.service';
   styleUrls: ['./perfil-admin.component.css']
 })
 export class PerfilAdminComponent {
-
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
   user: any;
   addresses: any[] = [];
   selectedAddress: any;
@@ -52,6 +56,10 @@ export class PerfilAdminComponent {
     this.authService.logout();
     this.router.navigate(['/']);
     this.isUserMenuOpen = false;
+  }
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
   }
 
 }

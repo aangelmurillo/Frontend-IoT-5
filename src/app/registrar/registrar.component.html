@@ -2,8 +2,8 @@
   <div class="menu-icon" (click)="toggleMenu()">
     <mat-icon>menu</mat-icon>
   </div>
-  
-  
+
+
   <span class="toolbar-title" routerLink="/home">
     <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
     iHelmet
@@ -13,28 +13,57 @@
     <div class="menu-icon" (click)="toggleUserMenu()">
       <mat-icon>account_circle</mat-icon>
     </div>
-  <div class="user-dropdown" [class.show]="isUserMenuOpen">
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon>
-      <span>Logout</span>
-    </button>
+    <div class="user-dropdown" [class.show]="isUserMenuOpen">
+      <button mat-menu-item routerLink="/profile">
+        <mat-icon>person</mat-icon>
+        <span>Perfil</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </div>
   </div>
-</div>
 </mat-toolbar>
 
 <mat-sidenav-container>
   <mat-sidenav #sidenav mode="over">
     <mat-nav-list>
-      <a mat-list-item routerLink="/home">Inicio</a>
-      <a mat-list-item routerLink="/profile">Perfil</a>
-      <a mat-list-item routerLink="/register-employee">Registro Empleado</a>
-      <a mat-list-item routerLink="/verificate-account">Verificar Cuentas</a>
-      <a mat-list-item routerLink="/register-address">Registrar Direccion</a>
-      <a mat-list-item routerLink="/edit-employee">Editar Empleado</a>
-      <a mat-list-item routerLink="/delete-employee">Eliminar Empleado</a>
-      <a mat-list-item routerLink="/register-helmet">Registrar Casco</a>
-      <a mat-list-item routerLink="/sensor-record">Historial de Sensores</a>
-      <a mat-list-item routerLink="/inf-employee">Información Empleados</a>
+      <a mat-list-item (click)="toggleSubmenu('inicio')">
+        <span class="menu-item">
+          <span>Inicio</span>
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </a>
+      <div class="submenu" [class.expanded]="expandedMenus['inicio']">
+        <a mat-list-item routerLink="/home">Inicio</a>
+      </div>
+  
+      <a mat-list-item (click)="toggleSubmenu('empleados')">
+        <span class="menu-item">
+          <span>Empleados</span>
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </a>
+      <div class="submenu" [class.expanded]="expandedMenus['empleados']">
+        <a mat-list-item routerLink="/register-employee">Registro Empleado</a>
+        <a mat-list-item routerLink="/edit-employee">Editar Empleado</a>
+        <a mat-list-item routerLink="/delete-employee">Eliminar Empleado</a>
+        <a mat-list-item routerLink="/inf-employee">Información Empleados</a>
+      </div>
+  
+      <a mat-list-item (click)="toggleSubmenu('otros')">
+        <span class="menu-item">
+          <span>Otros</span>
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </a>
+      <div class="submenu" [class.expanded]="expandedMenus['otros']">
+        <a mat-list-item routerLink="/verificate-account">Verificar Cuentas</a>
+        <a mat-list-item routerLink="/register-address">Registrar Dirección</a>
+        <a mat-list-item routerLink="/register-helmet">Registrar Casco</a>
+        <a mat-list-item routerLink="/sensor-record">Historial de Sensores</a>
+      </div>
     </mat-nav-list>
   </mat-sidenav>
 
@@ -49,203 +78,230 @@
       </div>
     </div>
 
-<br>
+    <br>
 
-<div style="text-align: center; font-family: 'Alegreya Sans', sans-serif;">
-  <h1 style="font-size: 30px; font-weight: bold;">
-    Registrar Empleado:
-  </h1>
-</div>
-<br>
-
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Nombre(s):</mat-label>
-      <input matInput formControlName="person_name">
-      <mat-error *ngIf="registerForm.controls['person_name'].hasError('required')">Este campo es obligatorio</mat-error>
-      <mat-error *ngIf="registerForm.controls['person_name'].hasError('pattern')">Solo se permiten letras</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Apellido Paterno:</mat-label>
-      <input matInput formControlName="person_last_name">
-      <mat-error *ngIf="registerForm.controls['person_last_name'].hasError('required')">Este campo es obligatorio</mat-error>
-      <mat-error *ngIf="registerForm.controls['person_last_name'].hasError('pattern')">Solo se permiten letras</mat-error>
-    </mat-form-field>
-  </div>
-  
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Apellido Materno:</mat-label>
-      <input matInput formControlName="person_second_last_name">
-      <mat-error *ngIf="registerForm.controls['person_second_last_name'].hasError('pattern')">Solo se permiten letras</mat-error>
-    </mat-form-field>
-  </div>
-  
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">CURP:</mat-label>
-      <input matInput formControlName="person_curp">
-      <mat-error *ngIf="registerForm.controls['person_curp'].hasError('required')">Este campo es obligatorio</mat-error>
-      <mat-error *ngIf="registerForm.controls['person_curp'].hasError('pattern')">Debe tener 18 caracteres, solo letras y números</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Número telefónico:</mat-label>
-      <input matInput formControlName="person_phone_number">
-      <mat-error *ngIf="registerForm.controls['person_phone_number'].hasError('required')">Este campo es obligatorio</mat-error>
-      <mat-error *ngIf="registerForm.controls['person_phone_number'].hasError('pattern')">Debe tener 10 dígitos</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Nombre de Usuario:</mat-label>
-      <input matInput formControlName="user_name">
-      <mat-error *ngIf="registerForm.controls['user_name'].hasError('required')">Este campo es obligatorio</mat-error>
-      <mat-error *ngIf="registerForm.controls['user_name'].hasError('minlength')">Debe tener al menos 4 caracteres</mat-error>
-    </mat-form-field>
-  </div>
-
-   
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Correo Electrónico:</mat-label>
-      <input matInput formControlName="email">
-      <mat-error *ngIf="registerForm.controls['email'].hasError('required')">Este campo es obligatorio</mat-error>
-      <mat-error *ngIf="registerForm.controls['email'].hasError('email')">Debe ser un correo válido</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Contraseña:</mat-label>
-      <input matInput type="password" formControlName="password">
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Referencia:</mat-label>
-      <input matInput formControlName="address_references" placeholder="Ej: Casa,Departamento,Oficina">
-      <mat-error *ngIf="registerForm.get('address_references')?.hasError('required')">Este campo es obligatorio</mat-error>
-      <mat-error *ngIf="registerForm.get('address_references')?.hasError('pattern')">Solo se permiten letras</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Calle:</mat-label>
-      <input matInput formControlName="address_street">
-      <mat-error *ngIf="registerForm.get('address_street')?.hasError('required')">Este campo es obligatorio</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Num.Exterior:</mat-label>
-      <input matInput formControlName="address_exterior_number">
-      <mat-error *ngIf="registerForm.get('address_exterior_number')?.hasError('required')">Este campo es obligatorio</mat-error>
-      <mat-error *ngIf="registerForm.get('address_exterior_number')?.hasError('pattern')">Solo se permiten números</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Num.Interior:</mat-label>
-      <input matInput formControlName="address_interior_number">
-      <mat-error *ngIf="registerForm.get('address_interior_number')?.hasError('pattern')">Solo se permiten letras y números</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Colonia:</mat-label>
-      <input matInput formControlName="address_neighborhood">
-      <mat-error *ngIf="registerForm.get('address_neighborhood')?.hasError('required')">Este campo es obligatorio</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Codigo_Postal:</mat-label>
-      <input matInput formControlName="address_zip_code">
-      <mat-error *ngIf="registerForm.get('address_zip_code')?.hasError('required')">Este campo es obligatorio</mat-error>
-      <mat-error *ngIf="registerForm.get('address_zip_code')?.hasError('pattern')">Debe ser un número de 5 dígitos</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Ciudad:</mat-label>
-      <input matInput formControlName="address_city">
-      <mat-error *ngIf="registerForm.get('address_city')?.hasError('required')">Este campo es obligatorio</mat-error>
-      <mat-error *ngIf="registerForm.get('address_city')?.hasError('pattern')">Solo se permiten letras</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Estado:</mat-label>
-      <input matInput formControlName="address_state">
-      <mat-error *ngIf="registerForm.get('address_state')?.hasError('required')">Este campo es obligatorio</mat-error>
-      <mat-error *ngIf="registerForm.get('address_state')?.hasError('pattern')">Solo se permiten letras</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Pais:</mat-label>
-      <input matInput formControlName="address_country">
-      <mat-error *ngIf="registerForm.get('address_country')?.hasError('required')">Este campo es obligatorio</mat-error>
-      <mat-error *ngIf="registerForm.get('address_country')?.hasError('pattern')">Solo se permiten letras</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Rol:</mat-label>
-      <mat-select formControlName="rol_id">
-        <mat-option value="1">Administrador</mat-option>
-        <mat-option value="2">Empleado</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div class="inputs">
-    <mat-form-field class="custom">
-      <mat-label style="font-size:22px;">Casco:</mat-label>
-      <mat-select formControlName="helmet_id">
-        <mat-option *ngFor="let helmet of availableHelmets" [value]="helmet.id">
-          {{ helmet.helmet_serial_number }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div class="error-messages-container">
-    <div *ngIf="errorMessages.length > 0" class="error-messages">
-      <mat-error *ngFor="let message of errorMessages">
-        {{ message }}
-      </mat-error>
+    <div style="text-align: center; font-family: 'Alegreya Sans', sans-serif;">
+      <h1 style="font-size: 30px; font-weight: bold;">
+        Registrar Empleado:
+      </h1>
     </div>
-  </div>
-  
-  <div class="example-button-row" style="text-align: center;">
-    <button mat-flat-button style="background-color: #2499C7; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;" (click)="onBackToHome()">
-      Cancelar
-    </button>
-    <button mat-flat-button style="background-color: #40CFFF; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;"
-    type="submit" [disabled]="registerForm.invalid">
-      Aceptar
-    </button>
-  </div>
-</form>
+    <br>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Nombre(s):</mat-label>
+          <input matInput formControlName="person_name">
+          <mat-error *ngIf="registerForm.controls['person_name'].hasError('required')">Este campo es
+            obligatorio</mat-error>
+          <mat-error *ngIf="registerForm.controls['person_name'].hasError('pattern')">Solo se permiten
+            letras</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Apellido Paterno:</mat-label>
+          <input matInput formControlName="person_last_name">
+          <mat-error *ngIf="registerForm.controls['person_last_name'].hasError('required')">Este campo es
+            obligatorio</mat-error>
+          <mat-error *ngIf="registerForm.controls['person_last_name'].hasError('pattern')">Solo se permiten
+            letras</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Apellido Materno:</mat-label>
+          <input matInput formControlName="person_second_last_name">
+          <mat-error *ngIf="registerForm.controls['person_second_last_name'].hasError('pattern')">Solo se permiten
+            letras</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">CURP:</mat-label>
+          <input matInput formControlName="person_curp">
+          <mat-error *ngIf="registerForm.controls['person_curp'].hasError('required')">Este campo es
+            obligatorio</mat-error>
+          <mat-error *ngIf="registerForm.controls['person_curp'].hasError('pattern')">Debe tener 18 caracteres, solo
+            letras y números</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Número telefónico:</mat-label>
+          <input matInput formControlName="person_phone_number">
+          <mat-error *ngIf="registerForm.controls['person_phone_number'].hasError('required')">Este campo es
+            obligatorio</mat-error>
+          <mat-error *ngIf="registerForm.controls['person_phone_number'].hasError('pattern')">Debe tener 10
+            dígitos</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Nombre de Usuario:</mat-label>
+          <input matInput formControlName="user_name">
+          <mat-error *ngIf="registerForm.controls['user_name'].hasError('required')">Este campo es
+            obligatorio</mat-error>
+          <mat-error *ngIf="registerForm.controls['user_name'].hasError('minlength')">Debe tener al menos 4
+            caracteres</mat-error>
+        </mat-form-field>
+      </div>
+
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Correo Electrónico:</mat-label>
+          <input matInput formControlName="email">
+          <mat-error *ngIf="registerForm.controls['email'].hasError('required')">Este campo es obligatorio</mat-error>
+          <mat-error *ngIf="registerForm.controls['email'].hasError('email')">Debe ser un correo válido</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Contraseña:</mat-label>
+          <input matInput type="password" formControlName="password">
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Referencia:</mat-label>
+          <input matInput formControlName="address_references" placeholder="Ej: Casa,Departamento,Oficina">
+          <mat-error *ngIf="registerForm.get('address_references')?.hasError('required')">Este campo es
+            obligatorio</mat-error>
+          <mat-error *ngIf="registerForm.get('address_references')?.hasError('pattern')">Solo se permiten
+            letras</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Calle:</mat-label>
+          <input matInput formControlName="address_street">
+          <mat-error *ngIf="registerForm.get('address_street')?.hasError('required')">Este campo es
+            obligatorio</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Num.Exterior:</mat-label>
+          <input matInput formControlName="address_exterior_number">
+          <mat-error *ngIf="registerForm.get('address_exterior_number')?.hasError('required')">Este campo es
+            obligatorio</mat-error>
+          <mat-error *ngIf="registerForm.get('address_exterior_number')?.hasError('pattern')">Solo se permiten
+            números</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Num.Interior:</mat-label>
+          <input matInput formControlName="address_interior_number">
+          <mat-error *ngIf="registerForm.get('address_interior_number')?.hasError('pattern')">Solo se permiten letras y
+            números</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Colonia:</mat-label>
+          <input matInput formControlName="address_neighborhood">
+          <mat-error *ngIf="registerForm.get('address_neighborhood')?.hasError('required')">Este campo es
+            obligatorio</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Codigo_Postal:</mat-label>
+          <input matInput formControlName="address_zip_code">
+          <mat-error *ngIf="registerForm.get('address_zip_code')?.hasError('required')">Este campo es
+            obligatorio</mat-error>
+          <mat-error *ngIf="registerForm.get('address_zip_code')?.hasError('pattern')">Debe ser un número de 5
+            dígitos</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Ciudad:</mat-label>
+          <input matInput formControlName="address_city">
+          <mat-error *ngIf="registerForm.get('address_city')?.hasError('required')">Este campo es
+            obligatorio</mat-error>
+          <mat-error *ngIf="registerForm.get('address_city')?.hasError('pattern')">Solo se permiten letras</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Estado:</mat-label>
+          <input matInput formControlName="address_state">
+          <mat-error *ngIf="registerForm.get('address_state')?.hasError('required')">Este campo es
+            obligatorio</mat-error>
+          <mat-error *ngIf="registerForm.get('address_state')?.hasError('pattern')">Solo se permiten letras</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Pais:</mat-label>
+          <input matInput formControlName="address_country">
+          <mat-error *ngIf="registerForm.get('address_country')?.hasError('required')">Este campo es
+            obligatorio</mat-error>
+          <mat-error *ngIf="registerForm.get('address_country')?.hasError('pattern')">Solo se permiten
+            letras</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Rol:</mat-label>
+          <mat-select formControlName="rol_id">
+            <mat-option value="1">Administrador</mat-option>
+            <mat-option value="2">Empleado</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="inputs">
+        <mat-form-field class="custom">
+          <mat-label style="font-size:22px;">Casco:</mat-label>
+          <mat-select formControlName="helmet_id">
+            <mat-option *ngFor="let helmet of availableHelmets" [value]="helmet.id">
+              {{ helmet.helmet_serial_number }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="error-messages-container">
+        <div *ngIf="errorMessages.length > 0" class="error-messages">
+          <mat-error *ngFor="let message of errorMessages">
+            {{ message }}
+          </mat-error>
+        </div>
+      </div>
+
+      <div class="example-button-row" style="text-align: center;">
+        <button mat-flat-button
+          style="background-color: #2499C7; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;"
+          (click)="onBackToHome()">
+          Cancelar
+        </button>
+        <button mat-flat-button
+          style="background-color: #40CFFF; color: white; font-weight: bold; font-family: 'Alegreya Sans', sans-serif; font-size: 30px;"
+          type="submit" [disabled]="registerForm.invalid">
+          Aceptar
+        </button>
+      </div>
+    </form>
 
   </mat-sidenav-content>
 </mat-sidenav-container>

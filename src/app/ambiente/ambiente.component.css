@@ -326,3 +326,61 @@ h3 {
 .sensor-card {
   margin: 10px;
 }
+
+.submenu {
+  display: none;
+  padding-left: 20px;
+}
+
+.submenu.expanded {
+  display: block;
+}
+
+.mat-list-item {
+  cursor: pointer;
+}
+
+.mat-icon {
+  transition: transform 0.3s ease;
+}
+
+.expanded .mat-icon {
+  transform: rotate(180deg);
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.mat-list-item {
+  height: auto !important;
+  padding: 8px 0;
+}
+
+.mat-list-item .mat-icon {
+  margin-left: 8px;
+}
+
+.submenu {
+  display: none;
+  padding-left: 20px;
+}
+
+.submenu.expanded {
+  display: block;
+}
+
+.mat-list-item {
+  cursor: pointer;
+}
+
+.mat-icon {
+  transition: transform 0.3s ease;
+}
+
+.expanded .mat-icon {
+  transform: rotate(180deg);
+}

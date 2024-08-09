@@ -13,6 +13,17 @@ import { SuccessDialogComponent } from '../success-dialog/success-dialog.compone
   styleUrls: ['./casco.component.css']
 })
 export class CascoComponent implements OnInit {
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
+  }
+
+  
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isUserMenuOpen = false;
 

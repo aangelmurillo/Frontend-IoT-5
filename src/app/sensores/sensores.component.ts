@@ -21,6 +21,17 @@ export class SensoresComponent implements OnInit {
   helmet: any;
   isUserMenuOpen = false;
 
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
+  }
+
+
   constructor(
     private router: Router,
     private authService: AuthserviceService,

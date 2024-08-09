@@ -19,6 +19,15 @@ export class RegisterAddressComponent implements OnInit {
   isUserMenuOpen = false;
   errorMessage: string = '';
 
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
+  }
 
   ngOnInit() {
     this.loadAvailableHelmets();

@@ -12,6 +12,17 @@ import { Socket } from 'ngx-socket-io';
   styleUrls: ['./temperatura.component.css']
 })
 export class TemperaturaComponent implements OnInit, OnDestroy {
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
+  }
+
+  
   temperature: number | null = 0;
   temperatureF: number | null = 0;
   temperatureK: number | null = 0;

@@ -15,11 +15,17 @@ import { DialogExitoComponent } from '../dialog-exito/dialog-exito.component'
 export class RegistrarComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
   registerForm: FormGroup;
   availableHelmets: any[] = [];
   user: any;
   isUserMenuOpen = false;
-  errorMessages: string [] = [];
+  errorMessages: string[] = [];
 
   ngOnInit() {
     this.loadAvailableHelmets();
@@ -194,5 +200,9 @@ export class RegistrarComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/']);
     this.isUserMenuOpen = false;
+  }
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
   }
 }

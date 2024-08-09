@@ -10,6 +10,16 @@ import { ApiserviceService } from '../apiservice.service';
   styleUrls: ['./verificate-account.component.css']
 })
 export class VerificateAccountComponent implements OnInit {
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
+  }
+  
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isUserMenuOpen = false;
   user: any;

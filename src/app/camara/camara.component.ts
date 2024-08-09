@@ -10,6 +10,16 @@ import { ApiserviceService } from '../apiservice.service';
   styleUrls: ['./camara.component.css']
 })
 export class CamaraComponent implements OnInit {
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
+  }
+
   cameraLink: string | null = null;
   timestamp: number = 0;
   @ViewChild('sidenav') sidenav!: MatSidenav;
@@ -61,4 +71,6 @@ export class CamaraComponent implements OnInit {
   onBackToHome() {
     this.router.navigate(['/empleados']);
   }
+  
+
 }

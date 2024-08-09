@@ -15,6 +15,12 @@ export class EliminarEmpleadoComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isUserMenuOpen = false;
 
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
   user: any;
   users: any[] = [];
   userGroups: any[] = [];
@@ -28,6 +34,10 @@ export class EliminarEmpleadoComponent implements OnInit {
     private authService: AuthserviceService,
     private cookieService: CookieService
   ) {}
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
+  }
 
   ngOnInit() {
     this.loadUsers();
