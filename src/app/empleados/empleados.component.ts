@@ -1,27 +1,29 @@
-import { Component, ViewChild } from '@angular/core';
-import { ApiserviceService } from '../apiservice.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiserviceService } from '../apiservice.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AuthserviceService } from '../authservice.service';
-
 
 @Component({
   selector: 'app-empleados',
   templateUrl: './empleados.component.html',
   styleUrls: ['./empleados.component.css']
 })
-export class EmpleadosComponent {
+export class EmpleadosComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
-  users: any[] = [];
   user: any;
+  users: any[] = [];
   isUserMenuOpen = false;
-
+  currentPage = 1;
+  itemsPerPage = 8;
+  totalPages = 0;
+  userGroups: any[] = [];
 
   constructor(
     private userService: ApiserviceService,
     private router: Router,
-    private authService: AuthserviceService,
+    private authService: AuthserviceService
   ) {}
 
   ngOnInit() {
@@ -30,16 +32,32 @@ export class EmpleadosComponent {
       this.user = user;
     });
   }
+
   loadUsers() {
     this.userService.getUsers().subscribe(
       (data) => {
-
         this.users = data;
+        this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
+        this.updateUserGroups();
       },
       (error) => {
-
+        console.error('Error fetching users', error);
       }
     );
+  }
+
+  updateUserGroups() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.userGroups = this.groupUsers(this.users.slice(startIndex, endIndex), 4);
+  }
+
+  groupUsers(array: any[], groupSize: number) {
+    let result = [];
+    for (let i = 0; i < array.length; i += groupSize) {
+      result.push(array.slice(i, i + groupSize));
+    }
+    return result;
   }
 
   getButtonColor(index: number): string {
@@ -49,7 +67,6 @@ export class EmpleadosComponent {
 
   onUserSelect(userId: number) {
     this.router.navigate(['/sensores', userId]);
-
   }
 
   toggleMenu() {
@@ -62,9 +79,12 @@ export class EmpleadosComponent {
 
   logout() {
     this.authService.logout();
-        this.router.navigate(['/']);
-        this.isUserMenuOpen = false;
+    this.router.navigate(['/']);
+    this.isUserMenuOpen = false;
   }
 
-
+  changePage(page: number) {
+    this.currentPage = page;
+    this.updateUserGroups();
+  }
 }

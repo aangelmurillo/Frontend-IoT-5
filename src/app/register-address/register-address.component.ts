@@ -46,6 +46,7 @@ export class RegisterAddressComponent implements OnInit {
       address_state: ['', Validators.required],
       address_country: ['', Validators.required],
       helmet_id: ['', Validators.required],
+      referencia: ['', Validators.required]
     });
   }
 
@@ -55,6 +56,7 @@ export class RegisterAddressComponent implements OnInit {
       if (this.registerForm.valid) {
         const addressData = {
           address_street: this.registerForm.get('address_street')?.value,
+          address_references: this.registerForm.get('referencia')?.value,
           address_exterior_number: this.registerForm.get('address_exterior_number')?.value,
           address_interior_number: this.registerForm.get('address_interior_number')?.value,
           address_neighborhood: this.registerForm.get('address_neighborhood')?.value,
@@ -92,7 +94,7 @@ export class RegisterAddressComponent implements OnInit {
   }
 
   loadAvailableHelmets() {
-    this.apiService.getUsers().subscribe(
+    this.apiService.getAllUsers().subscribe(
       (helmets) => {
         this.availableHelmets = helmets;
         console.log('user:' ,helmets)

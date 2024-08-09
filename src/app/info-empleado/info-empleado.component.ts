@@ -16,6 +16,7 @@ export class InfoEmpleadoComponent implements OnInit {
   personId!: number;
   addressId!: number;
   editForm: FormGroup;
+  esAdmin: boolean = false;
   availableHelmets: any[] = [];
   assignedHelmet: any = null;
   user: any;
@@ -58,17 +59,35 @@ export class InfoEmpleadoComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null) {
       this.userId = +id;
+      console.log('User ID:', this.userId);
       this.loadUserData();
       this.loadAvailableHelmets();
+  
+      // Verifica si el usuario actual es un administrador
+      this.apiService.getUser(this.userId).subscribe(user => {
+        this.user = user;
+        console.log('User: ', user);
+        // Ajuste: El rol se compara con 'Administrator'
+        if (user.rol.id === 1) {
+          console.log('El usuario actual es un administrador');
+          this.esAdmin = false;
+        } else {
+          console.log('El usuario actual NO es un administrador');
+          this.esAdmin = true;
+        }
+      });
+  
     } else {
       console.error('User ID is not provided in the URL');
     }
-
+  
     this.authService.getCurrentUser().subscribe(user => {
       this.user = user;
       console.log('User: ', user);
     });
   }
+  
+  
 
   async loadUserData() {
     try {
@@ -179,10 +198,10 @@ export class InfoEmpleadoComponent implements OnInit {
 
                 const userData = {
                   person_id: this.personId,
-                  user_name: this.editForm.get('user_name')?.value,
-                  email: this.editForm.get('email')?.value,
-                  rol_id: this.editForm.get('rol_id')?.value,
-                  helmet_id: this.editForm.get('helmet_id')?.value,
+                  user_name: this.editForm.get('user_name')?.value || this.user.user_name,
+                  email: this.editForm.get('email')?.value || this.user.email,
+                  rol_id: this.editForm.get('rol_id')?.value || this.user.rol_id,
+                  helmet_id: this.editForm.get('helmet_id')?.value || this.assignedHelmet?.id,
                 };
 
                 const userId = this.userId;
