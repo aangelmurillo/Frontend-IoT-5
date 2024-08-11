@@ -198,4 +198,8 @@ export class ApiserviceService {
   deletePerson(personId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/people/${personId}`, { headers: this.getHeaders(true) });
   }
+
+  gethistorialEmpleados(helmet: { helmet_id: string, date: string }): Observable<SensorHistoryResponse> {
+    return this.http.post<SensorHistoryResponse>(`${this.apiUrl}/personalHelmetStats/`, helmet, { headers: this.getHeaders(true) });
+  }
 }
