@@ -86,12 +86,32 @@ form {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 40px; /* Aumentado de 20px a 40px */
+  margin-bottom: 40px; /* Añadido para dar espacio al final */
 }
 
 .example-button-row button {
-  margin: 0 15px;
+  margin: 0 30px; /* Aumentado de 15px a 30px para más separación entre botones */
   padding: 15px 50px;
+}
+
+/* Añadir un contenedor para el formulario y los botones */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 180px); /* Altura total menos el espacio del toolbar y user-info */
+  justify-content: space-between;
+}
+
+/* Ajustar el formulario para que ocupe el espacio disponible */
+form {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 @media (max-width: 768px) {

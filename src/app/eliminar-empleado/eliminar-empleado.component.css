@@ -199,12 +199,28 @@ mat-icon {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  gap: 15px;
 }
 
 .pagination button {
-  margin: 0 5px;
-  padding: 10px;
-  font-size: 18px;
+  background-color: #2596BE;
+  color: white;
+  font-weight: bold;
+  font-family: 'Alegreya Sans', sans-serif;
+  font-size: 24px;
+  width: 60px;
+  height: 60px;
+  transition: all 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #006691;
+  transform: scale(1.1);
+}
+
+.pagination button.active {
+  background-color: #006691;
+  box-shadow: 0 0 15px rgba(0, 102, 145, 0.5);
 }
 
 .submenu {

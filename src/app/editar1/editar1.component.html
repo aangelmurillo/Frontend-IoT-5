@@ -102,9 +102,12 @@
       <br>
     </ng-container>
 
+   
+
     <div class="pagination">
-      <button mat-button *ngFor="let page of [].constructor(totalPages); let i = index"
-        (click)="changePage(i + 1)">
+      <button mat-mini-fab color="primary" *ngFor="let page of [].constructor(totalPages); let i = index"
+        (click)="changePage(i + 1)"
+        [class.active]="currentPage === i + 1">
         {{ i + 1 }}
       </button>
     </div>
