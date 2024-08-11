@@ -69,11 +69,9 @@ export class InfoEmpleadoComponent implements OnInit {
       this.loadUserData();
       this.loadAvailableHelmets();
   
-      // Verifica si el usuario actual es un administrador
       this.apiService.getUser(this.userId).subscribe(user => {
         this.user = user;
         console.log('User: ', user);
-        // Ajuste: El rol se compara con 'Administrator'
         if (user.rol.id === 1) {
           console.log('El usuario actual es un administrador');
           this.esAdmin = false;
@@ -137,6 +135,14 @@ export class InfoEmpleadoComponent implements OnInit {
       this.onAddressChange(this.addresses[0].id);
     } catch (error) {
       console.error('Error loading user data', error);
+    }
+  }
+
+  onRolChange(rolId: string) {
+    if (rolId === '1') { // Si es Administrador
+      this.editForm.patchValue({
+        helmet_id: null
+      });
     }
   }
 
@@ -207,8 +213,7 @@ export class InfoEmpleadoComponent implements OnInit {
                   user_name: this.editForm.get('user_name')?.value || this.user.user_name,
                   email: this.editForm.get('email')?.value || this.user.email,
                   rol_id: this.editForm.get('rol_id')?.value || this.user.rol_id,
-                  helmet_id: this.editForm.get('helmet_id')?.value || this.assignedHelmet?.id,
-                };
+                  helmet_id: this.editForm.get('rol_id')?.value === '1' ? null : (this.editForm.get('helmet_id')?.value || this.assignedHelmet?.id),                };
 
                 const userId = this.userId;
 

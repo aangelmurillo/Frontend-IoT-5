@@ -173,6 +173,12 @@ const routes: Routes = [
     data: { roles: ['admin','emplo'] }
   },
   {
+    path: 'camara-emp',
+    component: CamaraEmpComponent,
+    canActivate: [AuthProtectedGuard],
+    data: { roles: ['admin','emplo'] }
+  },
+  {
     path: 'profile-emp',
     component: PerfilEmpleadoComponent,
     canActivate: [AuthProtectedGuard],
@@ -212,15 +218,6 @@ const routes: Routes = [
     path: 'unauthorized',
     component: NotFoundComponent,
     canActivate: []
-  },
- 
-  
-
-  {
-    path: 'camara-emp',
-    component: CamaraEmpComponent,
-    canActivate: [AuthProtectedGuard],
-    data: { roles: ['admin','emplo'] }
   },
   {
     path: '**', 
