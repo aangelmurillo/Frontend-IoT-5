@@ -1,135 +1,120 @@
 <mat-toolbar>
-    <div class="menu-icon" (click)="toggleMenu()">
-      <mat-icon>menu</mat-icon>
+  <div class="menu-icon" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </div>
+  
+  <span class="toolbar-title" routerLink="/home">
+    <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
+    iHelmet
+  </span>
+
+  <div class="user-menu">
+    <div class="menu-icon" (click)="toggleUserMenu()">
+      <mat-icon>account_circle</mat-icon>
     </div>
+    <div class="user-dropdown" [class.show]="isUserMenuOpen">
+      <button mat-menu-item routerLink="/profile">
+        <mat-icon>person</mat-icon>
+        <span>Perfil</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over">
+    <mat-nav-list>
+      <a mat-list-item (click)="toggleSubmenu('inicio')">
+        <span class="menu-item">
+          <span>Inicio</span>
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </a>
+      <div class="submenu" [class.expanded]="expandedMenus['inicio']">
+        <a mat-list-item routerLink="/home">Inicio</a>
+      </div>
+
+      <a mat-list-item (click)="toggleSubmenu('empleados')">
+        <span class="menu-item">
+          <span>Empleados</span>
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </a>
+      <div class="submenu" [class.expanded]="expandedMenus['empleados']">
+        <a mat-list-item routerLink="/register-employee">Registro Empleado</a>
+        <a mat-list-item routerLink="/edit-employee">Editar Empleado</a>
+        <a mat-list-item routerLink="/delete-employee">Eliminar Empleado</a>
+        <a mat-list-item routerLink="/inf-employee">Información Empleados</a>
+      </div>
+
+      <a mat-list-item (click)="toggleSubmenu('otros')">
+        <span class="menu-item">
+          <span>Otros</span>
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </a>
+      <div class="submenu" [class.expanded]="expandedMenus['otros']">
+        <a mat-list-item routerLink="/verificate-account">Verificar Cuentas</a>
+        <a mat-list-item routerLink="/register-address">Registrar Dirección</a>
+        <a mat-list-item routerLink="/register-helmet">Registrar Casco</a>
+        <a mat-list-item routerLink="/sensor-record">Historial de Sensores</a>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <br>
+    <div class="user-info" *ngIf="user">
+      <mat-icon>account_circle</mat-icon>
+      <div class="info">
+        <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
+        <p>{{ user.email }}</p>
+      </div>
+    </div>
+   
+    <div class="sensor-history">
+      <h2>Historial de Sensores</h2>
+      
+      <div class="input-container">
+        <input type="text" placeholder="ID del Casco" [(ngModel)]="helmetId" (change)="onHelmetIdChange($event)">
+        <input type="date" [value]="date" (change)="onDateChange($event)">
+        <button (click)="getSensorHistory()">Buscar</button>
+      </div>
+
+      <div *ngIf="message">{{ message }}</div>
     
-    <span class="toolbar-title" routerLink="/home">
-      <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
-      iHelmet
-    </span>
-
-    <div class="user-menu">
-      <div class="menu-icon" (click)="toggleUserMenu()">
-        <mat-icon>account_circle</mat-icon>
+      <div *ngIf="sensorData && sensorData.data" class="sensor-data-container">
+        <table class="sensor-table">
+          <tr>
+            <td>Temperatura</td>
+            <td>{{ sensorData.data.temperatura.max }} °C (máx)</td>
+            <td>{{ sensorData.data.temperatura.min }} °C (mín)</td>
+          </tr>
+          <tr>
+            <td>Presión atmosférica</td>
+            <td>{{ sensorData.data.presion.max }} hPa (máx)</td>
+            <td>{{ sensorData.data.presion.min }} hPa (mín)</td>
+          </tr>
+          <tr>
+            <td>Altitud</td>
+            <td>{{ sensorData.data.altitud.max }} m (máx)</td>
+            <td>{{ sensorData.data.altitud.min }} m (mín)</td>
+          </tr>
+          <tr>
+            <td>Humedad del aire</td>
+            <td>{{ sensorData.data.humedad.max }} % (máx)</td>
+            <td>{{ sensorData.data.humedad.min }} % (mín)</td>
+          </tr>
+        </table>
       </div>
-      <div class="user-dropdown" [class.show]="isUserMenuOpen">
-        <button mat-menu-item routerLink="/profile">
-          <mat-icon>person</mat-icon>
-          <span>Perfil</span>
-        </button>
-        <button mat-menu-item (click)="logout()">
-          <mat-icon>exit_to_app</mat-icon>
-          <span>Logout</span>
-        </button>
+      
+      <div *ngIf="!sensorData || !sensorData.data" class="no-data">
+        No hay datos disponibles
       </div>
     </div>
-  </mat-toolbar>
-  
-  <mat-sidenav-container>
-    <mat-sidenav #sidenav mode="over">
-      <mat-nav-list>
-        <a mat-list-item (click)="toggleSubmenu('inicio')">
-          <span class="menu-item">
-            <span>Inicio</span>
-            <mat-icon>expand_more</mat-icon>
-          </span>
-        </a>
-        <div class="submenu" [class.expanded]="expandedMenus['inicio']">
-          <a mat-list-item routerLink="/home">Inicio</a>
-        </div>
-  
-        <a mat-list-item (click)="toggleSubmenu('empleados')">
-          <span class="menu-item">
-            <span>Empleados</span>
-            <mat-icon>expand_more</mat-icon>
-          </span>
-        </a>
-        <div class="submenu" [class.expanded]="expandedMenus['empleados']">
-          <a mat-list-item routerLink="/register-employee">Registro Empleado</a>
-          <a mat-list-item routerLink="/edit-employee">Editar Empleado</a>
-          <a mat-list-item routerLink="/delete-employee">Eliminar Empleado</a>
-          <a mat-list-item routerLink="/inf-employee">Información Empleados</a>
-        </div>
-  
-        <a mat-list-item (click)="toggleSubmenu('otros')">
-          <span class="menu-item">
-            <span>Otros</span>
-            <mat-icon>expand_more</mat-icon>
-          </span>
-        </a>
-        <div class="submenu" [class.expanded]="expandedMenus['otros']">
-          <a mat-list-item routerLink="/verificate-account">Verificar Cuentas</a>
-          <a mat-list-item routerLink="/register-address">Registrar Dirección</a>
-          <a mat-list-item routerLink="/register-helmet">Registrar Casco</a>
-          <a mat-list-item routerLink="/sensor-record">Historial de Sensores</a>
-        </div>
-      </mat-nav-list>
-    </mat-sidenav>
-
-    <mat-sidenav-content>
-        <br>
-        <div class="user-info" *ngIf="user">
-          <mat-icon>account_circle</mat-icon>
-          <div class="info">
-            <p>Ing.{{ user.person.person_name }} {{ user.person.person_last_name }}</p>
-            <p>{{ user.email }}</p>
-          </div>
-        </div>
-     
-        <div class="sensor-history">
-            <h2>Historial de Sensores</h2>
-          
-            <div *ngIf="message">{{ message }}</div>
-          
-            <div *ngIf="sensorData" class="sensor-data-container">
-              <h3 class="helmet-id">Casco ID: {{ sensorData.helmet_id }}</h3>
-              
-              <table class="sensor-table">
-                <thead>
-                  <tr>
-                    <th>Sensor</th>
-                    <th>Máximo</th>
-                    <th>Mínimo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngIf="sensorData.sensor_history.temperature">
-                    <td>Temperatura</td>
-                    <td>{{ getMaxValue(sensorData.sensor_history.temperature) }} °C</td>
-                    <td>{{ getMinValue(sensorData.sensor_history.temperature) }} °C</td>
-                  </tr>
-                  <tr *ngIf="sensorData.sensor_history.pressure">
-                    <td>Presión</td>
-                    <td>{{ getMaxValue(sensorData.sensor_history.pressure) }} hPa</td>
-                    <td>{{ getMinValue(sensorData.sensor_history.pressure) }} hPa</td>
-                  </tr>
-                  <tr *ngIf="sensorData.sensor_history.altitude">
-                    <td>Altitud</td>
-                    <td>{{ getMaxValue(sensorData.sensor_history.altitude) }} m</td>
-                    <td>{{ getMinValue(sensorData.sensor_history.altitude) }} m</td>
-                  </tr>
-                  <tr *ngIf="sensorData.sensor_history.humidity">
-                    <td>Humedad</td>
-                    <td>{{ getMaxValue(sensorData.sensor_history.humidity) }} %</td>
-                    <td>{{ getMinValue(sensorData.sensor_history.humidity) }} %</td>
-                  </tr>
-                  <tr *ngIf="sensorData.sensor_history.hscr_04">
-                    <td>HSCR-04</td>
-                    <td>{{ getMaxValue(sensorData.sensor_history.hscr_04) }}</td>
-                    <td>{{ getMinValue(sensorData.sensor_history.hscr_04) }}</td>
-                  </tr>
-                </tbody>
-              </table>
-          
-              <div class="sensor-count">
-                <h4>Conteo de Sensores</h4>
-                <p *ngIf="sensorData.sensor_history.mq2">MQ2: {{ sensorData.sensor_history.mq2.length }}</p>
-                <p *ngIf="sensorData.sensor_history.mq135">MQ135: {{ sensorData.sensor_history.mq135.length }}</p>
-                <p *ngIf="sensorData.sensor_history.fc28">FC28: {{ sensorData.sensor_history.fc28.length }}</p>
-              </div>
-            </div>
-            
-            <div *ngIf="!sensorData" class="no-data">
-              No hay datos disponibles
-            </div>
-          </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -32,6 +32,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { InfEmployeeComponent } from './inf-employee/inf-employee.component';
 import { VerificateAccountComponent } from './verificate-account/verificate-account.component';
 
+
 const routes: Routes = [
   {
     path: '', 
@@ -139,6 +140,7 @@ const routes: Routes = [
     canActivate: [AuthProtectedGuard],
     data: { roles: ['admin'] }
   }, 
+
 
 
 

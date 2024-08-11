@@ -60,6 +60,7 @@ import { InfEmployeeComponent } from './inf-employee/inf-employee.component';
 import { DialogExitoComponent } from './dialog-exito/dialog-exito.component';
 import { VerificateAccountComponent } from './verificate-account/verificate-account.component';
 
+
 const config: SocketIoConfig = {
   url: environment.wsUrl, options: {
     transports: ['websocket']
@@ -102,7 +103,8 @@ const config: SocketIoConfig = {
     DialogPsdComponent,
     InfEmployeeComponent,
     DialogExitoComponent,
-    VerificateAccountComponent
+    VerificateAccountComponent,
+   
   ],
   imports: [
     BrowserModule,
