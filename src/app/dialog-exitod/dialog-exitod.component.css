@@ -1,0 +1,25 @@
+h2 {
+    color: #4CAF50;
+    font-size: 20px;
+  }
+  
+  mat-dialog-content p {
+    font-size: 18px;
+  }
+  
+  mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  button {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    min-width: 120px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }

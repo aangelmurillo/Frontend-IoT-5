@@ -5,6 +5,10 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { AuthserviceService } from '../authservice.service';
 import { HttpHeaders } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogErrordComponent } from '../dialog-errord/dialog-errord.component';
+import { DialogExitodComponent } from '../dialog-exitod/dialog-exitod.component';
+import { DialogAdverdComponent } from '../dialog-adverd/dialog-adverd.component';
 
 @Component({
   selector: 'app-eliminar-empleado',
@@ -32,7 +36,8 @@ export class EliminarEmpleadoComponent implements OnInit {
     private userService: ApiserviceService,
     private router: Router,
     private authService: AuthserviceService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private dialog: MatDialog
   ) {}
 
   toggleSubmenu(menu: string) {
@@ -82,23 +87,24 @@ export class EliminarEmpleadoComponent implements OnInit {
 
   onUserSelect(userId: number) {
     if (this.user.id === userId) {
-      alert('No puedes eliminar tu propio usuario.');
+      this.dialog.open(DialogErrordComponent);
       return;
     }
 
-    const confirmed = window.confirm('¿Estás seguro que deseas eliminar este usuario?');
-    if (confirmed) {
-      this.userService.deleteUser(userId).subscribe(
-        () => {
-          alert('Usuario eliminado');
-          this.loadUsers();
-          this.router.navigate(['/delete-employee']);
-        },
-        (error) => {
-          console.error('Error al eliminar usuario', error);
-        }
-      );
-    }
+    const dialogRef = this.dialog.open(DialogAdverdComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.userService.deleteUser(userId).subscribe(
+          () => {
+            this.dialog.open(DialogExitodComponent);
+            this.loadUsers();
+          },
+          (error) => {
+            console.error('Error al eliminar usuario', error);
+          }
+        );
+      }
+    });
   }
 
   toggleMenu() {

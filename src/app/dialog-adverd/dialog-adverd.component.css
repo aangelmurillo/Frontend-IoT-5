@@ -1,0 +1,38 @@
+h2 {
+    color: #FFC107;
+    font-size: 20px;
+  }
+  
+  mat-dialog-content p {
+    font-size: 18px;
+  }
+  
+  mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  button {
+    font-size: 18px;
+    padding: 10px 20px;
+    min-width: 120px;
+    margin-left: 10px;
+  }
+  
+  button:first-child {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  button:last-child {
+    background-color: #FFC107;
+    color: white;
+  }
+  
+  button:first-child:hover {
+    background-color: #d32f2f;
+  }
+  
+  button:last-child:hover {
+    background-color: #e6ac00;
+  }
