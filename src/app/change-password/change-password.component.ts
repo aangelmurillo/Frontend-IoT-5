@@ -1,25 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { DialogPsdComponent } from '../dialog-psd/dialog-psd.component'; 
+import { DialogPsdComponent } from '../dialog-psd/dialog-psd.component';
+import { ApiserviceService } from '../apiservice.service';
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.css']
 })
-export class ChangePasswordComponent {
+export class ChangePasswordComponent implements OnInit {
   newPassword: string = '';
   confirmPassword: string = '';
   showNewPassword: boolean = false;
   showConfirmPassword: boolean = false;
   passwordError: string = '';
   formError: string = '';
+  email: string = '';
+  verificationCode: string = '';
 
   constructor(
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private apiService: ApiserviceService
   ) {}
+
+  ngOnInit() {
+    this.apiService.currentEmail.subscribe(email => this.email = email);
+    this.apiService.currentVerificationCode.subscribe(code => this.verificationCode = code);
+  }
 
   toggleNewPasswordVisibility() {
     this.showNewPassword = !this.showNewPassword;
@@ -40,13 +49,44 @@ export class ChangePasswordComponent {
 
     if (this.newPassword !== this.confirmPassword) {
       this.passwordError = 'Las contraseñas no coinciden';
-    } else {
-      // Aquí iría la lógica para cambiar la contraseña
-      console.log('Contraseña cambiada exitosamente');
-      
-      // Mostrar el diálogo de éxito
-      this.openSuccessDialog();
+      return;
     }
+
+    const updateData = {
+      email: this.email,
+      'new-password': this.newPassword,
+      'verification-code': this.verificationCode
+    };
+
+    this.apiService.updatePassword(updateData).subscribe({
+      next: (response) => {
+        console.log('Contraseña cambiada exitosamente');
+        this.openSuccessDialog();
+      },
+      error: (error) => {
+        console.error('Error al cambiar la contraseña:', error);
+        if (error.error && typeof error.error === 'string') {
+          try {
+            // AQUI SE PARSEA EL ERROR A JSON
+            const errorObj = JSON.parse(error.error);
+            if (errorObj.message) {
+              this.formError = errorObj.message;
+            } else {
+              this.formError = error.error;
+            }
+          } catch {
+            // Y SI NO SE PUEDE PARSEAR, SE MUESTRA EL ERROR COMO STRING
+            this.formError = error.error;
+          }
+        } else if (error.error && error.error.message) {
+          this.formError = error.error.message;
+        } else if (error.message) {
+          this.formError = error.message;
+        } else {
+          this.formError = 'Ocurrió un error al cambiar la contraseña.';
+        }
+      }
+    });
   }
 
   openSuccessDialog() {
@@ -59,4 +99,3 @@ export class ChangePasswordComponent {
     });
   }
 }
-

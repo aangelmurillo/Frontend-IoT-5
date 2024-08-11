@@ -9,12 +9,8 @@ import { Router } from '@angular/router';
 })
 export class VerificationPasswordComponent implements OnInit {
   email: string = '';
-  newPassword: string = '';
-  confirmPassword: string = '';
   verificationCode: string = '';
-  message: string = '';
-  isSuccess: boolean = false;
-  codeError: string = ''; // Variable para el mensaje de error
+  codeError: string = '';
 
   constructor(private apiService: ApiserviceService, private router: Router) {}
 
@@ -22,105 +18,51 @@ export class VerificationPasswordComponent implements OnInit {
     this.apiService.currentEmail.subscribe(email => this.email = email);
   }
 
-  validatePassword(password: string): boolean {
-    const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
-    return regex.test(password);
-  }
-
-  validateCode(code: string): boolean {
-    const regex = /^[A-Z]{3}\d{3}$/;
-    return regex.test(code);
-  }
-
   onCodeInput(event: any, nextInput: any) {
-    const input = event.target;
-    const value = input.value;
-
-    if (value.length === 1) {
-      input.value = value.toUpperCase();
+    if (event.target.value.length === event.target.maxLength) {
       if (nextInput) {
         nextInput.focus();
       }
-    } else if (value.length > 1) {
-      input.value = value.charAt(0).toUpperCase();
     }
+    this.updateVerificationCode();
+  }
 
-    // Actualizar el código de verificación
-    this.verificationCode = Array.from(document.querySelectorAll('.code-input'))
-      .map((input: any) => input.value)
+  updateVerificationCode() {
+    const inputs = Array.from(document.querySelectorAll('.code-input')) as HTMLInputElement[];
+    this.verificationCode = inputs
+      .map(input => input.value.toUpperCase())
       .join('');
-
-    // Validar el código de verificación
-    this.validateVerificationCode();
-  }
-
-  validateVerificationCode() {
-    if (this.verificationCode.length === 6) {
-      if (!this.validateCode(this.verificationCode)) {
-        this.codeError = 'Formato inválido (ABC123)';
-      } else {
-        this.codeError = '';
-      }
-    } else {
-      this.codeError = 'Añadir un código válido';
-    }
-  }
-
-  updatePassword() {
-    if (this.newPassword !== this.confirmPassword) {
-      this.message = 'Las contraseñas no coinciden';
-      this.isSuccess = false;
-      return;
-    }
-
-    if (!this.validatePassword(this.newPassword)) {
-      this.message = 'La contraseña debe contener al menos una mayúscula, un número y un carácter especial';
-      this.isSuccess = false;
-      return;
-    }
-
-    if (this.codeError) {
-      this.message = this.codeError;
-      this.isSuccess = false;
-      return;
-    }
-
-    const data = {
-      email: this.email,
-      'new-password': this.newPassword,
-      'verification-code': this.verificationCode
-    };
-
-    console.log('Datos enviados:', data);
-
-    this.apiService.updatePassword(data).subscribe(
-      (response: any) => {
-        this.message = response;
-        this.isSuccess = true;
-        // Redirigir después de 3 segundos
-        setTimeout(() => {
-          this.router.navigate(['']);
-        }, 3000);
-      },
-      (error) => {
-        console.error('Error detallado:', error);
-        this.message = error.error || 'Error al actualizar la contraseña';
-        this.isSuccess = false;
-      }
-    );
+    console.log('Código actualizado:', this.verificationCode); // Para debugging
   }
 
   verifyCode() {
-    // Este método se llama cuando se envía el formulario
-    this.verificationCode = Array.from(document.querySelectorAll('.code-input'))
-      .map((input: any) => input.value)
-      .join('');
-
-    this.validateVerificationCode();
-    if (this.codeError) {
+    this.codeError = '';
+    if (this.verificationCode.length !== 6) {
+      this.codeError = 'Por favor, ingrese el código completo de 6 caracteres.';
       return;
     }
-
-    this.updatePassword();
+  
+    console.log('Enviando verificación:', { email: this.email, code: this.verificationCode });
+  
+    this.apiService.verifyPasswordCode({ email: this.email, verification_code: this.verificationCode }).subscribe({
+      next: (response: any) => {
+        console.log('Respuesta del servidor:', response);
+        
+        this.apiService.setVerificationCode(this.verificationCode);
+        this.router.navigate(['/changepwd']);
+      },
+      error: (error: any) => {
+        console.error('Error completo:', error);
+        if (error.error && typeof error.error === 'string') {
+          this.codeError = error.error;
+        } else if (error.error && error.error.message) {
+          this.codeError = error.error.message;
+        } else if (error.message) {
+          this.codeError = error.message;
+        } else {
+          this.codeError = 'Ocurrió un error al verificar el código.';
+        }
+      }
+    });
   }
 }

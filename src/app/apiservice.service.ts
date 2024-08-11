@@ -133,8 +133,22 @@ export class ApiserviceService {
     );
   }
 
-  verifyPasswordCode(data: { email: string, code: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/password-verify`, data, { headers: this.getHeaders(), responseType: 'text' as 'json' });
+  verifyPasswordCode(data: { email: string, 'verification_code': string }): Observable<any> {
+    console.log('Enviando al servidor:', data);
+    return this.http.post(`${this.apiUrl}/password-verify`, data, { headers: this.getHeaders() }).pipe(
+      tap(response => console.log('Respuesta del servidor:', response)),
+      catchError(error => {
+        console.error('Error en verifyPasswordCode:', error);
+        if (error.error && typeof error.error === 'string') {
+          return throwError(() => new Error(error.error));
+        } else if (error.error && error.error.message) {
+          return throwError(() => new Error(error.error.message));
+        } else if (error.message) {
+          return throwError(() => new Error(error.message));
+        }
+        return throwError(() => new Error('Error al verificar el código'));
+      })
+    );
   }
 
   updatePassword(data: { email: string, 'new-password': string, 'verification-code': string }): Observable<any> {
@@ -147,6 +161,12 @@ export class ApiserviceService {
 
   setEmail(email: string) {
     this.emailSource.next(email);
+  }
+  private verificationCodeSource = new BehaviorSubject<string>('');
+  currentVerificationCode = this.verificationCodeSource.asObservable();
+
+  setVerificationCode(verificationCode: string) {
+    this.verificationCodeSource.next(verificationCode);
   }
 
   getSensorHistory(date: string): Observable<SensorHistoryResponse> {

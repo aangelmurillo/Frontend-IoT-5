@@ -21,20 +21,14 @@ export class PasswordComponent {
 
   sendVerificationCode() {
     this.errorMessages = []; // Limpiar errores previos
-    // Validación general de formato de correo electrónico
     const generalEmailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    
-
-
+  
     if (!generalEmailPattern.test(this.email)) {
-      this.emailInvalid = true;
-      this.message = 'Por favor, ingrese un correo electrónico válido.';
+      this.errorMessages.push('Por favor, ingrese un correo electrónico válido.');
       this.isSuccess = false;
       return;
     }
-
-    this.emailInvalid = false;
-
+  
     this.apiService.sendEmailCode({email: this.email}).subscribe({
       next: (response: any) => {
         this.message = response;
@@ -52,7 +46,6 @@ export class PasswordComponent {
           this.errorMessages.push('Ocurrió un error desconocido');
         }
       }
-    }
-    );
+    });
   }
 }
