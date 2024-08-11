@@ -80,24 +80,26 @@
     <br>
 
     <div class="content-container">
-      <p class="instruction-text">Favor de ingresar un correo electrónico para verificar su cuenta.</p>
-
-      <form (ngSubmit)="sendVerificationCode()" #verificationForm="ngForm" class="verification-form">
-        <mat-form-field appearance="fill">
-          <mat-label>Correo electrónico</mat-label>
-          <input matInput type="email" [(ngModel)]="email" name="email" required email>
-        </mat-form-field>
-
-        <div *ngIf="errorMessages.length > 0" class="error-messages">
-          <p *ngFor="let error of errorMessages">{{ error }}</p>
-        </div>
-
-        <button mat-raised-button color="primary" type="submit" [disabled]="!verificationForm.form.valid">
-          Enviar Código
-        </button>
-      </form>
-
-
+      <div class="verification-card">
+        <h2 class="card-title">Verificación de Cuenta</h2>
+        <p class="instruction-text">Favor de ingresar un correo electrónico para verificar su cuenta.</p>
+        
+        <form (ngSubmit)="sendVerificationCode()" #verificationForm="ngForm" class="verification-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Correo electrónico</mat-label>
+            <input matInput type="email" [(ngModel)]="email" name="email" required email>
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+          
+          <button mat-raised-button color="primary" type="submit" [disabled]="!verificationForm.form.valid">
+            <mat-icon>send</mat-icon>
+            Enviar Código
+          </button>
+          
+          <div *ngIf="errorMessages.length > 0" class="error-messages">
+            <mat-icon>error</mat-icon>
+            <p *ngFor="let error of errorMessages">{{ error }}</p>
+          </div>
+        </form>
+      </div>
     </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
