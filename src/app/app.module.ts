@@ -60,6 +60,7 @@ import { InfEmployeeComponent } from './inf-employee/inf-employee.component';
 import { DialogExitoComponent } from './dialog-exito/dialog-exito.component';
 import { VerificateAccountComponent } from './verificate-account/verificate-account.component';
 import { DialogVeriComponent } from './dialog-veri/dialog-veri.component';
+import { DialogEditComponent } from './dialog-edit/dialog-edit.component';
 
 
 const config: SocketIoConfig = {
@@ -106,6 +107,7 @@ const config: SocketIoConfig = {
     DialogExitoComponent,
     VerificateAccountComponent,
     DialogVeriComponent,
+    DialogEditComponent,
    
   ],
   imports: [

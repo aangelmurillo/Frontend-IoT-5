@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiserviceService } from '../apiservice.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AuthserviceService } from '../authservice.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogEditComponent } from '../dialog-edit/dialog-edit.component';
 
 @Component({
   selector: 'app-info-empleado',
@@ -38,6 +40,7 @@ export class InfoEmpleadoComponent implements OnInit {
     private apiService: ApiserviceService,
     private router: Router,
     private authService: AuthserviceService,
+    private dialog: MatDialog
   ) {
     this.editForm = this.fb.group({
       person_name: [''],
@@ -91,8 +94,6 @@ export class InfoEmpleadoComponent implements OnInit {
     });
   }
   
-  
-
   async loadUserData() {
     try {
       const userData = await this.apiService.getUser(this.userId).toPromise();
@@ -213,20 +214,22 @@ export class InfoEmpleadoComponent implements OnInit {
                   user_name: this.editForm.get('user_name')?.value || this.user.user_name,
                   email: this.editForm.get('email')?.value || this.user.email,
                   rol_id: this.editForm.get('rol_id')?.value || this.user.rol_id,
-                  helmet_id: this.editForm.get('rol_id')?.value === '1' ? null : (this.editForm.get('helmet_id')?.value || this.assignedHelmet?.id),                };
+                  helmet_id: this.editForm.get('rol_id')?.value === '1' ? null : (this.editForm.get('helmet_id')?.value || this.assignedHelmet?.id),
+                };
 
                 const userId = this.userId;
 
                 this.apiService.update_user(userData, userId).subscribe(
                   userResponse => {
                     console.log('User updated successfully', userResponse);
-                    this.router.navigate(['/home']);
+                    this.openDialog('Cambios guardados exitosamente');
                   },
                   error => {
                     console.error('Error updating user', error);
                     if (error.error && error.error.message) {
                       this.errorMessage.push(error.error.message);
                     } 
+                    this.openDialog('Error al guardar los cambios');
                   }
                 );
               },
@@ -235,6 +238,7 @@ export class InfoEmpleadoComponent implements OnInit {
                 if (error.error && error.error.message) {
                   this.errorMessage.push(error.error.message);
                 }
+                this.openDialog('Error al guardar los cambios');
               }
             );
           },
@@ -243,13 +247,16 @@ export class InfoEmpleadoComponent implements OnInit {
             if (error.error && error.error.message) {
               this.errorMessage.push(error.error.message);
             }
+            this.openDialog('Error al guardar los cambios');
           }
         );
       } else {
         console.error('Form is invalid');
+        this.openDialog('Error: Formulario inválido');
       }
     } catch (error) {
       console.error('An unexpected error occurred', error);
+      this.openDialog('Error inesperado al guardar los cambios');
     }
   }
 
@@ -289,5 +296,17 @@ export class InfoEmpleadoComponent implements OnInit {
 
   toggleSubmenu(menu: string) {
     this.expandedMenus[menu] = !this.expandedMenus[menu];
+  }
+
+  openDialog(message: string) {
+    const dialogRef = this.dialog.open(DialogEditComponent, {
+      data: { message: message }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(['/home']);
+      }
+    });
   }
 }
