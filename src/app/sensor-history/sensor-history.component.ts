@@ -16,6 +16,15 @@ export interface SensorHistoryResponse {
     mq135: { count: number };
     fc28: { count: number };
   };
+  message?: string;
+}
+
+interface UserWithHelmet {
+  id: number;
+  user_name: string;
+  helmet: {
+    helmet_serial_number: string;
+  };
 }
 
 @Component({
@@ -24,9 +33,13 @@ export interface SensorHistoryResponse {
   styleUrls: ['./sensor-history.component.css']
 })
 export class SensorHistoryComponent implements OnInit {
+
+  usersWithHelmets: UserWithHelmet[] = [];
+  selectedUserId: number | null = null;
+
   @ViewChild('sidenav') sidenav!: MatSidenav;
   date: string = '';
-  message: string = '';
+  errorMessage: string = '';
   user: any;
   isUserMenuOpen = false;
   sensorData: SensorHistoryResponse | null = null;
@@ -50,33 +63,64 @@ export class SensorHistoryComponent implements OnInit {
       this.user = user;
       console.log('User: ', user);
     });
+    this.loadUsersWithHelmets();
+  }
+
+  loadUsersWithHelmets() {
+    this.apiService.getAllUsersWithHelmets().subscribe(
+      (users: UserWithHelmet[]) => {
+        this.usersWithHelmets = users.filter(user => user.helmet && user.helmet.helmet_serial_number);
+        console.log('Users with helmets:', this.usersWithHelmets);
+      },
+      error => {
+        console.error('Error loading users with helmets:', error);
+        this.errorMessage = 'Error al cargar la lista de usuarios con cascos.';
+      }
+    );
+  }
+
+  onUserSelect(event: any) {
+    const selectedUser = this.usersWithHelmets.find(u => u.id === Number(event.target.value));
+    if (selectedUser && selectedUser.helmet) {
+      this.helmetId = selectedUser.helmet.helmet_serial_number;
+      this.getSensorHistory();
+    }
   }
 
   getSensorHistory() {
     if (!this.helmetId) {
-      this.message = 'Por favor, ingrese un ID de casco válido';
+      this.errorMessage = 'Por favor, seleccione un usuario con casco.';
+      this.sensorData = null;
       return;
     }
-
+  
+    if (!this.date) {
+      this.errorMessage = 'Por favor, seleccione una fecha.';
+      this.sensorData = null;
+      return;
+    }
+  
     const helmetData = {
       helmet_id: this.helmetId,
       date: this.date
     };
-
+  
     this.apiService.gethistorialEmpleados(helmetData).subscribe(
       (response: SensorHistoryResponse) => {
         console.log('Respuesta completa:', response);
-        if (response && response.status === 'success') {
+        if (response.status === 'success' && response.data) {
           this.sensorData = response;
+          this.errorMessage = '';
           console.log('Datos del sensor:', this.sensorData);
         } else {
-          this.message = 'No hay datos disponibles';
-          console.log('No se encontraron datos');
+          this.errorMessage = response.message || 'No hay datos disponibles';
+          this.sensorData = null;
         }
       },
       (error) => {
         console.error('Error al obtener el historial del sensor:', error);
-        this.message = `Error al obtener el historial del sensor: ${error.message}`;
+        this.errorMessage = error.message;
+        this.sensorData = null;
       }
     );
   }
@@ -100,63 +144,7 @@ export class SensorHistoryComponent implements OnInit {
     this.getSensorHistory();
   }
 
-  onHelmetIdChange(event: any) {
-    this.helmetId = event.target.value;
-  }
-
   toggleSubmenu(menu: string) {
     this.expandedMenus[menu] = !this.expandedMenus[menu];
-  }
-
-  getTemperatureMax(): number {
-    return this.sensorData ? this.sensorData.data.temperatura.max : 0;
-  }
-
-  getTemperatureMin(): number {
-    return this.sensorData ? this.sensorData.data.temperatura.min : 0;
-  }
-
-  getPressureMax(): number {
-    return this.sensorData ? this.sensorData.data.presion.max : 0;
-  }
-
-  getPressureMin(): number {
-    return this.sensorData ? this.sensorData.data.presion.min : 0;
-  }
-
-  getAltitudeMax(): number {
-    return this.sensorData ? this.sensorData.data.altitud.max : 0;
-  }
-
-  getAltitudeMin(): number {
-    return this.sensorData ? this.sensorData.data.altitud.min : 0;
-  }
-
-  getHumidityMax(): number {
-    return this.sensorData ? this.sensorData.data.humedad.max : 0;
-  }
-
-  getHumidityMin(): number {
-    return this.sensorData ? this.sensorData.data.humedad.min : 0;
-  }
-
-  getHscr04Max(): number {
-    return this.sensorData ? this.sensorData.data.hscr_04.max : 0;
-  }
-
-  getHscr04Min(): number {
-    return this.sensorData ? this.sensorData.data.hscr_04.min : 0;
-  }
-
-  getMq2Count(): number {
-    return this.sensorData ? this.sensorData.data.mq2.count : 0;
-  }
-
-  getMq135Count(): number {
-    return this.sensorData ? this.sensorData.data.mq135.count : 0;
-  }
-
-  getFc28Count(): number {
-    return this.sensorData ? this.sensorData.data.fc28.count : 0;
   }
 }

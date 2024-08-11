@@ -80,12 +80,17 @@
       <h2>Historial de Sensores</h2>
       
       <div class="input-container">
-        <input type="text" placeholder="ID del Casco" [(ngModel)]="helmetId" (change)="onHelmetIdChange($event)">
+        <select (change)="onUserSelect($event)">
+          <option value="">Seleccione un usuario</option>
+          <option *ngFor="let user of usersWithHelmets" [value]="user.id">
+            {{ user.user_name }} - {{ user.helmet.helmet_serial_number }}
+          </option>
+        </select>
         <input type="date" [value]="date" (change)="onDateChange($event)">
-        <button (click)="getSensorHistory()">Buscar</button>
+        
       </div>
 
-      <div *ngIf="message">{{ message }}</div>
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     
       <div *ngIf="sensorData && sensorData.data" class="sensor-data-container">
         <table class="sensor-table">
@@ -110,10 +115,6 @@
             <td>{{ sensorData.data.humedad.min }} % (mín)</td>
           </tr>
         </table>
-      </div>
-      
-      <div *ngIf="!sensorData || !sensorData.data" class="no-data">
-        No hay datos disponibles
       </div>
     </div>
   </mat-sidenav-content>

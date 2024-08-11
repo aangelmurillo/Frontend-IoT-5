@@ -220,6 +220,23 @@ export class ApiserviceService {
   }
 
   gethistorialEmpleados(helmet: { helmet_id: string, date: string }): Observable<SensorHistoryResponse> {
-    return this.http.post<SensorHistoryResponse>(`${this.apiUrl}/personalHelmetStats/`, helmet, { headers: this.getHeaders(true) });
+    return this.http.post<SensorHistoryResponse>(`${this.apiUrl}/personalHelmetStats/`, helmet, { headers: this.getHeaders(true) })
+      .pipe(
+        catchError(error => {
+          if (error.error && error.error.message) {
+            return throwError(() => new Error(error.error.message));
+          }
+          return throwError(() => new Error('Error al obtener el historial del sensor'));
+        })
+      );
+  }
+
+  getAllUsersWithHelmets(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users`, { 
+      headers: this.getHeaders(true),
+      params: new HttpParams().set('include', 'helmet')
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
 }
