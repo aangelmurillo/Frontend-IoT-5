@@ -116,7 +116,7 @@
         <div class="input-group full-width">
           <mat-form-field class="custom">
             <mat-label>Seleccionar Referencia:</mat-label>
-            <mat-select [(ngModel)]="selectedAddress" (selectionChange)="onAddressChange($event.value)">
+            <mat-select [(ngModel)]="selectedAddress" name="addressSelect">
               <mat-option *ngFor="let address of addresses" [value]="address">
                 {{ address.address_references }}
               </mat-option>

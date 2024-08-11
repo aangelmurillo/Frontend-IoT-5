@@ -193,6 +193,10 @@ const routes: Routes = [
     path:'verificacion',
     component: VerificationPasswordComponent
   },
+  {
+    path: 'changepwd',
+    component: ChangePasswordComponent
+  },
 
 
 
@@ -209,10 +213,7 @@ const routes: Routes = [
     component: NotFoundComponent,
     canActivate: []
   },
-  {
-    path: 'changepwd',
-    component: ChangePasswordComponent
-  },
+ 
   
 
   {
