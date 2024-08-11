@@ -21,6 +21,12 @@ export class VerificacionComponent implements OnInit {
   @ViewChild('codeInput5') codeInput5!: ElementRef;
   @ViewChild('codeInput6') codeInput6!: ElementRef;
 
+  expandedMenus: { [key: string]: boolean } = {
+    inicio: false,
+    empleados: false,
+    otros: false
+  };
+
   verificationForm: FormGroup;
   email: string | null = null;
   userId: number | null = null;
@@ -175,6 +181,10 @@ export class VerificacionComponent implements OnInit {
 
   toggleUserMenu() {
     this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  toggleSubmenu(menu: string) {
+    this.expandedMenus[menu] = !this.expandedMenus[menu];
   }
 
   logout() {

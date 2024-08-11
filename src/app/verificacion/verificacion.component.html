@@ -2,17 +2,21 @@
   <div class="menu-icon" (click)="toggleMenu()">
     <mat-icon>menu</mat-icon>
   </div>
-  
+
   <span class="toolbar-title" routerLink="/home">
     <img src="../../assets/tool3_122846.png" alt="iHelmet" class="helmet-icon">
     iHelmet
   </span>
-  
+
   <div class="user-menu">
     <div class="menu-icon" (click)="toggleUserMenu()">
       <mat-icon>account_circle</mat-icon>
     </div>
     <div class="user-dropdown" [class.show]="isUserMenuOpen">
+      <button mat-menu-item routerLink="/profile">
+        <mat-icon>person</mat-icon>
+        <span>Perfil</span>
+      </button>
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
         <span>Logout</span>
@@ -22,7 +26,47 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav #sidenav>
+  <mat-sidenav #sidenav mode="over">
+    <mat-nav-list>
+      <a mat-list-item (click)="toggleSubmenu('inicio')">
+        <span class="menu-item">
+          <span>Inicio</span>
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </a>
+      <div class="submenu" [class.expanded]="expandedMenus['inicio']">
+        <a mat-list-item routerLink="/home">Inicio</a>
+      </div>
+
+      <a mat-list-item (click)="toggleSubmenu('empleados')">
+        <span class="menu-item">
+          <span>Empleados</span>
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </a>
+      <div class="submenu" [class.expanded]="expandedMenus['empleados']">
+        <a mat-list-item routerLink="/register-employee">Registro Empleado</a>
+        <a mat-list-item routerLink="/edit-employee">Editar Empleado</a>
+        <a mat-list-item routerLink="/delete-employee">Eliminar Empleado</a>
+        <a mat-list-item routerLink="/inf-employee">Información Empleados</a>
+      </div>
+
+      <a mat-list-item (click)="toggleSubmenu('otros')">
+        <span class="menu-item">
+          <span>Otros</span>
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </a>
+      <div class="submenu" [class.expanded]="expandedMenus['otros']">
+        <a mat-list-item routerLink="/verificate-account">Verificar Cuentas</a>
+        <a mat-list-item routerLink="/register-address">Registrar Dirección</a>
+        <a mat-list-item routerLink="/register-helmet">Registrar Casco</a>
+        <a mat-list-item routerLink="/sensor-record">Historial de Sensores</a>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
     <div class="user-info" *ngIf="user">
       <mat-icon>account_circle</mat-icon>
       <div class="info">
@@ -30,9 +74,8 @@
         <p>{{ user.email }}</p>
       </div>
     </div>
-  </mat-sidenav>
+    <br>
 
-  <mat-sidenav-content>
     <div class="content-area">
       <br>
       <br>
@@ -64,4 +107,3 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-  
