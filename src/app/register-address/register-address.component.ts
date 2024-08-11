@@ -54,11 +54,11 @@ export class RegisterAddressComponent implements OnInit {
       address_city: ['', Validators.required],
       address_state: ['', Validators.required],
       address_country: ['', Validators.required],
-      helmet_id: ['', Validators.required],
+      person_id: ['', Validators.required],  // Cambiado de helmet_id a person_id
       referencia: ['', Validators.required]
     });
   }
-
+  
   onSubmit() {
     this.errorMessage = '';
     try {
@@ -73,30 +73,29 @@ export class RegisterAddressComponent implements OnInit {
           address_city: this.registerForm.get('address_city')?.value,
           address_state: this.registerForm.get('address_state')?.value,
           address_country: this.registerForm.get('address_country')?.value,
-          person_id: this.registerForm.get('helmet_id')?.value, 
+          person_id: this.registerForm.get('person_id')?.value,  // Asignar el person_id
         };
-
+  
         this.apiService.register_address(addressData).subscribe(
           addressResponse => {
             console.log('Address registered successfully', addressResponse);
             this.router.navigate(['/home']);
           },
           error => {
+            console.log(addressData);
             console.error('Error registering address', error);
-            if (error.error && error.error.message) {
-              this.errorMessage = error.error.message;
-            } else {
-              this.errorMessage = 'Ocurrió un error al registrar la dirección';
-            }
+            this.errorMessage = 'Hubo un problema al registrar la dirección';
           }
         );
       } else {
-        console.error('Form is invalid');
+        this.errorMessage = 'Por favor, completa todos los campos requeridos';
       }
     } catch (error) {
-      console.error('An unexpected error occurred', error);
+      console.error('Error en onSubmit', error);
+      this.errorMessage = 'Ocurrió un error inesperado';
     }
   }
+  
 
   onBackToHome() {
     this.router.navigate(['/home']);

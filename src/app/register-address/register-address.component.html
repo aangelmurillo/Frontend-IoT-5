@@ -91,9 +91,9 @@
       <div class="inputs">
         <mat-form-field class="custom">
           <mat-label style="font-size:22px;">Empleado:</mat-label>
-          <mat-select formControlName="helmet_id">
-            <mat-option *ngFor="let helmet of availableHelmets" [value]="helmet.id">
-              {{ helmet.user_name }}
+          <mat-select formControlName="person_id">
+            <mat-option *ngFor="let employee of availableHelmets" [value]="employee.person.id">
+              {{employee.user_name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
