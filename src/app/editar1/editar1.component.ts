@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ApiserviceService } from '../apiservice.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AuthserviceService } from '../authservice.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogErrorComponent } from '../dialog-error/dialog-error.component';
 
 @Component({
   selector: 'app-editar1',
@@ -30,7 +32,8 @@ export class Editar1Component implements OnInit {
   constructor(
     private userService: ApiserviceService,
     private router: Router,
-    private authService: AuthserviceService
+    private authService: AuthserviceService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -75,12 +78,12 @@ export class Editar1Component implements OnInit {
 
   onUserSelect(userId: number) {
     const selectedUser = this.users.find(user => user.id === userId);
-    
+
     if (this.idActual != userId && selectedUser.rol.rol_name != "Employee") {
-      alert('No puedes editar a otro administrador.');
+      this.openErrorDialog('No puedes editar a otro administrador.');
       return;
     }
-  
+
     this.router.navigate(['/edit-employee/edit/', userId]);
   }
 
@@ -105,5 +108,11 @@ export class Editar1Component implements OnInit {
 
   toggleSubmenu(menu: string) {
     this.expandedMenus[menu] = !this.expandedMenus[menu];
+  }
+
+  openErrorDialog(message: string) {
+    this.dialog.open(DialogErrorComponent, {
+      data: { message: message }
+    });
   }
 }

@@ -61,6 +61,8 @@ import { DialogExitoComponent } from './dialog-exito/dialog-exito.component';
 import { VerificateAccountComponent } from './verificate-account/verificate-account.component';
 import { DialogVeriComponent } from './dialog-veri/dialog-veri.component';
 import { DialogEditComponent } from './dialog-edit/dialog-edit.component';
+import { DialogErrorComponent } from './dialog-error/dialog-error.component';
+
 
 
 const config: SocketIoConfig = {
@@ -108,6 +110,8 @@ const config: SocketIoConfig = {
     VerificateAccountComponent,
     DialogVeriComponent,
     DialogEditComponent,
+    DialogErrorComponent,
+    
    
   ],
   imports: [
