@@ -59,6 +59,7 @@ import { DialogPsdComponent } from './dialog-psd/dialog-psd.component';
 import { InfEmployeeComponent } from './inf-employee/inf-employee.component';
 import { DialogExitoComponent } from './dialog-exito/dialog-exito.component';
 import { VerificateAccountComponent } from './verificate-account/verificate-account.component';
+import { DialogVeriComponent } from './dialog-veri/dialog-veri.component';
 
 
 const config: SocketIoConfig = {
@@ -104,6 +105,7 @@ const config: SocketIoConfig = {
     InfEmployeeComponent,
     DialogExitoComponent,
     VerificateAccountComponent,
+    DialogVeriComponent,
    
   ],
   imports: [

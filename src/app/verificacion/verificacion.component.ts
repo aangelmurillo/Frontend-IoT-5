@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiserviceService } from '../apiservice.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AuthserviceService } from '../authservice.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogVeriComponent } from '../dialog-veri/dialog-veri.component'
 
 @Component({
   selector: 'app-verificacion',
@@ -33,6 +35,7 @@ export class VerificacionComponent implements OnInit {
     private fb: FormBuilder,
     private apiService: ApiserviceService,
     private authService: AuthserviceService,
+    private dialog: MatDialog
   ) {
     this.verificationForm = this.fb.group({
       code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
@@ -74,12 +77,10 @@ export class VerificacionComponent implements OnInit {
       input.value = value.charAt(0).toUpperCase();
     }
 
-    // Actualizar el código de verificación
     this.verificationCode = Array.from(document.querySelectorAll('.code-input'))
       .map((input: any) => input.value)
       .join('');
 
-    // Validar el código de verificación
     this.validateVerificationCode();
   }
 
@@ -119,8 +120,7 @@ export class VerificacionComponent implements OnInit {
       this.apiService.verifyUser(verificationData).subscribe(
         response => {
           console.log('User verified successfully', response);
-          alert('Verificación exitosa');
-          this.router.navigate(['/home']);
+          this.openSuccessDialog();
         },
         error => {
           console.error('Error verifying user', error);
@@ -130,6 +130,16 @@ export class VerificacionComponent implements OnInit {
     } else {
       this.codeError = 'Por favor, ingrese un código válido de 6 dígitos';
     }
+  }
+
+  openSuccessDialog() {
+    const dialogRef = this.dialog.open(DialogVeriComponent, {
+      data: { message: 'Tu correo electrónico ha sido verificado' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // No es necesario hacer nada aquí, ya que la navegación se maneja en el componente de diálogo
+    });
   }
 
   onSubmit() {
