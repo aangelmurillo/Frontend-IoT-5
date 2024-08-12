@@ -131,7 +131,7 @@ export class TemperaturaComponent implements OnInit, OnDestroy {
 
   private updateStatus() {
     if (this.temperature !== null) {
-      if (this.temperature > 35) {
+      if (this.temperature > 32) {
         this.status = 'Peligro';
         this.message = 'La Temperatura ha superado el límite seguro';
       } else if (this.temperature > 27) {
